@@ -42,6 +42,20 @@ class MoveableObject {
     });
   }
 
+  draw(ctx) {
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  }
+
+  drawFrame(ctx) {
+    if (this instanceof Character || this instanceof Chicken) {
+      ctx.lineWidth = "2";
+      ctx.beginPath();
+      ctx.strokeStyle = "blue";
+      ctx.rect(this.x, this.y, this.width, this.height);
+      ctx.stroke();
+    }
+  }
+
   playAnimation(images) {
     let i = this.currentImage % this.IMAGES_WALKING.length; // let i = 7 % 6 => 1, Rest 1
     // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0 ...
@@ -52,12 +66,10 @@ class MoveableObject {
 
   moveRight() {
     this.x += this.speed;
-    this.otherDirection = false;
   }
 
   moveLeft() {
     this.x -= this.speed;
-    this.otherDirection = true;
   }
 
   jump() {
