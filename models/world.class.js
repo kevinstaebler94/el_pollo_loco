@@ -59,6 +59,7 @@ class World {
     this.addToMap(this.StatusBarBottle);
     this.ctx.translate(this.camera_x, 0);
     this.addToMap(this.character);
+    this.addObjectsToMap(this.level.bottles);
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObjects);
