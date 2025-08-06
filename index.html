@@ -29,6 +29,33 @@
     <audio src="audio/mexica_background_music.mp3"></audio>
     <h1>El Pollo Loco</h1>
 
-    <canvas id="canvas" width="720" height="480"> </canvas>
+    <div id="startscreen" class="startscreen">
+      <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="" />
+      <nav class="navbar">
+        <img onclick="startGame()" src="img/buttons/play.svg" alt="" />
+        <img onclick="openKeyboard()" src="img/buttons/keyboard.svg" alt="" />
+        <img src="img/buttons/volume_off.svg" alt="" />
+        <img src="img/buttons/fullscreen.svg" alt="" />
+      </nav>
+    </div>
+
+    <div id="keyBinding" class="keyBinding dNone">
+      <div class="keyWrapper">
+        <div class="keyContainer">
+          <img src="img/buttons/key_space.png" alt="" />
+          <span>jump</span>
+        </div>
+        <div class="keyContainer">
+          <img src="img/buttons/key_left.png" alt="" />
+          <span>left</span>
+        </div>
+        <div class="keyContainer">
+          <img src="img/buttons/key_right.png" alt="" />
+          <span>right</span>
+        </div>
+      </div>
+    </div>
+
+    <canvas class="dNone" id="canvas" width="720" height="480"></canvas>
   </body>
 </html>

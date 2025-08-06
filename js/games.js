@@ -58,3 +58,13 @@ window.addEventListener("keyup", (e) => {
     keyboard.D = false;
   }
 });
+
+function startGame() {
+  document.getElementById("canvas").classList.remove("dNone");
+  document.getElementById("startscreen").classList.add("dNone");
+}
+
+function openKeyboard() {
+  document.getElementById("keyBinding").classList.remove("dNone");
+  document.getElementById("startscreen").classList.add("dNone");
+}
