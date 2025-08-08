@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let backgroundMusic = new Audio("audio/mexica_background_music.mp3");
 
 function init() {
   canvas = document.getElementById("canvas");
@@ -60,6 +61,7 @@ window.addEventListener("keyup", (e) => {
 });
 
 function startGame() {
+  playSound();
   document.getElementById("canvas").classList.remove("dNone");
   document.getElementById("startscreen").classList.add("dNone");
 }
@@ -67,4 +69,10 @@ function startGame() {
 function openKeyboard() {
   document.getElementById("keyBinding").classList.remove("dNone");
   document.getElementById("startscreen").classList.add("dNone");
+}
+
+function playSound() {
+  backgroundMusic.play();
+  backgroundMusic.volume = 0.25;
+  backgroundMusic.loop = true;
 }

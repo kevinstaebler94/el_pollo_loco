@@ -46,6 +46,14 @@ class World {
     });
   }
 
+  collectingCoins() {
+    this.level.coins.forEach((coin) => {
+      if (this.character.isColliding(coin)) {
+        this.StatusBarCoin.setPercentage(this.character.coins);
+      }
+    });
+  }
+
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 

@@ -26,7 +26,6 @@
     <title>Document</title>
   </head>
   <body onload="init()">
-    <audio src="audio/mexica_background_music.mp3"></audio>
     <h1>El Pollo Loco</h1>
 
     <div id="startscreen" class="startscreen">
@@ -34,8 +33,7 @@
       <nav class="navbar">
         <img onclick="startGame()" src="img/buttons/play.svg" alt="" />
         <img onclick="openKeyboard()" src="img/buttons/keyboard.svg" alt="" />
-        <img src="img/buttons/volume_off.svg" alt="" />
-        <img src="img/buttons/fullscreen.svg" alt="" />
+        <img onclick="toggleFullscreen()" src="img/buttons/fullscreen.svg" alt="" />
       </nav>
     </div>
 
