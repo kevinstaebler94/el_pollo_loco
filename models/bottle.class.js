@@ -1,4 +1,4 @@
-class SalsaBottle extends MoveableObject {
+class SalsaBottle extends CollectableObject {
   height = 60;
   width = 60;
   y = 370;

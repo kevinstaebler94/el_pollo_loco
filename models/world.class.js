@@ -26,6 +26,7 @@ class World {
   run() {
     setInterval(() => {
       this.checkCollision();
+      this.checkCoinCollision();
       this.checkThrowObjects();
     }, 200);
   }
@@ -46,10 +47,11 @@ class World {
     });
   }
 
-  collectingCoins() {
-    this.level.coins.forEach((coin) => {
+  checkCoinCollision() {
+    this.level.coins.forEach((coin, index) => {
       if (this.character.isColliding(coin)) {
-        this.StatusBarCoin.setPercentage(this.character.coins);
+        this.level.coins.splice(index, 1);
+        this.StatusBarCoin.setPercentage(this.StatusBarCoin.percentage + 10);
       }
     });
   }
