@@ -33,7 +33,8 @@ class World {
   }
 
   checkThrowObjects() {
-    if (this.keyboard.D) {
+    if (this.keyboard.D && this.hasBottles()) {
+      this.StatusBarBottle.setPercentage(this.StatusBarBottle.percentage - 20);
       let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
       this.throwableObjects.push(bottle);
     }
@@ -122,5 +123,9 @@ class World {
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();
+  }
+
+  hasBottles() {
+    return this.StatusBarBottle.percentage >= 20;
   }
 }
