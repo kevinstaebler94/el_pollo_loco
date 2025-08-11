@@ -29,6 +29,7 @@ class World {
       this.checkCoinCollision();
       this.checkBottleCollision();
       this.checkThrowObjects();
+      this.spawnEndboss();
     }, 200);
   }
 
@@ -129,5 +130,26 @@ class World {
 
   hasBottles() {
     return this.StatusBarBottle.percentage >= 20;
+  }
+
+  spawnEndboss() {
+    if (this.character.x >= 3500) {
+      this.fadeOutMusic(backgroundMusic, () => {
+        this.level.endboss[0].endbossAppears();
+      });
+    }
+  }
+
+  fadeOutMusic(audio, callback) {
+    let fadeOutInterval = setInterval(() => {
+      if (audio.volume > 0.05) {
+        audio.volume -= 0.05;
+      } else {
+        audio.volume = 0;
+        audio.pause();
+        clearInterval(fadeOutInterval);
+        if (callback) callback();
+      }
+    }, 100);
   }
 }

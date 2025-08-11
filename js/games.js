@@ -64,6 +64,8 @@ function startGame() {
   playSound();
   document.getElementById("canvas").classList.remove("dNone");
   document.getElementById("startscreen").classList.add("dNone");
+  initLevel();
+  init();
 }
 
 function openKeyboard() {

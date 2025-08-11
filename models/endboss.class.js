@@ -2,6 +2,7 @@ class Endboss extends MoveableObject {
   height = 500;
   width = 300;
   y = -40;
+  endbossMusic = new Audio("audio/bossfight.mp3");
 
   IMAGES_WALKING = [
     "img/4_enemie_boss_chicken/2_alert/G5.png",
@@ -25,5 +26,11 @@ class Endboss extends MoveableObject {
     setInterval(() => {
       this.playAnimation(this.IMAGES_WALKING);
     }, 200);
+  }
+
+  endbossAppears() {
+    this.endbossMusic.volume = 0.4;
+    this.endbossMusic.loop = true;
+    this.endbossMusic.play();
   }
 }
