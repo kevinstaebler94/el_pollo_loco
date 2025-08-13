@@ -64,7 +64,7 @@ function startGame() {
   playSound();
   document.getElementById("canvas").classList.remove("dNone");
   document.getElementById("startscreen").classList.add("dNone");
-  initLevel();
+  initLevel1();
   init();
 }
 
@@ -75,6 +75,6 @@ function openKeyboard() {
 
 function playSound() {
   backgroundMusic.play();
-  backgroundMusic.volume = 0.25;
+  backgroundMusic.volume = 0.0;
   backgroundMusic.loop = true;
 }

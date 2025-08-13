@@ -29,8 +29,8 @@ class MoveableObject extends DrawableObject {
     return this.x + this.width > mo.x && this.y + this.height > mo.y && this.x < mo.x && this.y < mo.y + mo.height;
   }
 
-  hit() {
-    this.energy -= 5;
+  hit(multiplier) {
+    this.energy -= 5 * multiplier;
     if (this.energy < 0) {
       this.energy = 0;
     } else {

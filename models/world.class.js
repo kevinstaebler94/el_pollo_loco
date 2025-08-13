@@ -42,9 +42,15 @@ class World {
   }
 
   checkCollision() {
-    this.level.enemies.forEach((enemy) => {
+    let enemies = [...this.level.smallEnemies, ...this.level.enemies, ...this.level.endboss];
+
+    enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
-        this.character.hit();
+        if (enemy === this.level.endboss[0]) {
+          this.character.hit(3);
+        } else {
+          this.character.hit(1);
+        }
         this.StatusBarHealth.setPercentage(this.character.energy);
       }
     });
