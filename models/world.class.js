@@ -28,7 +28,7 @@ class World {
       this.checkCollision();
       this.checkCoinCollision();
       this.checkBottleCollision();
-      this.checkBottleCollisionEnemy();
+      this.checkBottleCollisionWithEnemy();
       this.checkThrowObjects();
       this.spawnEndboss();
     }, 200);
@@ -63,21 +63,6 @@ class World {
         this.level.bottles.splice(index, 1);
         this.StatusBarBottle.setPercentage(this.StatusBarBottle.percentage + 10);
       }
-    });
-  }
-
-  checkBottleCollisionEnemy() {
-    this.level.bottles.forEach((bottle, bIndex) => {
-      this.level.getAllEnemyGroups().forEach((group) => {
-        group.forEach((enemy, eIndex) => {
-          if (!enemy.isDead() && bottle.isColliding(enemy)) {
-            this.level.bottles.splice(bIndex, 1);
-            enemy.hit(1);
-            this.checkEnemyType(enemy);
-            setTimeout(() => group.splice(eIndex, 1), 300);
-          }
-        });
-      });
     });
   }
 
@@ -175,15 +160,54 @@ class World {
     }, 100);
   }
 
-  checkEnemyType(enemy) {
-    if (enemy instanceof SmallChicken) {
-      console.log("Small Chicken getroffen!");
-    }
-    if (enemy instanceof Chicken) {
-      console.log("Chicken getroffen!");
-    }
-    if (enemy instanceof Endboss) {
-      console.log("Endboss getroffen!");
-    }
+  checkBottleCollisionWithSmallChicken() {
+    this.throwableObjects.forEach((bottle, bIndex) => {
+      this.level.smallEnemies.forEach((smallEnemy, sEnemyIndex) => {
+        if (!smallEnemy.isDead() && bottle.isColliding(bottle)) {
+          smallEnemy.hit(1);
+          console.log("Small Enemy getroffen!");
+          if (smallEnemy.isDead()) this.level.smallEnemies.splice(sEnemyIndex, 1);
+          setTimeout(() => {
+            this.throwableObjects.splice(bIndex, 1);
+          }, 300);
+        }
+      });
+    });
+  }
+
+  checkBottleCollisionWithChicken() {
+    this.throwableObjects.forEach((bottle, bIndex) => {
+      this.level.enemies.forEach((enemy, enemyIndex) => {
+        if (!enemy.isDead() && bottle.isColliding(enemy)) {
+          enemy.hit(1);
+          console.log("Enemy getroffen!");
+          if (enemy.isDead()) this.level.enemies.splice(enemyIndex, 1);
+          setTimeout(() => {
+            this.throwableObjects.splice(bIndex, 1);
+          }, 300);
+        }
+      });
+    });
+  }
+
+  checkBottleCollisionWithEndboss() {
+    this.throwableObjects.forEach((bottle, bIndex) => {
+      this.level.endboss.forEach((e, eIndex) => {
+        if (!e.isDead() && bottle.isColliding(e)) {
+          e.hit(1);
+          console.log("Endboss getroffen!");
+          if (e.isDead()) this.level.endboss.splice(eIndex, 1);
+          setTimeout(() => {
+            this.throwableObjects.splice(bIndex, 1);
+          }, 300);
+        }
+      });
+    });
+  }
+
+  checkBottleCollisionWithEnemy() {
+    this.checkBottleCollisionWithSmallChicken();
+    this.checkBottleCollisionWithChicken();
+    this.checkBottleCollisionWithEndboss();
   }
 }

@@ -2,6 +2,7 @@ class Endboss extends MoveableObject {
   height = 500;
   width = 300;
   y = -40;
+  energy = 10;
   endbossMusic = new Audio("audio/bossfight.mp3");
 
   IMAGES_WALKING = [

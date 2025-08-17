@@ -1,6 +1,7 @@
 class ThrowableObject extends MoveableObject {
   speedY = 30;
   speedX = 20;
+  isThrowable = true;
 
   constructor(x, y) {
     super().loadImage("img/6_salsa_bottle/salsa_bottle.png");
