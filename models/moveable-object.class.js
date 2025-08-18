@@ -31,9 +31,9 @@ class MoveableObject extends DrawableObject {
     );
   }
 
-  hit(multiplier) {
-    this.energy -= 5 * multiplier;
-    if (this.energy < 0) {
+  hit(damage) {
+    this.energy -= damage;
+    if (this.energy <= 0) {
       this.energy = 0;
     } else {
       this.lastHit = new Date().getTime();
@@ -47,7 +47,7 @@ class MoveableObject extends DrawableObject {
   }
 
   isDead() {
-    return this.energy == 0;
+    return this.energy <= 0;
   }
 
   playAnimation(images) {

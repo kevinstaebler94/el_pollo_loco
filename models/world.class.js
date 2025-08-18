@@ -140,9 +140,11 @@ class World {
   }
 
   spawnEndboss() {
-    if (this.character.x >= 3500) {
+    if (this.character.x >= 3500 && this.level.endboss.length > 0) {
       this.fadeOutMusic(backgroundMusic, () => {
-        this.level.endboss[0].endbossAppears();
+        if (this.level.endboss[0]) {
+          this.level.endboss[0].endbossAppears();
+        }
       });
     }
   }
@@ -163,13 +165,14 @@ class World {
   checkBottleCollisionWithSmallChicken() {
     this.throwableObjects.forEach((bottle, bIndex) => {
       this.level.smallEnemies.forEach((smallEnemy, sEnemyIndex) => {
-        if (!smallEnemy.isDead() && bottle.isColliding(bottle)) {
+        if (!smallEnemy.isDead() && bottle.isColliding(smallEnemy)) {
           smallEnemy.hit(1);
-          console.log("Small Enemy getroffen!");
-          if (smallEnemy.isDead()) this.level.smallEnemies.splice(sEnemyIndex, 1);
-          setTimeout(() => {
-            this.throwableObjects.splice(bIndex, 1);
-          }, 300);
+          this.throwableObjects.splice(bIndex, 1);
+          if (smallEnemy.isDead()) {
+            setTimeout(() => {
+              this.level.smallEnemies.splice(sEnemyIndex, 1);
+            }, 500);
+          }
         }
       });
     });
@@ -180,11 +183,12 @@ class World {
       this.level.enemies.forEach((enemy, enemyIndex) => {
         if (!enemy.isDead() && bottle.isColliding(enemy)) {
           enemy.hit(1);
-          console.log("Enemy getroffen!");
-          if (enemy.isDead()) this.level.enemies.splice(enemyIndex, 1);
-          setTimeout(() => {
-            this.throwableObjects.splice(bIndex, 1);
-          }, 300);
+          this.throwableObjects.splice(bIndex, 1);
+          if (enemy.isDead()) {
+            setTimeout(() => {
+              this.level.enemies.splice(enemyIndex, 1);
+            }, 500);
+          }
         }
       });
     });
@@ -194,12 +198,13 @@ class World {
     this.throwableObjects.forEach((bottle, bIndex) => {
       this.level.endboss.forEach((e, eIndex) => {
         if (!e.isDead() && bottle.isColliding(e)) {
-          e.hit(1);
-          console.log("Endboss getroffen!");
-          if (e.isDead()) this.level.endboss.splice(eIndex, 1);
-          setTimeout(() => {
-            this.throwableObjects.splice(bIndex, 1);
-          }, 300);
+          e.hit(2);
+          this.throwableObjects.splice(bIndex, 1);
+          if (e.isDead()) {
+            setTimeout(() => {
+              this.level.endboss.splice(eIndex, 1);
+            }, 500);
+          }
         }
       });
     });
