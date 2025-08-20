@@ -31,6 +31,8 @@ class World {
       this.checkBottleCollisionWithEnemy();
       this.checkThrowObjects();
       this.spawnEndboss();
+      this.endbossSpottedCharacter();
+      this.endbossChasingCharacter();
     }, 200);
   }
 
@@ -214,5 +216,25 @@ class World {
     this.checkBottleCollisionWithSmallChicken();
     this.checkBottleCollisionWithChicken();
     this.checkBottleCollisionWithEndboss();
+  }
+
+  endbossSpottedCharacter() {
+    let distance = Math.abs(this.character.x - this.level.endboss[0].x);
+    if (distance < 500) {
+      this.level.endboss[0].spottedCharacter();
+    }
+  }
+
+  endbossChasingCharacter() {
+    const endboss = this.level.endboss[0];
+    setInterval(() => {
+      if (this.character.x < endboss.x) {
+        endboss.otherDirection = false;
+        endboss.moveLeft();
+      } else {
+        endboss.otherDirection = true;
+        endboss.moveRight();
+      }
+    }, 200);
   }
 }
