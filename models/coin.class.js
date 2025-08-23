@@ -13,7 +13,7 @@ class Coin extends MoveableObject {
     setInterval(() => {
       this.playAnimation(this.COIN_ANIMATION);
     }, 3500 / 5);
-    this.x = this.x * Math.random() * 7.5;
+    this.x = this.x + Math.random() * 8000;
     this.y = this.minY + Math.random() * (this.maxY - this.minY);
   }
 }

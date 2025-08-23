@@ -4,6 +4,7 @@ class Endboss extends MoveableObject {
   y = -40;
   energy = 10;
   endbossMusic = new Audio("audio/bossfight.mp3");
+  isActive = false;
 
   IMAGES_WALKING = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -49,7 +50,7 @@ class Endboss extends MoveableObject {
     this.loadImages(this.IMAGES_ALERT);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_DEAD);
-    this.x = 5000;
+    this.x = 8500;
     this.speed = 0.1 + Math.random() * 0.3;
     this.animate();
   }
@@ -75,6 +76,7 @@ class Endboss extends MoveableObject {
   }
 
   spottedCharacter() {
+    this.isActive = true;
     this.playAnimation(this.IMAGES_ALERT);
   }
 
