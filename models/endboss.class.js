@@ -5,6 +5,7 @@ class Endboss extends MoveableObject {
   energy = 10;
   endbossMusic = new Audio("audio/bossfight.mp3");
   isActive = false;
+  currentStatus = "walking";
 
   IMAGES_WALKING = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -51,9 +52,23 @@ class Endboss extends MoveableObject {
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_DEAD);
     this.x = 8500;
-    this.speed = 0.1 + Math.random() * 0.3;
+    this.speed = 0.2;
     this.animate();
   }
+
+  // animate() {
+  //   setInterval(() => {
+  //     this.moveLeft();
+  //   }, 1000 / 60);
+
+  //   setInterval(() => {
+  //     if (this.energy >= 1) {
+  //       this.playAnimation(this.IMAGES_WALKING);
+  //     } else {
+  //       this.playAnimation(this.IMAGES_DEAD);
+  //     }
+  //   }, 200);
+  // }
 
   animate() {
     setInterval(() => {
@@ -61,10 +76,26 @@ class Endboss extends MoveableObject {
     }, 1000 / 60);
 
     setInterval(() => {
-      if (this.energy >= 1) {
-        this.playAnimation(this.IMAGES_WALKING);
-      } else {
-        this.playAnimation(this.IMAGES_DEAD);
+      switch (this.currentStatus) {
+        case "alert":
+          this.currentImage = 0;
+          this.playAnimation(this.IMAGES_ALERT);
+          break;
+        case "attack":
+          this.currentImage = 0;
+          this.playAnimation(this.IMAGES_ATTACK);
+          break;
+        case "hurt":
+          this.currentImage = 0;
+          this.playAnimation(this.IMAGES_HURT);
+          break;
+        case "dead":
+          this.currentImage = 0;
+          this.playAnimation(this.IMAGES_DEAD);
+          break;
+        default:
+          this.currentImage = 0;
+          this.playAnimation(this.IMAGES_WALKING);
       }
     }, 200);
   }
@@ -76,12 +107,28 @@ class Endboss extends MoveableObject {
   }
 
   spottedCharacter() {
+    this.currentStatus = "alert";
     this.isActive = true;
-    this.playAnimation(this.IMAGES_ALERT);
+    setTimeout(() => {
+      this.currentStatus = "walking";
+    }, 2000);
   }
 
   startRunning() {
-    this.playAnimation(this.IMAGES_ATTACK);
-    this.speed = 1.5;
+    this.currentStatus = "attack";
+    this.speed = 0.4;
+  }
+
+  takesDamage() {
+    this.currentStatus = "hurt";
+    this.speed += 0.05;
+    setTimeout(() => {
+      this.currentStatus = "walking";
+    }, 500);
+  }
+
+  endbossIsDead() {
+    this.currentStatus = "dead";
+    this.endbossMusic.pause();
   }
 }

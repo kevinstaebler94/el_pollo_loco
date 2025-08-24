@@ -141,7 +141,7 @@ class World {
   }
 
   spawnEndboss() {
-    if (this.character.x >= 3500 && this.level.endboss.length > 0) {
+    if (this.character.x >= 6000 && this.level.endboss.length > 0) {
       this.fadeOutMusic(backgroundMusic, () => {
         if (this.level.endboss[0]) {
           this.level.endboss[0].endbossAppears();
@@ -199,6 +199,7 @@ class World {
     this.throwableObjects.forEach((bottle, bIndex) => {
       this.level.endboss.forEach((e, eIndex) => {
         if (!e.isDead() && bottle.isColliding(e)) {
+          e.takesDamage();
           e.hit(2);
           this.throwableObjects.splice(bIndex, 1);
           if (e.isDead()) {
@@ -219,7 +220,7 @@ class World {
 
   endbossSpottedCharacter() {
     let distance = Math.abs(this.character.x - this.level.endboss[0].x);
-    if (distance < 500) {
+    if (distance < 400) {
       this.level.endboss[0].spottedCharacter();
     }
   }

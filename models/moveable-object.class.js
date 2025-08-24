@@ -51,6 +51,7 @@ class MoveableObject extends DrawableObject {
   }
 
   playAnimation(images) {
+    this.currentImage = this.currentImage || 0;
     let i = this.currentImage % images.length; // let i = 7 % 6 => 1, Rest 1
     // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0 ...
     let path = images[i];
