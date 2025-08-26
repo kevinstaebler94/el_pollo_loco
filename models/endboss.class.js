@@ -56,20 +56,6 @@ class Endboss extends MoveableObject {
     this.animate();
   }
 
-  // animate() {
-  //   setInterval(() => {
-  //     this.moveLeft();
-  //   }, 1000 / 60);
-
-  //   setInterval(() => {
-  //     if (this.energy >= 1) {
-  //       this.playAnimation(this.IMAGES_WALKING);
-  //     } else {
-  //       this.playAnimation(this.IMAGES_DEAD);
-  //     }
-  //   }, 200);
-  // }
-
   animate() {
     setInterval(() => {
       this.moveLeft();
@@ -78,23 +64,18 @@ class Endboss extends MoveableObject {
     setInterval(() => {
       switch (this.currentStatus) {
         case "alert":
-          this.currentImage = 0;
           this.playAnimation(this.IMAGES_ALERT);
           break;
         case "attack":
-          this.currentImage = 0;
           this.playAnimation(this.IMAGES_ATTACK);
           break;
         case "hurt":
-          this.currentImage = 0;
           this.playAnimation(this.IMAGES_HURT);
           break;
         case "dead":
-          this.currentImage = 0;
           this.playAnimation(this.IMAGES_DEAD);
           break;
         default:
-          this.currentImage = 0;
           this.playAnimation(this.IMAGES_WALKING);
       }
     }, 200);
@@ -109,9 +90,6 @@ class Endboss extends MoveableObject {
   spottedCharacter() {
     this.currentStatus = "alert";
     this.isActive = true;
-    setTimeout(() => {
-      this.currentStatus = "walking";
-    }, 2000);
   }
 
   startRunning() {
@@ -122,9 +100,6 @@ class Endboss extends MoveableObject {
   takesDamage() {
     this.currentStatus = "hurt";
     this.speed += 0.05;
-    setTimeout(() => {
-      this.currentStatus = "walking";
-    }, 500);
   }
 
   endbossIsDead() {

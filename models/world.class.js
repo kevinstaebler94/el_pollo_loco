@@ -205,7 +205,7 @@ class World {
           if (e.isDead()) {
             setTimeout(() => {
               this.level.endboss.splice(eIndex, 1);
-            }, 500);
+            }, 200);
           }
         }
       });
@@ -219,14 +219,17 @@ class World {
   }
 
   endbossSpottedCharacter() {
-    let distance = Math.abs(this.character.x - this.level.endboss[0].x);
+    let endboss = this.level.endboss[0];
+    if (!endboss) return;
+    let distance = Math.abs(this.character.x - endboss.x);
     if (distance < 400) {
-      this.level.endboss[0].spottedCharacter();
+      endboss.spottedCharacter();
     }
   }
 
   endbossChasingCharacter() {
     const endboss = this.level.endboss[0];
+    if (!endboss) return;
     setInterval(() => {
       if (this.character.x < endboss.x) {
         endboss.otherDirection = false;
