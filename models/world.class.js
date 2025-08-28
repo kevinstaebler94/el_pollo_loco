@@ -33,6 +33,7 @@ class World {
       this.spawnEndboss();
       this.endbossSpottedCharacter();
       this.endbossChasingCharacter();
+      this.characterIsStompingOnEnemy();
     }, 200);
   }
 
@@ -239,5 +240,22 @@ class World {
         endboss.moveRight();
       }
     }, 200);
+  }
+
+  characterIsStompingOnEnemy() {
+    this.level.enemies.forEach((enemy, eIndex) => {
+      if (
+        this.character.isColliding(enemy) &&
+        this.character.speedY > 0 &&
+        this.character.y + this.character.height - 10 < enemy.y
+      ) {
+        console.log("Stomp! Charakter springt auf Gegner:", enemy, "Index:", eIndex);
+        enemy.hit(1);
+        this.character.jump();
+        setTimeout(() => {
+          this.level.enemies.splice(eIndex, 1);
+        }, 300);
+      }
+    });
   }
 }
