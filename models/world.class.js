@@ -33,7 +33,6 @@ class World {
       this.spawnEndboss();
       this.endbossSpottedCharacter();
       this.endbossChasingCharacter();
-      this.characterIsStompingOnEnemy();
     }, 200);
   }
 
@@ -99,7 +98,7 @@ class World {
     this.addObjectsToMap(this.throwableObjects);
 
     this.ctx.translate(-this.camera_x, 0);
-
+    this.characterIsStompingOnEnemy();
     // Draw() wird immer wieder aufgerufen
     let self = this;
     requestAnimationFrame(() => {
@@ -244,17 +243,17 @@ class World {
 
   characterIsStompingOnEnemy() {
     this.level.enemies.forEach((enemy, eIndex) => {
-      if (
-        this.character.isColliding(enemy) &&
-        this.character.speedY > 0 &&
-        this.character.y + this.character.height - 10 < enemy.y
-      ) {
-        console.log("Stomp! Charakter springt auf Gegner:", enemy, "Index:", eIndex);
-        enemy.hit(1);
-        this.character.jump();
-        setTimeout(() => {
-          this.level.enemies.splice(eIndex, 1);
-        }, 300);
+      if (this.character.isColliding(enemy)) {
+        if (this.character.isStomping(enemy)) {
+          console.log("Stomping detected");
+          enemy.hit(1);
+          this.character.speedY = 25;
+          setTimeout(() => {
+            this.level.enemies.splice(eIndex, 1);
+          }, 300);
+        } else {
+          console.log("Stomping not detected");
+        }
       }
     });
   }
