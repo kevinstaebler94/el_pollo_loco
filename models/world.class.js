@@ -21,6 +21,7 @@ class World {
 
   setWorld() {
     this.character.world = this;
+    this.setObjPosition();
   }
 
   run() {
@@ -255,6 +256,22 @@ class World {
           console.log("Stomping not detected");
         }
       }
+    });
+  }
+
+  setObjPosition() {
+    let levelWidth = this.level.level_end_x - 500;
+    let minDistance = 300;
+    // let objects = this.level.getAllObjects();
+    let positions = [];
+
+    this.level.enemies.forEach((enemy) => {
+      let pos;
+      let spawns = 0;
+      do {
+        pos = minDistance + Math.random() * levelWidth;
+        spawns++;
+      } while (condition);
     });
   }
 }

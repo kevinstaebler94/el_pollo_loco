@@ -18,7 +18,7 @@ class Level {
     this.backgroundObjects = backgroundObjects;
   }
 
-  getAllEnemyGroups() {
-    return [this.enemies, this.smallEnemies, this.endboss];
+  getAllObjects() {
+    return [this.enemies, this.smallEnemies, this.bottles, this.coins];
   }
 }
