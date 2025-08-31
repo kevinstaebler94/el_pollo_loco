@@ -9,11 +9,13 @@ class World {
   StatusBarCoin = new StatusBar_Coin();
   StatusBarBottle = new StatusBar_Bottle();
   throwableObjects = [new ThrowableObject()];
+  enemyPositions = [];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+    this.setSpawnPositions();
     this.draw();
     this.setWorld();
     this.run();
@@ -21,7 +23,6 @@ class World {
 
   setWorld() {
     this.character.world = this;
-    this.setObjPosition();
   }
 
   run() {
@@ -99,7 +100,6 @@ class World {
     this.addObjectsToMap(this.throwableObjects);
 
     this.ctx.translate(-this.camera_x, 0);
-    this.characterIsStompingOnEnemy();
     // Draw() wird immer wieder aufgerufen
     let self = this;
     requestAnimationFrame(() => {
@@ -242,36 +242,64 @@ class World {
     }, 200);
   }
 
-  characterIsStompingOnEnemy() {
-    this.level.enemies.forEach((enemy, eIndex) => {
-      if (this.character.isColliding(enemy)) {
-        if (this.character.isStomping(enemy)) {
-          console.log("Stomping detected");
-          enemy.hit(1);
-          this.character.speedY = 25;
-          setTimeout(() => {
-            this.level.enemies.splice(eIndex, 1);
-          }, 300);
-        } else {
-          console.log("Stomping not detected");
-        }
-      }
+  setSpawnPositionEnemies() {
+    let enemies = this.level.enemies;
+    let levelWidth = this.level.level_end_x - 2000;
+    let distance = 250;
+
+    enemies.forEach((enemy) => {
+      let enemyPos;
+      let spawns = 0;
+      do {
+        enemyPos = 500 + Math.random() * levelWidth;
+        enemyPos = Math.min(enemyPos, levelWidth - distance);
+        spawns++;
+      } while (this.enemyPositions.some((pos) => Math.abs(pos - enemyPos) < distance) && spawns < 100);
+      this.enemyPositions.push(enemyPos);
+      enemy.x = enemyPos;
     });
   }
 
-  setObjPosition() {
-    let levelWidth = this.level.level_end_x - 500;
-    let minDistance = 300;
-    // let objects = this.level.getAllObjects();
-    let positions = [];
+  setSpawnPositionSmallEnemies() {
+    let smallEnemies = this.level.smallEnemies;
+    let levelWidth = this.level.level_end_x - 2000;
+    let distance = 500;
 
-    this.level.enemies.forEach((enemy) => {
-      let pos;
+    smallEnemies.forEach((enemy) => {
+      let enemyPos;
       let spawns = 0;
       do {
-        pos = minDistance + Math.random() * levelWidth;
+        enemyPos = 500 + Math.random() * levelWidth;
+        enemyPos = Math.min(enemyPos, levelWidth - distance);
         spawns++;
-      } while (condition);
+      } while (this.enemyPositions.some((pos) => Math.abs(pos - enemyPos) < distance) && spawns < 100);
+      this.enemyPositions.push(enemyPos);
+      enemy.x = enemyPos;
     });
+  }
+
+  setSpawnPositionBottles() {
+    let bottles = this.level.bottles;
+    let levelWidth = this.level.level_end_x - 2000;
+    let distance = 350;
+    let bottlePositions = [];
+
+    bottles.forEach((bottle) => {
+      let bottlePos;
+      let spawns = 0;
+      do {
+        bottlePos = 500 + Math.random() * levelWidth;
+        bottlePos = Math.min(bottlePos, levelWidth - distance);
+        spawns++;
+      } while (bottlePositions.some((pos) => Math.abs(pos - bottlePos) < distance) && spawns < 100);
+      bottlePositions.push(bottlePos);
+      bottle.x = bottlePos;
+    });
+  }
+
+  setSpawnPositions() {
+    this.setSpawnPositionEnemies();
+    this.setSpawnPositionSmallEnemies();
+    this.setSpawnPositionBottles();
   }
 }

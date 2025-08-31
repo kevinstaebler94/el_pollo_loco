@@ -71,14 +71,4 @@ class MoveableObject extends DrawableObject {
     if (this.isAboveGround()) return;
     this.speedY = 25;
   }
-
-  isStomping(mo) {
-    let characterBottom = this.y + this.height;
-    let enemyTop = mo.y;
-    let charFallingDown = this.speedY > 0;
-
-    let stomping = characterBottom >= enemyTop && charFallingDown;
-
-    return stomping;
-  }
 }
