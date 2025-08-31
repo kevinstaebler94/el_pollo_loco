@@ -31,6 +31,7 @@ class World {
       this.checkCoinCollision();
       this.checkBottleCollision();
       this.checkBottleCollisionWithEnemy();
+      this.characterIsStomping();
       this.checkThrowObjects();
       this.spawnEndboss();
       this.endbossSpottedCharacter();
@@ -51,11 +52,12 @@ class World {
 
     enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
-        if (enemy === this.level.endboss[0]) {
-          this.character.hit(3);
-        } else {
-          this.character.hit(1);
-        }
+        if (!(this.character.y + this.character.height > enemy.y + 5 && this.character.speedY > 0))
+          if (enemy === this.level.endboss[0]) {
+            this.character.hit(3);
+          } else {
+            this.character.hit(1);
+          }
         this.StatusBarHealth.setPercentage(this.character.energy);
       }
     });
@@ -301,5 +303,22 @@ class World {
     this.setSpawnPositionEnemies();
     this.setSpawnPositionSmallEnemies();
     this.setSpawnPositionBottles();
+  }
+
+  characterIsStomping() {
+    let character = this.character;
+    this.level.enemies.forEach((enemy, eIndex) => {
+      if (this.character.isColliding(enemy) && !enemy.dead && character.y + character.height > enemy.y + 5) {
+        if (character.speedY > 0) {
+          enemy.hit(1);
+          enemy.dead = true;
+          setTimeout(() => {
+            this.level.enemies.splice(eIndex, 1);
+          }, 500);
+        } else {
+          console.log("false");
+        }
+      }
+    });
   }
 }
