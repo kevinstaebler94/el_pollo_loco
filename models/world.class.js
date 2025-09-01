@@ -27,11 +27,11 @@ class World {
 
   run() {
     setInterval(() => {
+      this.characterIsStomping();
       this.checkCollision();
       this.checkCoinCollision();
       this.checkBottleCollision();
       this.checkBottleCollisionWithEnemy();
-      this.characterIsStomping();
       this.checkThrowObjects();
       this.spawnEndboss();
       this.endbossSpottedCharacter();
@@ -306,17 +306,17 @@ class World {
   }
 
   characterIsStomping() {
+    let enemies = this.level.getAllEnemies();
     let character = this.character;
-    this.level.enemies.forEach((enemy, eIndex) => {
+    enemies.forEach((enemy, eIndex) => {
       if (this.character.isColliding(enemy) && !enemy.dead && character.y + character.height > enemy.y + 5) {
-        if (character.speedY > 0) {
+        if (character.speedY < 5) {
           enemy.hit(1);
+          character.jump();
           enemy.dead = true;
           setTimeout(() => {
-            this.level.enemies.splice(eIndex, 1);
+            enemies.splice(eIndex, 1);
           }, 500);
-        } else {
-          console.log("false");
         }
       }
     });

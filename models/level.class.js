@@ -17,4 +17,8 @@ class Level {
     this.coins = coins;
     this.backgroundObjects = backgroundObjects;
   }
+
+  getAllEnemies() {
+    return [...this.enemies, ...this.smallEnemies];
+  }
 }
