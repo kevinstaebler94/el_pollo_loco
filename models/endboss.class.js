@@ -5,7 +5,7 @@ class Endboss extends MoveableObject {
   energy = 10;
   endbossMusic = new Audio("audio/bossfight.mp3");
   isActive = false;
-  currentStatus = "walking";
+  currentStatus;
 
   IMAGES_WALKING = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -58,7 +58,9 @@ class Endboss extends MoveableObject {
 
   animate() {
     setInterval(() => {
-      this.moveLeft();
+      if (this.isActive && (this.currentStatus === "walking" || this.currentStatus === "attack")) {
+        this.moveLeft();
+      }
     }, 1000 / 60);
 
     setInterval(() => {
@@ -75,13 +77,16 @@ class Endboss extends MoveableObject {
         case "dead":
           this.playAnimation(this.IMAGES_DEAD);
           break;
-        default:
+        case "walking":
           this.playAnimation(this.IMAGES_WALKING);
+          break;
       }
     }, 200);
   }
 
   endbossAppears() {
+    this.currentStatus = "walking";
+    this.isActive = true;
     this.endbossMusic.volume = 0.4;
     this.endbossMusic.loop = true;
     this.endbossMusic.play();
@@ -104,6 +109,7 @@ class Endboss extends MoveableObject {
 
   endbossIsDead() {
     this.currentStatus = "dead";
+    this.isActive = false;
     this.endbossMusic.pause();
   }
 }
