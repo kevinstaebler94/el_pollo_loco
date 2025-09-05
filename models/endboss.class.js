@@ -77,7 +77,7 @@ class Endboss extends MoveableObject {
         case "dead":
           this.playAnimation(this.IMAGES_DEAD);
           break;
-        case "walking":
+        default:
           this.playAnimation(this.IMAGES_WALKING);
           break;
       }
