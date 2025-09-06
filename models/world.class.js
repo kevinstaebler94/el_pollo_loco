@@ -206,9 +206,11 @@ class World {
           e.hit(2);
           this.throwableObjects.splice(bIndex, 1);
           if (e.isDead()) {
+            e.endbossIsDead();
             setTimeout(() => {
               this.level.endboss.splice(eIndex, 1);
-            }, 200);
+              e.endbossMusic.pause();
+            }, 1500);
           }
         }
       });
@@ -225,8 +227,11 @@ class World {
     let endboss = this.level.endboss[0];
     if (!endboss) return;
     let distance = Math.abs(this.character.x - endboss.x);
-    if (distance < 400) {
+    if (distance < 500) {
       endboss.spottedCharacter();
+      setTimeout(() => {
+        endboss.startRunning();
+      }, 1000);
     }
   }
 
@@ -236,7 +241,6 @@ class World {
     setInterval(() => {
       if (this.character.x < endboss.x) {
         endboss.otherDirection = false;
-        endboss.moveLeft();
       } else {
         endboss.otherDirection = true;
         endboss.moveRight();
@@ -308,12 +312,11 @@ class World {
   characterIsStomping() {
     let enemies = this.level.getAllEnemies();
     let character = this.character;
-    enemies.forEach((enemy, eIndex) => {
+    enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && character.y + character.height > enemy.y + 5) {
         if (character.speedY < 5) {
           enemy.hit(1);
           character.jump();
-          // enemy.dead = true;
           if (enemy.isDead()) {
             setTimeout(() => {
               if (this.level.enemies.includes(enemy)) {

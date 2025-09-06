@@ -5,7 +5,10 @@ class Endboss extends MoveableObject {
   energy = 10;
   endbossMusic = new Audio("audio/bossfight.mp3");
   isActive = false;
-  currentStatus;
+  currentStatus = "resting";
+  speed = 1.75;
+  hadFirstContact = false;
+  gotHit = false;
 
   IMAGES_WALKING = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -52,7 +55,6 @@ class Endboss extends MoveableObject {
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_DEAD);
     this.x = 9500;
-    this.speed = 0.2;
     this.animate();
   }
 
@@ -75,6 +77,7 @@ class Endboss extends MoveableObject {
           this.playAnimation(this.IMAGES_HURT);
           break;
         case "dead":
+          console.log("Dead-Animation läuft");
           this.playAnimation(this.IMAGES_DEAD);
           break;
         default:
@@ -85,31 +88,40 @@ class Endboss extends MoveableObject {
   }
 
   endbossAppears() {
-    this.currentStatus = "walking";
-    this.isActive = true;
-    this.endbossMusic.volume = 0.4;
-    this.endbossMusic.loop = true;
-    this.endbossMusic.play();
+    if (!this.hadFirstContact) {
+      this.currentStatus = "walking";
+      this.isActive = true;
+      this.hadFirstContact = true;
+      this.endbossMusic.volume = 0.4;
+      this.endbossMusic.loop = true;
+      this.endbossMusic.play();
+    }
   }
 
   spottedCharacter() {
+    if (this.currentStatus === "dead") return;
     this.currentStatus = "alert";
     this.isActive = true;
   }
 
   startRunning() {
+    if (this.currentStatus === "dead") return;
     this.currentStatus = "attack";
-    this.speed = 0.4;
+    this.speed += 0.15;
   }
 
   takesDamage() {
-    this.currentStatus = "hurt";
-    this.speed += 0.05;
+    if (this.currentStatus === "dead") return;
+    if (!this.gotHit) {
+      this.currentStatus = "hurt";
+      this.gotHit = true;
+    } else {
+      this.currentStatus = "attack";
+    }
   }
 
   endbossIsDead() {
     this.currentStatus = "dead";
     this.isActive = false;
-    this.endbossMusic.pause();
   }
 }
