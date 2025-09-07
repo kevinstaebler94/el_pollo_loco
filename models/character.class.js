@@ -90,7 +90,7 @@ class Character extends MoveableObject {
 
     setInterval(() => {
       this.updateCharacterAnimation();
-    }, 50);
+    }, 200);
   }
 
   jump() {

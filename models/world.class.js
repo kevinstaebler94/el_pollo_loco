@@ -171,6 +171,9 @@ class World {
       this.level.smallEnemies.forEach((smallEnemy, sEnemyIndex) => {
         if (!smallEnemy.isDead() && bottle.isColliding(smallEnemy)) {
           smallEnemy.hit(1);
+          console.log(bottle.bottleSplash, "true");
+
+          bottle.bottleSplash();
           this.throwableObjects.splice(bIndex, 1);
           if (smallEnemy.isDead()) {
             setTimeout(() => {
@@ -187,6 +190,8 @@ class World {
       this.level.enemies.forEach((enemy, enemyIndex) => {
         if (!enemy.isDead() && bottle.isColliding(enemy)) {
           enemy.hit(1);
+          console.log(bottle.bottleSplash, "true");
+          bottle.bottleSplash();
           this.throwableObjects.splice(bIndex, 1);
           if (enemy.isDead()) {
             setTimeout(() => {
