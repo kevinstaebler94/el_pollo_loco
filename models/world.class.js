@@ -207,11 +207,14 @@ class World {
   checkBottleCollisionWithEndboss() {
     this.throwableObjects.forEach((bottle, bIndex) => {
       this.level.endboss.forEach((e, eIndex) => {
-        if (!e.isDead() && bottle.isColliding(e)) {
+        if (!e.isDead() && bottle.isColliding(e) && !bottle.hasHit) {
           bottle.hasHit = true;
           e.takesDamage();
           e.hit(2);
-          this.throwableObjects.splice(bIndex, 1);
+          bottle.startSplashAnimation();
+          setTimeout(() => {
+            this.throwableObjects.splice(bIndex, 1);
+          }, bottle.IMAGES_SPLASH.length * 100);
           if (e.isDead()) {
             e.endbossIsDead();
             setTimeout(() => {
