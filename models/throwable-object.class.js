@@ -2,10 +2,10 @@ class ThrowableObject extends MoveableObject {
   speedY = 30;
   speedX = 20;
   isThrowable = true;
-
-  throwInterval = null;
-  moveInterval = null;
-  splashInterval = null;
+  throwIntervall = null;
+  moveIntervall = null;
+  splashIntervall = null;
+  currentStatus = "throwing";
 
   IMAGES_THROWING = [
     "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
@@ -35,25 +35,41 @@ class ThrowableObject extends MoveableObject {
   }
 
   throw() {
-    if (this.throwInterval) clearInterval(this.throwInterval);
-    if (this.Interval) clearInterval(this.throwInterval);
-    this.throwInterval = setInterval(() => {
-      this.playAnimation(this.IMAGES_THROWING);
-      this.playAnimation(this.IMAGES_SPLASH);
-    }, 75);
-    this.percentage - 20;
+    if (this.throwIntervall) clearInterval(this.throwIntervall);
+    setInterval(() => {
+      switch (this.currentStatus) {
+        case "splash":
+          this.playAnimation(this.IMAGES_SPLASH);
+          break;
+        case "throwing":
+          this.playAnimation(this.IMAGES_THROWING);
+          break;
+      }
+    }, 100);
+    this.percentage -= 20;
     this.speedY = 25;
     this.speedX = 15;
     this.applyGravitiy();
 
+    if (this.moveIntervall) clearInterval(this.moveIntervall);
     setInterval(() => {
       this.x += 10;
     }, 25);
   }
 
-  bottleSplash() {
-    setInterval(() => {
-      this.playAnimation(this.IMAGES_SPLASH);
-    }, 200);
+  startSplashAnimation() {
+    if (this.throwIntervall) clearInterval(this.throwIntervall);
+    if (this.moveInterval) clearInterval(this.moveInterval);
+    if (this.splashIntervall) clearInterval(this.splashIntervall);
+
+    this.currentStatus = "splash";
+    let i = 0;
+    this.splashIntervall = setInterval(() => {
+      this.img = this.imageCache[this.IMAGES_SPLASH[i]];
+      i++;
+      if (i >= this.IMAGES_SPLASH.length) {
+        clearInterval(this.splashIntervall);
+      }
+    }, 100);
   }
 }

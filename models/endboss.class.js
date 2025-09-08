@@ -77,7 +77,6 @@ class Endboss extends MoveableObject {
           this.playAnimation(this.IMAGES_HURT);
           break;
         case "dead":
-          console.log("Dead-Animation läuft");
           this.playAnimation(this.IMAGES_DEAD);
           break;
         default:

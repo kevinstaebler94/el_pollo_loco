@@ -171,10 +171,10 @@ class World {
       this.level.smallEnemies.forEach((smallEnemy, sEnemyIndex) => {
         if (!smallEnemy.isDead() && bottle.isColliding(smallEnemy)) {
           smallEnemy.hit(1);
-          console.log(bottle.bottleSplash, "true");
-
-          bottle.bottleSplash();
-          this.throwableObjects.splice(bIndex, 1);
+          bottle.startSplashAnimation();
+          setTimeout(() => {
+            this.throwableObjects.splice(bIndex, 1);
+          }, bottle.IMAGES_SPLASH.length * 100);
           if (smallEnemy.isDead()) {
             setTimeout(() => {
               this.level.smallEnemies.splice(sEnemyIndex, 1);
@@ -190,9 +190,10 @@ class World {
       this.level.enemies.forEach((enemy, enemyIndex) => {
         if (!enemy.isDead() && bottle.isColliding(enemy)) {
           enemy.hit(1);
-          console.log(bottle.bottleSplash, "true");
-          bottle.bottleSplash();
-          this.throwableObjects.splice(bIndex, 1);
+          bottle.startSplashAnimation();
+          setTimeout(() => {
+            this.throwableObjects.splice(bIndex, 1);
+          }, bottle.IMAGES_SPLASH.length * 100);
           if (enemy.isDead()) {
             setTimeout(() => {
               this.level.enemies.splice(enemyIndex, 1);
@@ -207,6 +208,7 @@ class World {
     this.throwableObjects.forEach((bottle, bIndex) => {
       this.level.endboss.forEach((e, eIndex) => {
         if (!e.isDead() && bottle.isColliding(e)) {
+          bottle.hasHit = true;
           e.takesDamage();
           e.hit(2);
           this.throwableObjects.splice(bIndex, 1);
