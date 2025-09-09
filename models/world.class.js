@@ -41,7 +41,7 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.D && this.hasBottles()) {
-      this.StatusBarBottle.setPercentage(this.StatusBarBottle.percentage - 20);
+      this.StatusBarBottle.setPercentage(this.StatusBarBottle.percentage - 10);
       let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
       this.throwableObjects.push(bottle);
     }
@@ -68,6 +68,7 @@ class World {
       if (this.character.isColliding(bottle)) {
         this.level.bottles.splice(index, 1);
         this.StatusBarBottle.setPercentage(this.StatusBarBottle.percentage + 10);
+        console.log("+ 1 Bottle");
       }
     });
   }
@@ -140,7 +141,7 @@ class World {
   }
 
   hasBottles() {
-    return this.StatusBarBottle.percentage >= 20;
+    return this.StatusBarBottle.percentage > 0;
   }
 
   spawnEndboss() {

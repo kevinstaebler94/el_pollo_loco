@@ -47,14 +47,14 @@ class ThrowableObject extends MoveableObject {
       }
     }, 100);
     this.percentage -= 20;
-    this.speedY = 25;
+    this.speedY = 15;
     this.speedX = 15;
     this.applyGravitiy();
 
     if (this.moveIntervall) clearInterval(this.moveIntervall);
     setInterval(() => {
-      this.x += 10;
-    }, 25);
+      this.x += 5;
+    }, 10);
   }
 
   startSplashAnimation() {
