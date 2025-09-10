@@ -75,6 +75,6 @@ function openKeyboard() {
 
 function playSound() {
   backgroundMusic.play();
-  backgroundMusic.volume = 0.15;
+  backgroundMusic.volume = 0.075;
   backgroundMusic.loop = true;
 }

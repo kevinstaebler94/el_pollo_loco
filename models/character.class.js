@@ -6,6 +6,7 @@ class Character extends MoveableObject {
   speed = 10;
   coins = 0;
   lastMove = Date.now();
+  runningSound = new Audio("audio/running_on_sand.mp3");
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
     "img/2_character_pepe/2_walk/W-22.png",
@@ -98,17 +99,28 @@ class Character extends MoveableObject {
   }
 
   handleCharacterMovement() {
+    let isMoving = false;
+
     if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
       this.moveRight();
       this.otherDirection = false;
       this.lastMove = Date.now();
+      isMoving = true;
       // this.walking_sound.play();
     }
     if (this.world.keyboard.LEFT && this.x > 0) {
       this.moveLeft();
       this.otherDirection = true;
       this.lastMove = Date.now();
+      isMoving = true;
       // this.walking_sound.play();
+    }
+    if (isMoving) {
+      this.runningSound.volume = 0.2;
+      this.runningSound.loop = true;
+      this.runningSound.play();
+    } else {
+      this.runningSound.pause();
     }
   }
 

@@ -10,6 +10,7 @@ class World {
   StatusBarBottle = new StatusBar_Bottle();
   throwableObjects = [new ThrowableObject()];
   enemyPositions = [];
+  groundY = 350;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -41,7 +42,7 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.D && this.hasBottles()) {
-      this.StatusBarBottle.setPercentage(this.StatusBarBottle.percentage - 10);
+      this.StatusBarBottle.setPercentage(this.StatusBarBottle.percentage - 20);
       let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
       this.throwableObjects.push(bottle);
     }
@@ -67,7 +68,9 @@ class World {
     this.level.bottles.forEach((bottle, index) => {
       if (this.character.isColliding(bottle)) {
         this.level.bottles.splice(index, 1);
-        this.StatusBarBottle.setPercentage(this.StatusBarBottle.percentage + 10);
+        this.StatusBarBottle.setPercentage(this.StatusBarBottle.percentage + 20);
+
+        console.log("StatusBar", this.StatusBarBottle.percentage);
         console.log("+ 1 Bottle");
       }
     });
@@ -77,7 +80,7 @@ class World {
     this.level.coins.forEach((coin, index) => {
       if (this.character.isColliding(coin)) {
         this.level.coins.splice(index, 1);
-        this.StatusBarCoin.setPercentage(this.StatusBarCoin.percentage + 10);
+        this.StatusBarCoin.setPercentage(this.StatusBarCoin.percentage + 20);
       }
     });
   }
@@ -228,10 +231,22 @@ class World {
     });
   }
 
+  checkBottleCollisionWithGround() {
+    this.throwableObjects.forEach((bottle, bIndex) => {
+      if (bottle.y + bottle.height >= this.groundY) {
+        bottle.startSplashAnimation();
+        setTimeout(() => {
+          this.throwableObjects.splice(bIndex, 1);
+        }, bottle.IMAGES_SPLASH.length * 100);
+      }
+    });
+  }
+
   checkBottleCollisionWithEnemy() {
     this.checkBottleCollisionWithSmallChicken();
     this.checkBottleCollisionWithChicken();
     this.checkBottleCollisionWithEndboss();
+    this.checkBottleCollisionWithGround();
   }
 
   endbossSpottedCharacter() {
