@@ -7,6 +7,7 @@ class Character extends MoveableObject {
   coins = 0;
   lastMove = Date.now();
   runningSound = new Audio("audio/running_on_sand.mp3");
+  jumpingSound = new Audio("audio/jump.mp3");
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
     "img/2_character_pepe/2_walk/W-22.png",
@@ -94,10 +95,6 @@ class Character extends MoveableObject {
     }, 200);
   }
 
-  jump() {
-    this.speedY = 25;
-  }
-
   handleCharacterMovement() {
     let isMoving = false;
 
@@ -116,7 +113,7 @@ class Character extends MoveableObject {
       // this.walking_sound.play();
     }
     if (isMoving) {
-      this.runningSound.volume = 0.2;
+      this.runningSound.volume = 0.15;
       this.runningSound.loop = true;
       this.runningSound.play();
     } else {
@@ -143,5 +140,15 @@ class Character extends MoveableObject {
         }
       }
     }
+  }
+
+  jump() {
+    if (this.y < 150) {
+      this.runningSound.volume = 0;
+      this.jumpingSound.volume = 0.2;
+      this.jumpingSound.loop = false;
+      this.jumpingSound.play();
+    }
+    this.speedY = 25;
   }
 }

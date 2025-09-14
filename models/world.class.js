@@ -338,24 +338,35 @@ class World {
   characterIsStomping() {
     let enemies = this.level.getAllEnemies();
     let character = this.character;
+
     enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy) && character.y + character.height > enemy.y + 5) {
-        if (character.speedY < 5) {
-          enemy.hit(1);
-          character.jump();
-          if (enemy.isDead()) {
-            setTimeout(() => {
-              if (this.level.enemies.includes(enemy)) {
-                let index = this.level.enemies.indexOf(enemy);
-                this.level.enemies.splice(index, 1);
-              } else if (this.level.smallEnemies.includes(enemy)) {
-                let index = this.level.smallEnemies.indexOf(enemy);
-                this.level.smallEnemies.splice(index, 1);
-              }
-            }, 500);
-          }
-        }
+      if (character.isColliding(enemy)) {
+        console.log("Collision:", character, enemy);
+
+        console.log(
+          "Check 1:",
+          character.y + character.height,
+          ">",
+          enemy.y + 5,
+          "=>",
+          character.y + character.height > enemy.y + 5
+        );
+
+        console.log("Check 2:", character.speedY, "<", 5, "=>", character.speedY < 5);
       }
     });
   }
 }
+// enemy.hit(1);
+// character.jump();
+// if (enemy.isDead()) {
+//   setTimeout(() => {
+//     if (this.level.enemies.includes(enemy)) {
+//       let index = this.level.enemies.indexOf(enemy);
+//       this.level.enemies.splice(index, 1);
+//     } else if (this.level.smallEnemies.includes(enemy)) {
+//       let index = this.level.smallEnemies.indexOf(enemy);
+//       this.level.smallEnemies.splice(index, 1);
+//     }
+//   }, 500);
+// }
