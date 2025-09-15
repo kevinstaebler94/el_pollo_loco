@@ -373,6 +373,7 @@ class World {
         this.wellDoneSound.play();
       }, 1000);
     }
+    this.showEndScreen();
   }
 
   playGameOverSound() {
@@ -383,5 +384,12 @@ class World {
         this.gameOverSound.play();
       }, 1000);
     }
+  }
+
+  showEndScreen() {
+    setTimeout(() => {
+      document.getElementById("canvas").classList.add("dNone");
+      document.getElementById("endScreen").classList.remove("dNone");
+    }, 3500);
   }
 }

@@ -46,12 +46,18 @@
       </div>
     </div>
 
-    <div id="startscreen" class="startscreen">
+    <div id="startscreen" class="startscreen dNone">
       <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="" />
       <nav class="navbar">
         <img onclick="startGame()" src="img/buttons/play.svg" alt="" />
         <img onclick="toggleFullscreen()" src="img/buttons/fullscreen.svg" alt="" />
       </nav>
+    </div>
+
+    <div id="endScreen" class="endScreen">
+      <img src="img/You won, you lost/You Win A.png" alt="" />
+      <div class="selectionContainer">Restart Game</div>
+      <div class="selectionContainer">Back to Startscreen</div>
     </div>
 
     <canvas class="dNone" id="canvas" width="720" height="480"></canvas>
