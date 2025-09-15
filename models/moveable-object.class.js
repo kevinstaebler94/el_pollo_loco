@@ -12,7 +12,7 @@ class MoveableObject extends DrawableObject {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       }
-    }, 1000 / 25);
+    }, 1000 / 35);
   }
 
   isAboveGround() {
@@ -42,8 +42,8 @@ class MoveableObject extends DrawableObject {
 
   isHurt() {
     let timepassed = new Date().getTime() - this.lastHit; // Difference in ms
-    timepassed / 1000; // Difference in s
-    return timepassed < 1000;
+    timepassed / 500; // Difference in s
+    return timepassed < 500;
   }
 
   isDead() {

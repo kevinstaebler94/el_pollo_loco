@@ -6,6 +6,7 @@ class ThrowableObject extends MoveableObject {
   moveIntervall = null;
   splashIntervall = null;
   currentStatus = "throwing";
+  breakingBottleSound = new Audio("audio/breaking_glass.mp3");
 
   IMAGES_THROWING = [
     "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
@@ -53,11 +54,12 @@ class ThrowableObject extends MoveableObject {
 
     if (this.moveIntervall) clearInterval(this.moveIntervall);
     setInterval(() => {
-      this.x += 5;
+      this.x += 10;
     }, 10);
   }
 
   startSplashAnimation() {
+    this.playBreakingBottleSound();
     if (this.throwIntervall) clearInterval(this.throwIntervall);
     if (this.moveInterval) clearInterval(this.moveInterval);
     if (this.splashIntervall) clearInterval(this.splashIntervall);
@@ -71,5 +73,11 @@ class ThrowableObject extends MoveableObject {
         clearInterval(this.splashIntervall);
       }
     }, 100);
+  }
+
+  playBreakingBottleSound() {
+    this.breakingBottleSound.volume = 0.2;
+    this.breakingBottleSound.loop = false;
+    this.breakingBottleSound.play();
   }
 }
