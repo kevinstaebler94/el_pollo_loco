@@ -14,6 +14,8 @@ class World {
   wellDoneSound = new Audio("audio/well_done.wav");
   flawlessVictorySound = new Audio("audio/flawless-victory.wav");
   gameOverSound = new Audio("audio/game_over.wav");
+  youWin = new Image("img/You won, you lost/You Win A.png");
+  youLose = new Image("img/You won, you lost/Game over A.png");
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -378,6 +380,7 @@ class World {
 
   playGameOverSound() {
     if (this.StatusBarHealth.percentage === 0) {
+      this.loadEndScreen();
       setTimeout(() => {
         this.gameOverSound.volume = 0.6;
         this.gameOverSound.loop = false;
@@ -387,6 +390,7 @@ class World {
   }
 
   showEndScreen() {
+    this.loadEndScreen();
     setTimeout(() => {
       document.getElementById("canvas").classList.add("dNone");
       document.getElementById("endScreen").classList.remove("dNone");
