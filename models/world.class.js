@@ -343,7 +343,7 @@ class World {
     let character = this.character;
 
     enemies.forEach((enemy) => {
-      if (character.isColliding(enemy)) {
+      if (character.isStomping(enemy)) {
         enemy.hit(1);
         character.jump();
         if (enemy.isDead()) {
