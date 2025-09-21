@@ -32,7 +32,7 @@ class MoveableObject extends DrawableObject {
   }
 
   isStomping(mo) {
-    let fromAbove = this.y + this.height >= mo.y && this.y + this.height <= mo.y + mo.height * 0.7;
+    let fromAbove = this.y + this.height >= mo.y + 5 && this.y + this.height <= mo.y + mo.height * 0.8;
     let isColliding = this.isColliding(mo);
     let fallingDown = this.speedY <= 0;
     return fromAbove && isColliding && fallingDown;

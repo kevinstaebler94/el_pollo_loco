@@ -38,6 +38,8 @@ class World {
       this.checkCoinCollision();
       this.checkBottleCollision();
       this.checkBottleCollisionWithEnemy();
+    }, 1000 / 60);
+    setInterval(() => {
       this.checkThrowObjects();
       this.spawnEndboss();
       this.endbossSpottedCharacter();
