@@ -11,13 +11,16 @@ class World {
   throwableObjects = [new ThrowableObject()];
   enemyPositions = [];
   groundY = 350;
+  backgroundMusic;
   wellDoneSound = new Audio("audio/well_done.wav");
-  flawlessVictorySound = new Audio("audio/flawless-victory.wav");
+  flawlessVictorySound = new Audio("audio/flawless_victory.wav");
   gameOverSound = new Audio("audio/game_over.wav");
   youWin = new Image("img/You won, you lost/You Win A.png");
   youLose = new Image("img/You won, you lost/Game over A.png");
+  gameOverPlayed = false;
+  gameWinPlayed = false;
 
-  constructor(canvas, keyboard) {
+  constructor(canvas, keyboard, backgroundMusic) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
@@ -25,6 +28,7 @@ class World {
     this.draw();
     this.setWorld();
     this.run();
+    this.backgroundMusic = backgroundMusic;
   }
 
   setWorld() {
@@ -38,6 +42,7 @@ class World {
       this.checkCoinCollision();
       this.checkBottleCollision();
       this.checkBottleCollisionWithEnemy();
+      this.checkCharacterHealth();
     }, 1000 / 60);
     setInterval(() => {
       this.checkThrowObjects();
@@ -364,38 +369,55 @@ class World {
   }
 
   playGameWinningSound() {
-    if (this.StatusBarHealth.percentage === 100) {
-      setTimeout(() => {
+    if (!this.gameWinPlayed) {
+      this.gameWinPlayed = true;
+      if (this.StatusBarHealth.percentage === 100) {
+        this.backgroundMusic.pause();
         this.flawlessVictorySound.volume = 0.6;
         this.flawlessVictorySound.loop = false;
         this.flawlessVictorySound.play();
-      }, 1000);
-    } else {
-      setTimeout(() => {
+        this.flawlessVictorySound.onended = () => {
+          this.showEndScreen();
+        };
+      } else {
         this.wellDoneSound.volume = 0.6;
         this.wellDoneSound.loop = false;
         this.wellDoneSound.play();
-      }, 1000);
+        this.wellDoneSound.onended = () => {
+          this.showEndScreen();
+        };
+      }
     }
-    this.showEndScreen();
   }
 
   playGameOverSound() {
-    if (this.StatusBarHealth.percentage === 0) {
-      this.loadEndScreen();
-      setTimeout(() => {
-        this.gameOverSound.volume = 0.6;
-        this.gameOverSound.loop = false;
-        this.gameOverSound.play();
-      }, 1000);
+    if (this.StatusBarHealth.percentage === 0 && !this.gameOverPlayed) {
+      this.backgroundMusic.pause();
+      this.gameOverPlayed = true;
+      this.gameOverSound.volume = 0.6;
+      this.gameOverSound.loop = false;
+      this.gameOverSound.play();
+
+      this.gameOverSound.onended = () => {
+        this.showEndScreen();
+      };
     }
   }
 
   showEndScreen() {
-    this.loadEndScreen();
-    setTimeout(() => {
-      document.getElementById("canvas").classList.add("dNone");
-      document.getElementById("endScreen").classList.remove("dNone");
-    }, 3500);
+    document.getElementById("canvas").classList.add("dNone");
+    document.getElementById("endScreen").classList.remove("dNone");
+    if (this.StatusBarHealth.percentage === 0) {
+      document.getElementById("loss").classList.remove("dNone");
+    } else {
+      document.getElementById("win").classList.remove("dNone");
+    }
+  }
+
+  checkCharacterHealth() {
+    let health = this.StatusBarCoin.percentage;
+    if (health === 0) {
+      this.playGameOverSound();
+    }
   }
 }

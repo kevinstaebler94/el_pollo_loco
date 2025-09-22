@@ -5,7 +5,7 @@ let backgroundMusic = new Audio("audio/mexica_background_music.mp3");
 
 function init() {
   canvas = document.getElementById("canvas");
-  world = new World(canvas, keyboard);
+  world = new World(canvas, keyboard, backgroundMusic);
 }
 
 window.addEventListener("keydown", (e) => {
