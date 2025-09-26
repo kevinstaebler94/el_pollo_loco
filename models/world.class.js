@@ -69,7 +69,7 @@ class World {
           if (enemy === this.level.endboss[0]) {
             this.character.hit(3);
           } else {
-            this.character.hit(1);
+            this.character.hit(0.5);
           }
         this.StatusBarHealth.setPercentage(this.character.energy);
       }
@@ -97,7 +97,6 @@ class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
-
     this.addObjectsToMap(this.level.backgroundObjects);
     this.ctx.translate(-this.camera_x, 0);
     //--------- space for fixed objects ----------
@@ -369,6 +368,7 @@ class World {
   }
 
   playGameWinningSound() {
+    this.keyboard = {};
     if (!this.gameWinPlayed) {
       this.gameWinPlayed = true;
       if (this.StatusBarHealth.percentage === 100) {
@@ -377,20 +377,25 @@ class World {
         this.flawlessVictorySound.loop = false;
         this.flawlessVictorySound.play();
         this.flawlessVictorySound.onended = () => {
-          this.showEndScreen();
+          setTimeout(() => {
+            this.showEndScreen();
+          }, 1500);
         };
       } else {
         this.wellDoneSound.volume = 0.6;
         this.wellDoneSound.loop = false;
         this.wellDoneSound.play();
         this.wellDoneSound.onended = () => {
-          this.showEndScreen();
+          setTimeout(() => {
+            this.showEndScreen();
+          }, 1500);
         };
       }
     }
   }
 
   playGameOverSound() {
+    this.keyboard = {};
     if (this.StatusBarHealth.percentage === 0 && !this.gameOverPlayed) {
       this.backgroundMusic.pause();
       this.gameOverPlayed = true;
@@ -399,7 +404,9 @@ class World {
       this.gameOverSound.play();
 
       this.gameOverSound.onended = () => {
-        this.showEndScreen();
+        setTimeout(() => {
+          this.showEndScreen();
+        }, 1500);
       };
     }
   }
@@ -409,13 +416,19 @@ class World {
     document.getElementById("endScreen").classList.remove("dNone");
     if (this.StatusBarHealth.percentage === 0) {
       document.getElementById("loss").classList.remove("dNone");
+      setTimeout(() => {
+        document.getElementById("loss").classList.add("dNone");
+      }, 1000);
     } else {
       document.getElementById("win").classList.remove("dNone");
+      setTimeout(() => {
+        document.getElementById("win").classList.add("dNone");
+      }, 1000);
     }
   }
 
   checkCharacterHealth() {
-    let health = this.StatusBarCoin.percentage;
+    let health = this.StatusBarHealth.percentage;
     if (health === 0) {
       this.playGameOverSound();
     }

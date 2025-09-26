@@ -97,7 +97,7 @@ canvas {
 }
 
 .endScreen {
-  /* background-color: black; */
+  background-image: linear-gradient(to right, black, purple);
   max-width: 720px;
   width: 100%;
   height: 480px;
@@ -113,6 +113,7 @@ canvas {
   position: absolute;
   height: 75%;
   width: 75%;
+  animation: opacityAnimation 1500ms ease-out forwards;
 }
 
 .selectionContainer {
@@ -122,13 +123,35 @@ canvas {
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-family: oldtown;
   letter-spacing: 2px;
   color: rgb(166, 76, 142);
-  text-shadow: 1px 2px 1px black;
+  text-shadow: 2px 4px 2px black;
+  z-index: 10;
+  border: 4px solid transparent;
+  border-image: linear-gradient(to right, black, purple) 1;
+  animation: opacityAnimationReverse 2500ms ease-in forwards;
 }
 
 .dNone {
   display: none;
+}
+
+@keyframes opacityAnimation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes opacityAnimationReverse {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
