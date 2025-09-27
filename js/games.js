@@ -61,9 +61,10 @@ window.addEventListener("keyup", (e) => {
 });
 
 function startGame() {
-  playSound();
+  document.getElementById("endScreen").classList.add("dNone");
   document.getElementById("canvas").classList.remove("dNone");
   document.getElementById("startscreen").classList.add("dNone");
+  playSound();
   initLevel1();
   init();
 }
@@ -77,4 +78,16 @@ function playSound() {
   backgroundMusic.play();
   backgroundMusic.volume = 0.075;
   backgroundMusic.loop = true;
+}
+
+function resetGame() {
+  backgroundMusic.pause();
+  backgroundMusic.currentTime = 0;
+
+  keyboard = new Keyboard();
+  world = null;
+
+  document.getElementById("startscreen").classList.remove("dNone");
+  document.getElementById("canvas").classList.add("dNone");
+  document.getElementById("endScreen").classList.add("dNone");
 }

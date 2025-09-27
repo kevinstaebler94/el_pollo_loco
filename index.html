@@ -57,8 +57,9 @@
     <div id="endScreen" class="endScreen dNone">
       <img id="win" class="dNone" src="img/You won, you lost/You Win A.png" alt="" />
       <img id="loss" class="dNone" src="img/You won, you lost/You lost b.png" alt="" />
-      <div class="selectionContainer">Restart Game</div>
-      <div class="selectionContainer">Back to Startscreen</div>
+      <div onclick="startGame()" class="selectionContainer">Restart Game</div>
+      <div onclick="resetGame()" class="selectionContainer">Back to Startscreen</div>
+      <!-- <a class="selectionContainer" href="index.html">Back to Startscreen</a> -->
     </div>
 
     <canvas class="dNone" id="canvas" width="720" height="480"></canvas>
