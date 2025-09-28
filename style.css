@@ -97,7 +97,10 @@ canvas {
 }
 
 .endScreen {
-  background-image: linear-gradient(to right, black, purple);
+  background-image: linear-gradient(to left, rgb(29, 175, 144), purple);
+  background-color: transparent;
+  opacity: 30%;
+  filter: blur(1px);
   max-width: 720px;
   width: 100%;
   height: 480px;
@@ -113,12 +116,12 @@ canvas {
   position: absolute;
   height: 75%;
   width: 75%;
-  animation: opacityAnimation 1500ms ease-out forwards;
+  animation: opacityAnimation 2500ms ease-out forwards;
 }
 
 .selectionContainer {
   width: 250px;
-  height: 100px;
+  height: 75px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -130,9 +133,9 @@ canvas {
   text-shadow: 2px 4px 2px black;
   z-index: 10;
   border: 4px solid transparent;
-  border-image: linear-gradient(to right, black, purple) 1;
+  border-image: linear-gradient(to right, rgb(29, 175, 144), purple) 1;
   animation: opacityAnimationReverse 2500ms ease-in forwards;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.5s ease-in-out;
   cursor: pointer;
 }
 

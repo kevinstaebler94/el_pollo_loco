@@ -5,9 +5,10 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
-  StatusBarHealth = new StatusBar_Health();
-  StatusBarCoin = new StatusBar_Coin();
-  StatusBarBottle = new StatusBar_Bottle();
+  statusBarHealth = new StatusBar_Health();
+  statusBarCoin = new StatusBar_Coin();
+  statusBarBottle = new StatusBar_Bottle();
+  statusBarEndboss = new StatusBar_Endboss();
   throwableObjects = [new ThrowableObject()];
   enemyPositions = [];
   groundY = 350;
@@ -54,7 +55,7 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.D && this.hasBottles()) {
-      this.StatusBarBottle.setPercentage(this.StatusBarBottle.percentage - 20);
+      this.statusBarBottle.setPercentage(this.statusBarBottle.percentage - 20);
       let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
       this.throwableObjects.push(bottle);
     }
@@ -71,7 +72,7 @@ class World {
           } else {
             this.character.hit(0.5);
           }
-        this.StatusBarHealth.setPercentage(this.character.energy);
+        this.statusBarHealth.setPercentage(this.character.energy);
       }
     });
   }
@@ -80,7 +81,7 @@ class World {
     this.level.bottles.forEach((bottle, index) => {
       if (this.character.isColliding(bottle)) {
         this.level.bottles.splice(index, 1);
-        this.StatusBarBottle.setPercentage(this.StatusBarBottle.percentage + 20);
+        this.statusBarBottle.setPercentage(this.statusBarBottle.percentage + 20);
       }
     });
   }
@@ -89,7 +90,7 @@ class World {
     this.level.coins.forEach((coin, index) => {
       if (this.character.isColliding(coin)) {
         this.level.coins.splice(index, 1);
-        this.StatusBarCoin.setPercentage(this.StatusBarCoin.percentage + 20);
+        this.statusBarCoin.setPercentage(this.statusBarCoin.percentage + 20);
       }
     });
   }
@@ -100,9 +101,10 @@ class World {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.ctx.translate(-this.camera_x, 0);
     //--------- space for fixed objects ----------
-    this.addToMap(this.StatusBarHealth);
-    this.addToMap(this.StatusBarCoin);
-    this.addToMap(this.StatusBarBottle);
+    this.addToMap(this.statusBarHealth);
+    this.addToMap(this.statusBarCoin);
+    this.addToMap(this.statusBarBottle);
+    this.addToMap(this.statusBarEndboss);
     this.ctx.translate(this.camera_x, 0);
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.bottles);
@@ -152,7 +154,7 @@ class World {
   }
 
   hasBottles() {
-    return this.StatusBarBottle.percentage > 0;
+    return this.statusBarBottle.percentage > 0;
   }
 
   spawnEndboss() {
@@ -371,7 +373,7 @@ class World {
     this.keyboard = {};
     if (!this.gameWinPlayed) {
       this.gameWinPlayed = true;
-      if (this.StatusBarHealth.percentage === 100) {
+      if (this.statusBarHealth.percentage === 100) {
         this.backgroundMusic.pause();
         this.flawlessVictorySound.volume = 0.6;
         this.flawlessVictorySound.loop = false;
@@ -396,7 +398,7 @@ class World {
 
   playGameOverSound() {
     this.keyboard = {};
-    if (this.StatusBarHealth.percentage === 0 && !this.gameOverPlayed) {
+    if (this.statusBarHealth.percentage === 0 && !this.gameOverPlayed) {
       this.backgroundMusic.pause();
       this.gameOverPlayed = true;
       this.gameOverSound.volume = 0.6;
@@ -414,21 +416,21 @@ class World {
   showEndScreen() {
     document.getElementById("canvas").classList.add("dNone");
     document.getElementById("endScreen").classList.remove("dNone");
-    if (this.StatusBarHealth.percentage === 0) {
+    if (this.statusBarHealth.percentage === 0) {
       document.getElementById("loss").classList.remove("dNone");
       setTimeout(() => {
         document.getElementById("loss").classList.add("dNone");
-      }, 1000);
+      }, 2000);
     } else {
       document.getElementById("win").classList.remove("dNone");
       setTimeout(() => {
         document.getElementById("win").classList.add("dNone");
-      }, 1000);
+      }, 2000);
     }
   }
 
   checkCharacterHealth() {
-    let health = this.StatusBarHealth.percentage;
+    let health = this.statusBarHealth.percentage;
     if (health === 0) {
       this.playGameOverSound();
     }

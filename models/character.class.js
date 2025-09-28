@@ -1,7 +1,7 @@
 class Character extends MoveableObject {
   height = 300;
   width = 150;
-  y = 55;
+  y = 140;
   x = 20;
   speed = 10;
   coins = 0;
@@ -103,14 +103,12 @@ class Character extends MoveableObject {
       this.otherDirection = false;
       this.lastMove = Date.now();
       isMoving = true;
-      // this.walking_sound.play();
     }
     if (this.world.keyboard.LEFT && this.x > 0) {
       this.moveLeft();
       this.otherDirection = true;
       this.lastMove = Date.now();
       isMoving = true;
-      // this.walking_sound.play();
     }
     if (isMoving) {
       this.runningSound.volume = 0.15;
