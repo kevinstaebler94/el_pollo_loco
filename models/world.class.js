@@ -160,11 +160,11 @@ class World {
   }
 
   spawnEndboss() {
-    if (this.character.x >= 6000 && this.level.endboss.length > 0) {
+    if (this.character.x >= 6000 && this.level.endboss.length > 0 && !this.statusBarEndboss) {
       this.fadeOutMusic(backgroundMusic, () => {
         if (this.level.endboss[0]) {
-          this.statusBarEndboss = new StatusBar_Endboss();
           this.level.endboss[0].endbossAppears();
+          this.statusBarEndboss = new StatusBar_Endboss();
         }
       });
     }
@@ -228,6 +228,10 @@ class World {
           bottle.hasHit = true;
           e.takesDamage();
           e.hit(2);
+          if (this.statusBarEndboss && this.level.endboss[0]) {
+            let percent = (this.level.endboss[0].energy / 10) * 100;
+            this.statusBarEndboss.setPercentage(percent);
+          }
           bottle.startSplashAnimation();
           setTimeout(() => {
             this.throwableObjects.splice(bIndex, 1);
@@ -377,6 +381,7 @@ class World {
     if (!this.gameWinPlayed) {
       this.gameWinPlayed = true;
       if (this.statusBarHealth.percentage === 100) {
+        this.level.endboss[0].endbossMusic.pause();
         this.backgroundMusic.pause();
         this.flawlessVictorySound.volume = 0.6;
         this.flawlessVictorySound.loop = false;
@@ -387,6 +392,8 @@ class World {
           }, 1500);
         };
       } else {
+        this.level.endboss[0].endbossMusic.pause();
+        this.backgroundMusic.pause();
         this.wellDoneSound.volume = 0.6;
         this.wellDoneSound.loop = false;
         this.wellDoneSound.play();
@@ -402,6 +409,7 @@ class World {
   playGameOverSound() {
     this.keyboard = {};
     if (this.statusBarHealth.percentage === 0 && !this.gameOverPlayed) {
+      this.level.endboss[0].endbossMusic.pause();
       this.backgroundMusic.pause();
       this.gameOverPlayed = true;
       this.gameOverSound.volume = 0.6;

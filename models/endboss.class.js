@@ -91,7 +91,7 @@ class Endboss extends MoveableObject {
       this.currentStatus = "walking";
       this.isActive = true;
       this.hadFirstContact = true;
-      this.endbossMusic.volume = 0.4;
+      this.endbossMusic.volume = 0.3;
       this.endbossMusic.loop = true;
       this.endbossMusic.play();
     }
