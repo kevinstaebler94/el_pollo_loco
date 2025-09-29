@@ -8,7 +8,7 @@ class World {
   statusBarHealth = new StatusBar_Health();
   statusBarCoin = new StatusBar_Coin();
   statusBarBottle = new StatusBar_Bottle();
-  statusBarEndboss = new StatusBar_Endboss();
+  statusBarEndboss;
   throwableObjects = [new ThrowableObject()];
   enemyPositions = [];
   groundY = 350;
@@ -104,7 +104,9 @@ class World {
     this.addToMap(this.statusBarHealth);
     this.addToMap(this.statusBarCoin);
     this.addToMap(this.statusBarBottle);
-    this.addToMap(this.statusBarEndboss);
+    if (this.statusBarEndboss) {
+      this.addToMap(this.statusBarEndboss);
+    }
     this.ctx.translate(this.camera_x, 0);
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.bottles);
@@ -161,6 +163,7 @@ class World {
     if (this.character.x >= 6000 && this.level.endboss.length > 0) {
       this.fadeOutMusic(backgroundMusic, () => {
         if (this.level.endboss[0]) {
+          this.statusBarEndboss = new StatusBar_Endboss();
           this.level.endboss[0].endbossAppears();
         }
       });
