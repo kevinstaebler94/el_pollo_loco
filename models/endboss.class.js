@@ -4,6 +4,7 @@ class Endboss extends MoveableObject {
   y = -40;
   energy = 10;
   endbossMusic = new Audio("audio/bossfight.mp3");
+  screamingSound = new Audio("audio/endboss_screaming_sound.mp3");
   isActive = false;
   currentStatus = "resting";
   speed = 1.75;
@@ -91,7 +92,7 @@ class Endboss extends MoveableObject {
       this.currentStatus = "walking";
       this.isActive = true;
       this.hadFirstContact = true;
-      this.endbossMusic.volume = 0.3;
+      this.endbossMusic.volume = 0.2;
       this.endbossMusic.loop = true;
       this.endbossMusic.play();
     }
@@ -122,5 +123,11 @@ class Endboss extends MoveableObject {
   endbossIsDead() {
     this.currentStatus = "dead";
     this.isActive = false;
+  }
+
+  startsScreaming() {
+    this.screamingSound.volume = 0.6;
+    this.screamingSound.loop = false;
+    this.screamingSound.play();
   }
 }

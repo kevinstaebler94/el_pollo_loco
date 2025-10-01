@@ -74,6 +74,7 @@ class World {
             this.character.hit(0.5);
           }
         this.statusBarHealth.setPercentage(this.character.energy);
+        this.character.startsScreaming();
       }
     });
   }
@@ -230,6 +231,7 @@ class World {
           bottle.hasHit = true;
           e.takesDamage();
           e.hit(2);
+          e.startsScreaming();
           if (this.statusBarEndboss && this.level.endboss[0]) {
             let percent = (this.level.endboss[0].energy / 10) * 100;
             this.statusBarEndboss.setPercentage(percent);

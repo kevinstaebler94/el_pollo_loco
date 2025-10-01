@@ -8,6 +8,9 @@ class Character extends MoveableObject {
   lastMove = Date.now();
   runningSound = new Audio("audio/running_on_sand.mp3");
   jumpingSound = new Audio("audio/jump.mp3");
+  ouchSound = new Audio("audio/ouch_sound.mp3");
+  snoringSound = new Audio("audio/snoring_sound.mp3");
+
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
     "img/2_character_pepe/2_walk/W-22.png",
@@ -133,8 +136,10 @@ class Character extends MoveableObject {
         const timeSinceLastMove = Date.now();
         if (timeSinceLastMove - this.lastMove > 5000) {
           this.playAnimation(this.IMAGES_LONG_IDLE);
+          this.startsSnoring();
         } else {
           this.playAnimation(this.IMAGES_IDLE);
+          this.startsSnoring();
         }
       }
     }
@@ -148,5 +153,19 @@ class Character extends MoveableObject {
       this.jumpingSound.play();
     }
     this.speedY = 25;
+  }
+
+  startsScreaming() {
+    this.ouchSound.volume = 0;
+    this.ouchSound.volume = 0.3;
+    this.ouchSound.loop = false;
+    this.ouchSound.play();
+  }
+
+  startsSnoring() {
+    this.snoringSound.volume = 0;
+    this.snoringSound.volume = 0.3;
+    this.snoringSound.loop = false;
+    this.snoringSound.play();
   }
 }
