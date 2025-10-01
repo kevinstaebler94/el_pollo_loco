@@ -6,6 +6,38 @@ let backgroundMusic = new Audio("audio/mexica_background_music.mp3");
 function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard, backgroundMusic);
+
+  canvas.addEventListener("click", (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    if (
+      mouseX >= world.soundButton.x &&
+      mouseX <= world.soundButton.x + world.soundButton.width &&
+      mouseY >= world.soundButton.y &&
+      mouseY <= world.soundButton.y + world.soundButton.height
+    ) {
+      world.soundButton.toggleSound();
+    }
+  });
+
+  canvas.addEventListener("mousemove", (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    if (
+      mouseX >= world.soundButton.x &&
+      mouseX <= world.soundButton.x + world.soundButton.width &&
+      mouseY >= world.soundButton.y &&
+      mouseY <= world.soundButton.y + world.soundButton.height
+    ) {
+      canvas.style.cursor = "pointer";
+    } else {
+      canvas.style.cursor = "default";
+    }
+  });
 }
 
 window.addEventListener("keydown", (e) => {

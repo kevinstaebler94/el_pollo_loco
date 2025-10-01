@@ -9,6 +9,7 @@ class World {
   statusBarCoin = new StatusBar_Coin();
   statusBarBottle = new StatusBar_Bottle();
   statusBarEndboss;
+  soundButton = new SoundButton();
   throwableObjects = [new ThrowableObject()];
   enemyPositions = [];
   groundY = 350;
@@ -101,6 +102,7 @@ class World {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.ctx.translate(-this.camera_x, 0);
     //--------- space for fixed objects ----------
+    this.addToMap(this.soundButton);
     this.addToMap(this.statusBarHealth);
     this.addToMap(this.statusBarCoin);
     this.addToMap(this.statusBarBottle);
