@@ -93,7 +93,7 @@ window.addEventListener("keyup", (e) => {
 });
 
 function startGame() {
-  document.getElementById("endScreen").classList.add("dNone");
+  document.getElementById("endscreen").classList.add("dNone");
   document.getElementById("canvas").classList.remove("dNone");
   document.getElementById("startscreen").classList.add("dNone");
   playSound();
@@ -108,7 +108,7 @@ function openKeyboard() {
 
 function playSound() {
   backgroundMusic.play();
-  backgroundMusic.volume = 0.075;
+  backgroundMusic.volume = 0.05;
   backgroundMusic.loop = true;
 }
 
@@ -121,5 +121,5 @@ function resetGame() {
 
   document.getElementById("startscreen").classList.remove("dNone");
   document.getElementById("canvas").classList.add("dNone");
-  document.getElementById("endScreen").classList.add("dNone");
+  document.getElementById("endscreen").classList.add("dNone");
 }

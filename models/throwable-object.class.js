@@ -48,8 +48,8 @@ class ThrowableObject extends MoveableObject {
       }
     }, 100);
     this.percentage -= 20;
-    this.speedY = 15;
-    this.speedX = 15;
+    this.speedY = 10;
+    this.speedX = 5;
     this.applyGravitiy();
 
     if (this.moveIntervall) clearInterval(this.moveIntervall);

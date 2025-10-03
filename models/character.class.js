@@ -6,6 +6,7 @@ class Character extends MoveableObject {
   speed = 10;
   coins = 0;
   lastMove = Date.now();
+  lastHit = Date.now();
   runningSound = new Audio("audio/running_on_sand.mp3");
   jumpingSound = new Audio("audio/jump.mp3");
   ouchSound = new Audio("audio/ouch_sound.mp3");
@@ -125,13 +126,21 @@ class Character extends MoveableObject {
   updateCharacterAnimation() {
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);
+      this.snoringSound.pause();
+      this.snoringSound.currentTime = 0;
     } else if (this.isHurt()) {
       this.playAnimation(this.IMAGES_HURT);
+      this.snoringSound.pause();
+      this.snoringSound.currentTime = 0;
     } else if (this.isAboveGround()) {
       this.playAnimation(this.IMAGES_JUMPING);
+      this.snoringSound.pause();
+      this.snoringSound.currentTime = 0;
     } else {
       if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
         this.playAnimation(this.IMAGES_WALKING);
+        this.snoringSound.pause();
+        this.snoringSound.currentTime = 0;
       } else {
         const timeSinceLastMove = Date.now();
         if (timeSinceLastMove - this.lastMove > 5000) {
@@ -139,30 +148,24 @@ class Character extends MoveableObject {
           this.startsSnoring();
         } else {
           this.playAnimation(this.IMAGES_IDLE);
-          this.startsSnoring();
         }
       }
     }
   }
 
   jump() {
-    if (this.y < 150) {
-      this.runningSound.volume = 0;
-      this.jumpingSound.volume = 0.2;
-      this.jumpingSound.loop = false;
-      this.jumpingSound.play();
-    }
     this.speedY = 25;
   }
 
   startsScreaming() {
-    this.ouchSound.volume = 0;
-    this.ouchSound.volume = 0.3;
+    if (this.world && this.world.gameOverPlayed) return;
+    this.ouchSound.volume = 0.5;
     this.ouchSound.loop = false;
     this.ouchSound.play();
   }
 
   startsSnoring() {
+    if (this.world && this.world.gameOverPlayed) return;
     this.snoringSound.volume = 0;
     this.snoringSound.volume = 0.3;
     this.snoringSound.loop = false;

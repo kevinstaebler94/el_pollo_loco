@@ -18,7 +18,7 @@ class World {
   flawlessVictorySound = new Audio("audio/flawless_victory.wav");
   gameOverSound = new Audio("audio/game_over.wav");
   youWin = new Image("img/You won, you lost/You Win A.png");
-  youLose = new Image("img/You won, you lost/Game over A.png");
+  youLose = new Image("img/You won, you lost/You lost.png");
   gameOverPlayed = false;
   gameWinPlayed = false;
 
@@ -191,6 +191,7 @@ class World {
       this.level.smallEnemies.forEach((smallEnemy, sEnemyIndex) => {
         if (!smallEnemy.isDead() && bottle.isColliding(smallEnemy)) {
           smallEnemy.hit(1);
+          smallEnemy.isScreaming();
           bottle.startSplashAnimation();
           setTimeout(() => {
             this.throwableObjects.splice(bIndex, 1);
@@ -210,6 +211,7 @@ class World {
       this.level.enemies.forEach((enemy, enemyIndex) => {
         if (!enemy.isDead() && bottle.isColliding(enemy)) {
           enemy.hit(1);
+          enemy.isScreaming();
           bottle.startSplashAnimation();
           setTimeout(() => {
             this.throwableObjects.splice(bIndex, 1);
@@ -364,6 +366,7 @@ class World {
     enemies.forEach((enemy) => {
       if (character.isStomping(enemy)) {
         enemy.hit(1);
+        enemy.isScreaming();
         character.jump();
         if (enemy.isDead()) {
           setTimeout(() => {
@@ -391,9 +394,7 @@ class World {
         this.flawlessVictorySound.loop = false;
         this.flawlessVictorySound.play();
         this.flawlessVictorySound.onended = () => {
-          setTimeout(() => {
-            this.showEndScreen();
-          }, 1500);
+          this.stopAllSounds();
         };
       } else {
         this.level.endboss[0].endbossMusic.pause();
@@ -402,9 +403,7 @@ class World {
         this.wellDoneSound.loop = false;
         this.wellDoneSound.play();
         this.wellDoneSound.onended = () => {
-          setTimeout(() => {
-            this.showEndScreen();
-          }, 1500);
+          this.stopAllSounds();
         };
       }
     }
@@ -421,26 +420,8 @@ class World {
       this.gameOverSound.play();
 
       this.gameOverSound.onended = () => {
-        setTimeout(() => {
-          this.showEndScreen();
-        }, 1500);
+        this.stopAllSounds();
       };
-    }
-  }
-
-  showEndScreen() {
-    document.getElementById("canvas").classList.add("dNone");
-    document.getElementById("endScreen").classList.remove("dNone");
-    if (this.statusBarHealth.percentage === 0) {
-      document.getElementById("loss").classList.remove("dNone");
-      setTimeout(() => {
-        document.getElementById("loss").classList.add("dNone");
-      }, 2000);
-    } else {
-      document.getElementById("win").classList.remove("dNone");
-      setTimeout(() => {
-        document.getElementById("win").classList.add("dNone");
-      }, 2000);
     }
   }
 
@@ -449,5 +430,24 @@ class World {
     if (health === 0) {
       this.playGameOverSound();
     }
+  }
+
+  stopAllSounds() {
+    const sounds = [
+      this.backgroundMusic,
+      this.wellDoneSound,
+      this.flawlessVictorySound,
+      this.gameOverSound,
+      this.level.endboss[0]?.endbossMusic,
+      this.character.runningSound,
+      this.character.ouchSound,
+      this.character.snoringSound,
+    ];
+    sounds.forEach((sound) => {
+      if (sound) {
+        sound.pause();
+        sound.currentTime = 0;
+      }
+    });
   }
 }

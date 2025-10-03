@@ -5,7 +5,7 @@ class MoveableObject extends DrawableObject {
   acceleration = 2.5;
   energy = 100;
   lastHit = 0;
-  screamingChickenSound = new Audio("audio/chicken_sound.wav");
+  screamingSound = new Audio("audio/chicken_sound.wav");
 
   applyGravitiy() {
     setInterval(() => {
@@ -73,5 +73,11 @@ class MoveableObject extends DrawableObject {
 
   moveLeft() {
     this.x -= this.speed;
+  }
+
+  isScreaming() {
+    this.screamingSound.volume = 0.6;
+    this.screamingSound.loop = false;
+    this.screamingSound.play();
   }
 }

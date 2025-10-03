@@ -56,12 +56,13 @@
       </nav>
     </div>
 
-    <div id="endScreen" class="endScreen dNone">
-      <img id="win" class="dNone" src="img/You won, you lost/You Win A.png" alt="" />
-      <img id="loss" class="dNone" src="img/You won, you lost/You lost b.png" alt="" />
-      <div onclick="startGame()" class="selectionContainer">Restart Game</div>
-      <div onclick="resetGame()" class="selectionContainer">Back to Startscreen</div>
-      <!-- <a class="selectionContainer" href="index.html">Back to Startscreen</a> -->
+    <div id="endscreen" class="endscreen dNone">
+      <img class="layer1" src="img/You won, you lost/You lost.png" alt="" />
+      <img class="layer2" src="img/5_background/complete_background.png" alt="" />
+      <nav class="navbar">
+        <img onclick="startGame()" src="img/buttons/play.svg" alt="" />
+        <img onclick="restartGame()" src="img/buttons/fullscreen.svg" alt="" />
+      </nav>
     </div>
 
     <canvas class="dNone" id="canvas" width="720" height="480"></canvas>
