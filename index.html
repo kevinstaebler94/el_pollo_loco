@@ -52,13 +52,13 @@
       <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="" />
       <nav class="navbar">
         <img onclick="startGame()" src="img/buttons/play.svg" alt="" />
-        <img onclick="toggleFullscreen()" src="img/buttons/fullscreen.svg" alt="" />
       </nav>
     </div>
 
     <div id="endscreen" class="endscreen dNone">
-      <img class="layer1" src="img/You won, you lost/You lost.png" alt="" />
-      <img class="layer2" src="img/5_background/complete_background.png" alt="" />
+      <img id="lost" class="lost dNone" src="img/You won, you lost/You lost.png" alt="" />
+      <img id="won" class="won dNone" src="img/You won, you lost/You win B.png" alt="" />
+      <img class="layer2" src="img/5_background/first_half_background.png" alt="" />
       <nav class="navbar">
         <img onclick="startGame()" src="img/buttons/play.svg" alt="" />
         <img onclick="restartGame()" src="img/buttons/fullscreen.svg" alt="" />

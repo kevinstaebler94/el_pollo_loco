@@ -94,8 +94,9 @@ window.addEventListener("keyup", (e) => {
 
 function startGame() {
   document.getElementById("endscreen").classList.add("dNone");
-  document.getElementById("canvas").classList.remove("dNone");
   document.getElementById("startscreen").classList.add("dNone");
+  document.getElementById("canvas").classList.remove("dNone");
+
   playSound();
   initLevel1();
   init();
@@ -119,7 +120,7 @@ function resetGame() {
   keyboard = new Keyboard();
   world = null;
 
-  document.getElementById("startscreen").classList.remove("dNone");
   document.getElementById("canvas").classList.add("dNone");
   document.getElementById("endscreen").classList.add("dNone");
+  document.getElementById("startscreen").classList.remove("dNone");
 }
