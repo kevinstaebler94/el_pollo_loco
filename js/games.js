@@ -113,7 +113,7 @@ function playSound() {
   backgroundMusic.loop = true;
 }
 
-function resetGame() {
+function backToHomescreen() {
   backgroundMusic.pause();
   backgroundMusic.currentTime = 0;
 

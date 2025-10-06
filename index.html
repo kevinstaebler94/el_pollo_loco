@@ -33,18 +33,31 @@
   <body>
     <h1>El Pollo Loco</h1>
 
-    <div class="buttonLayoutWrapper">
+    <div id="controlsStartscreen" class="buttonLayoutWrapper">
       <div class="buttonContainer">
-        <span>ARROW LEFT = WALK LEFT</span>
+        <img class="arrowLeft" src="img/buttons/arrow_left_icon.svg" alt="" />
+        <span>LEFT</span>
       </div>
       <div class="buttonContainer">
-        <span>ARROW RIGHT = WALK RIGHT</span>
+        <img class="arrowRight" src="img/buttons/arrow_right_icon.svg" alt="" />
+        <span>RIGHT</span>
       </div>
       <div class="buttonContainer">
-        <span>SPACE = JUMP</span>
+        <img class="spaceButton" src="img/buttons/space_icon.svg" alt="" />
+        <span>JUMP</span>
       </div>
       <div class="buttonContainer">
-        <span>D = THROW BOTTLE</span>
+        <img class="dButton" src="img/buttons/d_button_icon.svg" alt="" />
+        <span>THROW</span>
+      </div>
+    </div>
+
+    <div id="controlsEndscreen" class="buttonLayoutWrapper dNone">
+      <div class="buttonContainer">
+        <span>RESTART GAME</span>
+      </div>
+      <div class="buttonContainer">
+        <span>BACK TO STARTSCREEN</span>
       </div>
     </div>
 
@@ -59,10 +72,6 @@
       <img id="lost" class="lost dNone" src="img/You won, you lost/You lost.png" alt="" />
       <img id="won" class="won dNone" src="img/You won, you lost/You win B.png" alt="" />
       <img class="layer2" src="img/5_background/first_half_background.png" alt="" />
-      <nav class="navbar">
-        <img onclick="startGame()" src="img/buttons/play.svg" alt="" />
-        <img onclick="restartGame()" src="img/buttons/fullscreen.svg" alt="" />
-      </nav>
     </div>
 
     <canvas class="dNone" id="canvas" width="720" height="480"></canvas>

@@ -435,6 +435,8 @@ class World {
 
   showEndScreen() {
     document.getElementById("canvas").classList.add("dNone");
+    document.getElementById("controlsStartscreen").classList.add("dNone");
+    document.getElementById("controlsEndscreen").classList.remove("dNone");
     document.getElementById("endscreen").classList.remove("dNone");
   }
 }

@@ -20,23 +20,23 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url("img/5_background/fullscreen_background/desert_background.jpg");
+  background-image: url("img/5_background/fullscreen_background/background_image.jpg");
   background-size: cover;
-  background-position: center;
+  background-position: top;
 }
 
 h1 {
   font-family: oldtown;
   font-size: 6rem;
   letter-spacing: 2px;
-  color: rgb(166, 76, 142);
-  text-shadow: 3px 5px 3px black;
+  color: #ffd90b;
+  text-shadow: 3px 5px 3px #826950;
   margin-bottom: 0.5em;
 }
 
 canvas {
   background-color: black;
-  border: 3px solid black;
+  border: 3px solid #826950;
   border-radius: 5px;
 }
 
@@ -45,7 +45,7 @@ canvas {
   max-width: 720px;
   height: 480px;
   position: relative;
-  border: 3px solid black;
+  border: 3px solid #826950;
   border-radius: 5px;
   position: relative;
   display: flex;
@@ -78,7 +78,7 @@ canvas {
 .buttonLayoutWrapper {
   margin-bottom: 0.5em;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 2.75em;
   max-width: 720px;
   width: 100%;
@@ -88,6 +88,7 @@ canvas {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .buttonLayoutWrapper span {
@@ -95,12 +96,8 @@ canvas {
   font-size: 1.75rem;
   font-family: oldtown;
   letter-spacing: 2px;
-  color: rgb(166, 76, 142);
-  text-shadow: 1px 2px 1px black;
-}
-
-.buttonLayoutWrapper .buttonContainer:nth-child(3) span {
-  margin-left: 0.5em;
+  color: #ffd90b;
+  text-shadow: 1px 2px 1px #826950;
 }
 
 .navbar {
@@ -124,4 +121,8 @@ canvas {
 
 .dNone {
   display: none;
+}
+
+.buttonContainer img {
+  height: 50px;
 }
