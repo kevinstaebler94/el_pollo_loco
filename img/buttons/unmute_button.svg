@@ -1,0 +1,25 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient and shadow definitions -->
+  <defs>
+    <linearGradient id="unmuteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadowUnmute">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Button circle -->
+  <circle cx="64" cy="64" r="58" fill="url(#unmuteGrad)" stroke="#8B4513" stroke-width="4" filter="url(#shadowUnmute)"/>
+  
+  <!-- Inner highlight -->
+  <circle cx="64" cy="58" r="52" fill="none" stroke="#FFE55C" stroke-width="2" opacity="0.4"/>
+  
+  <!-- Speaker icon -->
+  <path d="M 42 52 L 42 76 L 52 76 L 67 88 L 67 40 L 52 52 Z" fill="#8B4513" stroke="#6B3410" stroke-width="2"/>
+  
+  <!-- Sound waves -->
+  <path d="M 75 54 Q 80 64 75 74" fill="none" stroke="#8B4513" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 82 48 Q 90 64 82 80" fill="none" stroke="#8B4513" stroke-width="3" stroke-linecap="round"/>
+</svg>
