@@ -74,10 +74,4 @@ class MoveableObject extends DrawableObject {
   moveLeft() {
     this.x -= this.speed;
   }
-
-  isScreaming() {
-    this.screamingSound.volume = 0.6;
-    this.screamingSound.loop = false;
-    this.screamingSound.play();
-  }
 }

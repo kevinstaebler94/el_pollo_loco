@@ -1,5 +1,4 @@
 class World {
-  character = new Character();
   level = level1;
   canvas;
   ctx;
@@ -14,9 +13,6 @@ class World {
   enemyPositions = [];
   groundY = 350;
   backgroundMusic;
-  wellDoneSound = new Audio("audio/well_done.wav");
-  flawlessVictorySound = new Audio("audio/flawless_victory.wav");
-  gameOverSound = new Audio("audio/game_over.wav");
   youWin = new Image("img/You won, you lost/You Win A.png");
   youLose = new Image("img/You won, you lost/You lost.png");
   gameOverPlayed = false;
@@ -25,6 +21,8 @@ class World {
   secondaryInterval;
 
   constructor(canvas, keyboard, backgroundMusic) {
+    this.soundManager = new SoundManager();
+    this.character = new Character(this.soundManager);
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
@@ -141,7 +139,7 @@ class World {
       this.flipImage(mo);
     }
     mo.draw(this.ctx);
-    mo.drawFrame(this.ctx);
+    // mo.drawFrame(this.ctx);
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);
@@ -193,7 +191,7 @@ class World {
       this.level.smallEnemies.forEach((smallEnemy, sEnemyIndex) => {
         if (!smallEnemy.isDead() && bottle.isColliding(smallEnemy)) {
           smallEnemy.hit(1);
-          smallEnemy.isScreaming();
+          this.enemyIsScreaming();
           bottle.startSplashAnimation();
           setTimeout(() => {
             this.throwableObjects.splice(bIndex, 1);
@@ -213,7 +211,7 @@ class World {
       this.level.enemies.forEach((enemy, enemyIndex) => {
         if (!enemy.isDead() && bottle.isColliding(enemy)) {
           enemy.hit(1);
-          enemy.isScreaming();
+          this.enemyIsScreaming();
           bottle.startSplashAnimation();
           setTimeout(() => {
             this.throwableObjects.splice(bIndex, 1);
@@ -368,8 +366,7 @@ class World {
     enemies.forEach((enemy) => {
       if (character.isStomping(enemy)) {
         enemy.hit(1);
-        enemy.isScreaming();
-        character.jump();
+        this.enemyIsScreaming();
         if (enemy.isDead()) {
           setTimeout(() => {
             if (this.level.enemies.includes(enemy)) {
@@ -387,48 +384,53 @@ class World {
 
   playGameWinningSound() {
     this.keyboard = {};
+    let sound;
     if (!this.gameWinPlayed) {
       this.gameWinPlayed = true;
       if (this.statusBarHealth.percentage === 100) {
         this.level.endboss[0].endbossMusic.pause();
         this.backgroundMusic.pause();
-        this.flawlessVictorySound.play();
-        this.flawlessVictorySound.volume = 0.6;
-        this.flawlessVictorySound.loop = false;
-        this.flawlessVictorySound.onended = () => {};
+        sound = this.soundManager.play("flawlessVictorySound", "0.6");
       } else {
         this.level.endboss[0].endbossMusic.pause();
         this.backgroundMusic.pause();
-        this.wellDoneSound.play();
-        this.wellDoneSound.volume = 0.6;
-        this.wellDoneSound.loop = false;
-        this.wellDoneSound.onended = () => {};
+        sound = this.soundManager.play("wellDoneSound", "0.6");
+      }
+      if (sound) {
+        sound.onended = () => {
+          this.stopAllIntervals();
+          this.soundManager.stopAllSounds();
+          this.showEndScreen();
+        };
       }
     }
   }
 
   playGameOverSound() {
     this.keyboard = {};
+    let sound;
     if (this.statusBarHealth.percentage === 0 && !this.gameOverPlayed) {
       this.level.endboss[0].endbossMusic.pause();
       this.backgroundMusic.pause();
-      this.gameOverSound.play();
-      this.gameOverSound.volume = 0.6;
-      this.gameOverSound.loop = false;
+      sound = this.soundManager.play("gameOverSound", "0.6");
       this.gameOverPlayed = true;
-      this.gameOverSound.onended = () => {};
+    }
+    if (sound) {
+      sound.onended = () => {
+        this.stopAllIntervals();
+        this.soundManager.stopAllSounds();
+        this.showEndScreen();
+      };
     }
   }
 
   checkHealth() {
     if (this.statusBarHealth.percentage === 0) {
       this.playGameOverSound();
-      this.showEndScreen();
       document.getElementById("lost").classList.remove("dNone");
     }
     if (this.statusBarEndboss && this.statusBarEndboss.percentage === 0) {
       this.playGameWinningSound();
-      this.showEndScreen();
       document.getElementById("won").classList.remove("dNone");
     }
   }
@@ -438,5 +440,14 @@ class World {
     document.getElementById("controlsStartscreen").classList.add("dNone");
     document.getElementById("controlsEndscreen").classList.remove("dNone");
     document.getElementById("endscreen").classList.remove("dNone");
+  }
+
+  stopAllIntervals() {
+    clearInterval(this.mainInterval);
+    clearInterval(this.secondaryInterval);
+  }
+
+  enemyIsScreaming() {
+    this.soundManager.play("screamingSoundChicken", "0.6");
   }
 }

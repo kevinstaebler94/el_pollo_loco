@@ -7,10 +7,6 @@ class Character extends MoveableObject {
   coins = 0;
   lastMove = Date.now();
   lastHit = Date.now();
-  runningSound = new Audio("audio/running_on_sand.mp3");
-  jumpingSound = new Audio("audio/jump.mp3");
-  ouchSound = new Audio("audio/ouch_sound.mp3");
-  snoringSound = new Audio("audio/snoring_sound.mp3");
 
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
@@ -71,8 +67,10 @@ class Character extends MoveableObject {
   ];
   world;
 
-  constructor() {
-    super().loadImage("img/2_character_pepe/2_walk/W-21.png");
+  constructor(soundManager) {
+    super();
+    this.loadImage("img/2_character_pepe/2_walk/W-21.png");
+    this.soundManager = soundManager;
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DEAD);
@@ -101,7 +99,7 @@ class Character extends MoveableObject {
 
   handleCharacterMovement() {
     let isMoving = false;
-
+    let sound;
     if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
       this.moveRight();
       this.otherDirection = false;
@@ -115,37 +113,32 @@ class Character extends MoveableObject {
       isMoving = true;
     }
     if (isMoving) {
-      this.runningSound.volume = 0.15;
-      this.runningSound.loop = true;
-      this.runningSound.play();
+      sound = this.soundManager.play("runningSound", "0.15");
     } else {
-      this.runningSound.pause();
+      sound = this.soundManager.stop("runningSound");
     }
   }
 
   updateCharacterAnimation() {
+    let sound;
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);
-      this.snoringSound.pause();
-      this.snoringSound.currentTime = 0;
+      sound = this.soundManager.play("snoringSound", "0.15");
     } else if (this.isHurt()) {
       this.playAnimation(this.IMAGES_HURT);
-      this.snoringSound.pause();
-      this.snoringSound.currentTime = 0;
+      sound = this.soundManager.stop("snoringSound");
     } else if (this.isAboveGround()) {
       this.playAnimation(this.IMAGES_JUMPING);
-      this.snoringSound.pause();
-      this.snoringSound.currentTime = 0;
+      sound = this.soundManager.stop("snoringSound");
     } else {
       if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
         this.playAnimation(this.IMAGES_WALKING);
-        this.snoringSound.pause();
-        this.snoringSound.currentTime = 0;
+        sound = this.soundManager.stop("snoringSound");
       } else {
         const timeSinceLastMove = Date.now();
         if (timeSinceLastMove - this.lastMove > 5000) {
           this.playAnimation(this.IMAGES_LONG_IDLE);
-          this.startsSnoring();
+          sound = this.soundManager.play("snoringSound", "0.15");
         } else {
           this.playAnimation(this.IMAGES_IDLE);
         }
@@ -158,17 +151,14 @@ class Character extends MoveableObject {
   }
 
   startsScreaming() {
-    if (this.world && this.world.gameOverPlayed) return;
-    this.ouchSound.volume = 0.5;
-    this.ouchSound.loop = false;
-    this.ouchSound.play();
+    let sound;
+    if (this.world && (this.world.gameOverPlayed || this.world.gameWinPlayed)) return;
+    sound = this.soundManager.play("ouchSound", "0.5");
   }
 
   startsSnoring() {
-    if (this.world && this.world.gameOverPlayed) return;
-    this.snoringSound.volume = 0;
-    this.snoringSound.volume = 0.3;
-    this.snoringSound.loop = false;
-    this.snoringSound.play();
+    let sound;
+    if (this.world && (this.world.gameOverPlayed || this.world.gameWinPlayed)) return;
+    sound = this.soundManager.play("snoringSound", "0.15");
   }
 }
