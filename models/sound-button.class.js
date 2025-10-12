@@ -3,7 +3,9 @@ class SoundButton extends DrawableObject {
   unmute = "img/buttons/unmute_button.svg";
 
   constructor() {
-    super().loadImages([this.mute, this.unmute]);
+    super();
+    this.soundManager = soundManager;
+    this.loadImages([this.mute, this.unmute]);
     this.img = this.imageCache[this.unmute];
     this.x = 650;
     this.y = 11;

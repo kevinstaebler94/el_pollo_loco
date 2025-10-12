@@ -8,11 +8,9 @@ class World {
   statusBarCoin = new StatusBar_Coin();
   statusBarBottle = new StatusBar_Bottle();
   statusBarEndboss;
-  soundButton = new SoundButton();
   throwableObjects = [new ThrowableObject()];
   enemyPositions = [];
   groundY = 350;
-  backgroundMusic;
   youWin = new Image("img/You won, you lost/You Win A.png");
   youLose = new Image("img/You won, you lost/You lost.png");
   gameOverPlayed = false;
@@ -20,9 +18,10 @@ class World {
   mainInterval;
   secondaryInterval;
 
-  constructor(canvas, keyboard, backgroundMusic) {
-    this.soundManager = new SoundManager();
+  constructor(canvas, keyboard, soundManager) {
+    this.soundManager = soundManager;
     this.character = new Character(this.soundManager);
+    this.soundButton = new SoundButton(this.soundManager);
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
@@ -30,7 +29,6 @@ class World {
     this.draw();
     this.setWorld();
     this.run();
-    this.backgroundMusic = backgroundMusic;
   }
 
   setWorld() {
@@ -163,6 +161,7 @@ class World {
   }
 
   spawnEndboss() {
+    let backgroundMusic = this.soundManager.backgroundMusic;
     if (this.character.x >= 6000 && this.level.endboss.length > 0 && !this.statusBarEndboss) {
       this.fadeOutMusic(backgroundMusic, () => {
         if (this.level.endboss[0]) {
@@ -389,12 +388,12 @@ class World {
       this.gameWinPlayed = true;
       if (this.statusBarHealth.percentage === 100) {
         this.level.endboss[0].endbossMusic.pause();
-        this.backgroundMusic.pause();
-        sound = this.soundManager.play("flawlessVictorySound", "0.6");
+        this.soundManager.stop("backgroundMusic");
+        sound = this.soundManager.play("flawlessVictorySound", 0.6);
       } else {
         this.level.endboss[0].endbossMusic.pause();
-        this.backgroundMusic.pause();
-        sound = this.soundManager.play("wellDoneSound", "0.6");
+        this.soundManager.stop("backgroundMusic");
+        sound = this.soundManager.play("wellDoneSound", 0.6);
       }
       if (sound) {
         sound.onended = () => {
@@ -411,8 +410,8 @@ class World {
     let sound;
     if (this.statusBarHealth.percentage === 0 && !this.gameOverPlayed) {
       this.level.endboss[0].endbossMusic.pause();
-      this.backgroundMusic.pause();
-      sound = this.soundManager.play("gameOverSound", "0.6");
+      this.soundManager.stop("backgroundMusic");
+      sound = this.soundManager.play("gameOverSound", 0.6);
       this.gameOverPlayed = true;
     }
     if (sound) {
@@ -448,6 +447,6 @@ class World {
   }
 
   enemyIsScreaming() {
-    this.soundManager.play("screamingSoundChicken", "0.6");
+    this.soundManager.play("screamingSoundChicken", 0.6);
   }
 }

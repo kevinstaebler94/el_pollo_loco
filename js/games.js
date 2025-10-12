@@ -1,11 +1,11 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let backgroundMusic = new Audio("audio/mexica_background_music.mp3");
 
 function init() {
   canvas = document.getElementById("canvas");
-  world = new World(canvas, keyboard, backgroundMusic);
+  soundManager = new SoundManager();
+  world = new World(canvas, keyboard, soundManager);
 
   canvas.addEventListener("click", (event) => {
     const rect = canvas.getBoundingClientRect();
@@ -97,9 +97,11 @@ function startGame() {
   document.getElementById("startscreen").classList.add("dNone");
   document.getElementById("canvas").classList.remove("dNone");
 
-  playSound();
-  initLevel1();
-  init();
+  setTimeout(() => {
+    initLevel1();
+    init();
+    playSound();
+  }, 100);
 }
 
 function openKeyboard() {
@@ -108,14 +110,15 @@ function openKeyboard() {
 }
 
 function playSound() {
-  backgroundMusic.play();
-  backgroundMusic.volume = 0.05;
-  backgroundMusic.loop = true;
+  if (world && world.soundManager) {
+    world.soundManager.play("backgroundMusic", "0.15");
+  }
 }
 
 function backToHomescreen() {
-  backgroundMusic.pause();
-  backgroundMusic.currentTime = 0;
+  if (world && world.soundManager) {
+    world.soundManager.stop("backgroundMusic");
+  }
 
   keyboard = new Keyboard();
   world = null;

@@ -99,7 +99,6 @@ class Character extends MoveableObject {
 
   handleCharacterMovement() {
     let isMoving = false;
-    let sound;
     if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
       this.moveRight();
       this.otherDirection = false;
@@ -112,18 +111,13 @@ class Character extends MoveableObject {
       this.lastMove = Date.now();
       isMoving = true;
     }
-    if (isMoving) {
-      sound = this.soundManager.play("runningSound", "0.15");
-    } else {
-      sound = this.soundManager.stop("runningSound");
-    }
   }
 
   updateCharacterAnimation() {
     let sound;
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);
-      sound = this.soundManager.play("snoringSound", "0.15");
+      sound = this.soundManager.play("snoringSound", 0.15);
     } else if (this.isHurt()) {
       this.playAnimation(this.IMAGES_HURT);
       sound = this.soundManager.stop("snoringSound");
@@ -153,12 +147,12 @@ class Character extends MoveableObject {
   startsScreaming() {
     let sound;
     if (this.world && (this.world.gameOverPlayed || this.world.gameWinPlayed)) return;
-    sound = this.soundManager.play("ouchSound", "0.5");
+    sound = this.soundManager.play("ouchSound", 0.5);
   }
 
   startsSnoring() {
     let sound;
     if (this.world && (this.world.gameOverPlayed || this.world.gameWinPlayed)) return;
-    sound = this.soundManager.play("snoringSound", "0.15");
+    sound = this.soundManager.play("snoringSound", 0.15);
   }
 }
