@@ -7,6 +7,7 @@ class SoundManager {
     this.ouchSound = new Audio("audio/ouch_sound.mp3");
     this.snoringSound = new Audio("audio/snoring_sound.mp3");
     this.screamingSoundChicken = new Audio("audio/chicken_sound.wav");
+    this.soundsMuted = localStorage.getItem("soundsMuted") === "true";
   }
 
   play(soundName, volume) {
@@ -21,11 +22,16 @@ class SoundManager {
     return this[soundName];
   }
 
-  stopAllSounds() {
+  toggleAllSounds() {
+    this.soundsMuted = !this.soundsMuted;
+    localStorage.setItem("soundsMuted", this.soundsMuted);
     for (let key in this) {
       if (this[key] instanceof Audio) {
-        this[key].pause();
-        this[key].currentTime = 0;
+        this[key].muted = this.soundsMuted;
+        if (this.soundsMuted) {
+          this[key].pause();
+          this[key].currentTime = 0;
+        }
       }
     }
   }

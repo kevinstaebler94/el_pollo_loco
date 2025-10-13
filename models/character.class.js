@@ -117,7 +117,7 @@ class Character extends MoveableObject {
     let sound;
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);
-      sound = this.soundManager.play("snoringSound", 0.15);
+      sound = this.soundManager.stop("snoringSound", 0.15);
     } else if (this.isHurt()) {
       this.playAnimation(this.IMAGES_HURT);
       sound = this.soundManager.stop("snoringSound");

@@ -417,7 +417,7 @@ class World {
     if (sound) {
       sound.onended = () => {
         this.stopAllIntervals();
-        this.soundManager.stopAllSounds();
+        this.soundManager.toggleAllSounds();
         this.showEndScreen();
       };
     }

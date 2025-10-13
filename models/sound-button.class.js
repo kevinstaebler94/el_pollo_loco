@@ -14,12 +14,11 @@ class SoundButton extends DrawableObject {
   }
 
   toggleSound() {
-    if (backgroundMusic.muted) {
-      backgroundMusic.muted = false;
-      this.img = this.imageCache[this.unmute];
-    } else {
-      backgroundMusic.muted = true;
+    this.soundManager.toggleAllSounds();
+    if (this.soundManager.soundsMuted) {
       this.img = this.imageCache[this.mute];
+    } else {
+      this.img = this.imageCache[this.unmute];
     }
   }
 }

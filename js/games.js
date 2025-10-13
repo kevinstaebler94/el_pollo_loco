@@ -97,11 +97,9 @@ function startGame() {
   document.getElementById("startscreen").classList.add("dNone");
   document.getElementById("canvas").classList.remove("dNone");
 
-  setTimeout(() => {
-    initLevel1();
-    init();
-    playSound();
-  }, 100);
+  initLevel1();
+  init();
+  playSound();
 }
 
 function openKeyboard() {
