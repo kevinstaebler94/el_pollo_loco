@@ -398,7 +398,6 @@ class World {
       if (sound) {
         sound.onended = () => {
           this.stopAllIntervals();
-          this.soundManager.stopAllSounds();
           this.showEndScreen();
         };
       }
@@ -417,7 +416,6 @@ class World {
     if (sound) {
       sound.onended = () => {
         this.stopAllIntervals();
-        this.soundManager.toggleAllSounds();
         this.showEndScreen();
       };
     }
@@ -435,10 +433,10 @@ class World {
   }
 
   showEndScreen() {
-    document.getElementById("canvas").classList.add("dNone");
-    document.getElementById("controlsStartscreen").classList.add("dNone");
-    document.getElementById("controlsEndscreen").classList.remove("dNone");
-    document.getElementById("endscreen").classList.remove("dNone");
+    let canvas = document.getElementById("canvas").classList.add("dNone");
+    let controlsStartscreen = document.getElementById("controlsStartscreen").classList.add("dNone");
+    let controlsEndscreen = document.getElementById("controlsEndscreen").classList.remove("dNone");
+    let endscreen = document.getElementById("endscreen").classList.remove("dNone");
   }
 
   stopAllIntervals() {

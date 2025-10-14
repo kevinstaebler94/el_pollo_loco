@@ -93,13 +93,18 @@ window.addEventListener("keyup", (e) => {
 });
 
 function startGame() {
-  document.getElementById("endscreen").classList.add("dNone");
-  document.getElementById("startscreen").classList.add("dNone");
-  document.getElementById("canvas").classList.remove("dNone");
+  let controlsEndscreen = document.getElementById("controlsEndscreen");
+  if (controlsEndscreen) {
+    document.getElementById("controlsStartscreen").classList.remove("dNone");
+    document.getElementById("controlsEndscreen").classList.add("dNone");
+    document.getElementById("endscreen").classList.add("dNone");
+    document.getElementById("startscreen").classList.add("dNone");
+    document.getElementById("canvas").classList.remove("dNone");
 
-  initLevel1();
-  init();
-  playSound();
+    initLevel1();
+    init();
+    playSound();
+  }
 }
 
 function openKeyboard() {
@@ -109,6 +114,10 @@ function openKeyboard() {
 
 function playSound() {
   if (world && world.soundManager) {
+    let audio = world.soundManager.play("backgroundMusic", "0.15");
+    if (audio) {
+      audio.currentTime = 0;
+    }
     world.soundManager.play("backgroundMusic", "0.15");
   }
 }

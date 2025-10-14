@@ -31,6 +31,9 @@ class SoundManager {
         if (this.soundsMuted) {
           this[key].pause();
           this[key].currentTime = 0;
+        } else {
+          this.play("backgroundMusic", 0.15);
+          localStorage.setItem("soundsMuted", !this.soundsMuted);
         }
       }
     }
