@@ -59,6 +59,7 @@ class Endboss extends MoveableObject {
     this.animate();
   }
 
+  // kürzen
   animate() {
     setInterval(() => {
       if (this.isActive && (this.currentStatus === "walking" || this.currentStatus === "attack")) {
@@ -107,7 +108,7 @@ class Endboss extends MoveableObject {
   startRunning() {
     if (this.currentStatus === "dead") return;
     this.currentStatus = "attack";
-    this.speed += 0.15;
+    this.speed += 0.05;
   }
 
   takesDamage() {
@@ -117,6 +118,9 @@ class Endboss extends MoveableObject {
       this.gotHit = true;
     } else {
       this.currentStatus = "attack";
+      setTimeout(() => {
+        this.gotHit = false;
+      }, 200);
     }
   }
 

@@ -95,6 +95,7 @@ class World {
     });
   }
 
+  // kürzen
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
@@ -185,6 +186,7 @@ class World {
     }, 100);
   }
 
+  // kürzen
   checkBottleCollisionWithSmallChicken() {
     this.throwableObjects.forEach((bottle, bIndex) => {
       this.level.smallEnemies.forEach((smallEnemy, sEnemyIndex) => {
@@ -205,6 +207,7 @@ class World {
     });
   }
 
+  // kürzen
   checkBottleCollisionWithChicken() {
     this.throwableObjects.forEach((bottle, bIndex) => {
       this.level.enemies.forEach((enemy, enemyIndex) => {
@@ -225,6 +228,7 @@ class World {
     });
   }
 
+  // kürzen
   checkBottleCollisionWithEndboss() {
     this.throwableObjects.forEach((bottle, bIndex) => {
       this.level.endboss.forEach((e, eIndex) => {
@@ -358,6 +362,7 @@ class World {
     this.setSpawnPositionBottles();
   }
 
+  // kürzen
   characterIsStomping() {
     let enemies = this.level.getAllEnemies();
     let character = this.character;
@@ -366,6 +371,7 @@ class World {
       if (character.isStomping(enemy)) {
         enemy.hit(1);
         this.enemyIsScreaming();
+        character.jump();
         if (enemy.isDead()) {
           setTimeout(() => {
             if (this.level.enemies.includes(enemy)) {
@@ -381,6 +387,7 @@ class World {
     });
   }
 
+  // kürzen
   playGameWinningSound() {
     this.keyboard = {};
     let sound;

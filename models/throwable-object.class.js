@@ -35,6 +35,7 @@ class ThrowableObject extends MoveableObject {
     this.throw();
   }
 
+  // kürzen
   throw() {
     if (this.throwIntervall) clearInterval(this.throwIntervall);
     setInterval(() => {

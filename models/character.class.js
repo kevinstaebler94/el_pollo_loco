@@ -94,7 +94,7 @@ class Character extends MoveableObject {
 
     setInterval(() => {
       this.updateCharacterAnimation();
-    }, 200);
+    }, 100);
   }
 
   handleCharacterMovement() {
@@ -113,6 +113,7 @@ class Character extends MoveableObject {
     }
   }
 
+  // Kürzen
   updateCharacterAnimation() {
     let sound;
     if (this.isDead()) {

@@ -123,15 +123,15 @@ canvas {
 
 .navbar {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+  top: 0.75em;
+  right: 0.75em;
   display: flex;
   justify-content: center;
 }
 
 .navbar img {
   height: 72px;
-  padding: 0.5rem;
+  padding: 0.5em;
   cursor: pointer;
   transition: transform 0.35s ease-in-out;
 }
@@ -146,4 +146,30 @@ canvas {
 
 .buttonContainer img {
   height: 50px;
+}
+
+.buttonLayoutWrapperEndscreen img {
+  padding-bottom: 0.125em;
+  cursor: pointer;
+  transition: transform 0.35s ease-in-out;
+}
+
+.buttonLayoutWrapperEndscreen img:hover {
+  transform: scale(1.125);
+}
+
+.fade {
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.fade.active {
+  opacity: 1;
+  visibility: visible;
 }
