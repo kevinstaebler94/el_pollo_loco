@@ -1,114 +1,61 @@
 let level1;
 
 function initLevel1() {
-  level1 = new Level(
-    [new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken()],
-    [
-      new SmallChicken(),
-      new SmallChicken(),
-      new SmallChicken(),
-      new SmallChicken(),
-      new SmallChicken(),
-      new SmallChicken(),
-      new SmallChicken(),
-      new SmallChicken(),
-    ],
-    [new Endboss()],
-    [new Cloud()],
-    [new Bottle(), new Bottle(), new Bottle(), new Bottle(), new Bottle()],
-    [
-      new Coin(),
-      new Coin(),
-      new Coin(),
-      new Coin(),
-      new Coin(),
-      new Coin(),
-      new Coin(),
-      new Coin(),
-      new Coin(),
-      new Coin(),
-    ],
+  const enemies = enemyLoop();
+  const smallEnemies = smallEnemyLoop();
+  const bottles = bottleLoop();
+  const coins = coinLoop();
+  const backgrounds = backgroundLoop();
 
-    [
-      new BackgroundObject("img/5_background/layers/air.png", -720),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", -720),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", -720),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", -720),
+  level1 = new Level(enemies, smallEnemies, [new Endboss()], [new Cloud()], bottles, coins, backgrounds);
+}
 
-      new BackgroundObject("img/5_background/layers/air.png", 0),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 0),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 0),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 0),
+function enemyLoop() {
+  const enemies = [];
+  for (let i = 0; i < 5; i++) {
+    enemies.push(new Chicken());
+  }
+  return enemies;
+}
 
-      new BackgroundObject("img/5_background/layers/air.png", 720),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720),
+function smallEnemyLoop() {
+  const smallEnemies = [];
+  for (let i = 0; i < 7; i++) {
+    smallEnemies.push(new SmallChicken());
+  }
+  return smallEnemies;
+}
 
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 2),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 2),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 2),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 2),
+function bottleLoop() {
+  const bottles = [];
+  for (let i = 0; i < 5; i++) {
+    bottles.push(new Bottle());
+  }
+  return bottles;
+}
 
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 3),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 3),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 3),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 3),
+function coinLoop() {
+  const coins = [];
+  for (let i = 0; i < 7; i++) {
+    coins.push(new Coin());
+  }
+  return coins;
+}
 
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 4),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 4),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 4),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 4),
+function backgroundLoop() {
+  const layers = [
+    "img/5_background/layers/air.png",
+    "img/5_background/layers/3_third_layer/full.png",
+    "img/5_background/layers/2_second_layer/full.png",
+    "img/5_background/layers/1_first_layer/full.png",
+  ];
 
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 5),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 5),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 5),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 5),
-
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 6),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 6),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 6),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 6),
-
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 7),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 7),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 7),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 7),
-
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 8),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 8),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 8),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 8),
-
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 9),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 9),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 9),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 9),
-
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 10),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 10),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 10),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 10),
-
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 11),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 11),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 11),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 11),
-
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 12),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 12),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 12),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 12),
-
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 13),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 13),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 13),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 13),
-
-      new BackgroundObject("img/5_background/layers/air.png", 720 * 14),
-      new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 720 * 14),
-      new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 720 * 14),
-      new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 720 * 14),
-    ]
-  );
+  const backgrounds = [];
+  for (let i = -1; i <= 14; i++) {
+    const x = 720 * i;
+    for (let j = 0; j < layers.length; j++) {
+      backgrounds.push(new BackgroundObject(layers[j], x));
+    }
+  }
+  return backgrounds;
 }

@@ -157,19 +157,3 @@ canvas {
 .buttonLayoutWrapperEndscreen img:hover {
   transform: scale(1.125);
 }
-
-.fade {
-  pointer-events: none;
-  height: 0;
-  overflow: hidden;
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
-}
-
-.fade.active {
-  opacity: 1;
-  visibility: visible;
-}

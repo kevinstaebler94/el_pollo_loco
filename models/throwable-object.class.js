@@ -35,7 +35,6 @@ class ThrowableObject extends MoveableObject {
     this.throw();
   }
 
-  // kürzen
   throw() {
     if (this.throwIntervall) clearInterval(this.throwIntervall);
     setInterval(() => {
@@ -48,11 +47,18 @@ class ThrowableObject extends MoveableObject {
           break;
       }
     }, 100);
+    this.setThrowPhysics();
+    this.startMoveLoop();
+  }
+
+  setThrowPhysics() {
     this.percentage -= 20;
     this.speedY = 10;
     this.speedX = 5;
     this.applyGravitiy();
+  }
 
+  startMoveLoop() {
     if (this.moveIntervall) clearInterval(this.moveIntervall);
     setInterval(() => {
       this.x += 10;

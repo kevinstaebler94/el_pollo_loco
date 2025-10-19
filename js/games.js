@@ -7,37 +7,43 @@ function init() {
   soundManager = new SoundManager();
   world = new World(canvas, keyboard, soundManager);
 
+  addMouseClick();
+  addMouseMove();
+}
+
+function addMouseClick() {
   canvas.addEventListener("click", (event) => {
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
 
-    if (
-      mouseX >= world.soundButton.x &&
-      mouseX <= world.soundButton.x + world.soundButton.width &&
-      mouseY >= world.soundButton.y &&
-      mouseY <= world.soundButton.y + world.soundButton.height
-    ) {
+    if (isCursorOverSoundButton(mouseX, mouseY)) {
       world.soundButton.toggleSound();
     }
   });
+}
 
+function addMouseMove() {
   canvas.addEventListener("mousemove", (event) => {
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
 
-    if (
-      mouseX >= world.soundButton.x &&
-      mouseX <= world.soundButton.x + world.soundButton.width &&
-      mouseY >= world.soundButton.y &&
-      mouseY <= world.soundButton.y + world.soundButton.height
-    ) {
+    if (isCursorOverSoundButton(mouseX, mouseY)) {
       canvas.style.cursor = "pointer";
     } else {
       canvas.style.cursor = "default";
     }
   });
+}
+
+function isCursorOverSoundButton(mouseX, mouseY) {
+  return (
+    mouseX >= world.soundButton.x &&
+    mouseX <= world.soundButton.x + world.soundButton.width &&
+    mouseY >= world.soundButton.y &&
+    mouseY <= world.soundButton.y + world.soundButton.height
+  );
 }
 
 window.addEventListener("keydown", (e) => {
