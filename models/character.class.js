@@ -113,31 +113,53 @@ class Character extends MoveableObject {
     }
   }
 
-  // Kürzen
   updateCharacterAnimation() {
-    let sound;
     if (this.isDead()) {
-      this.playAnimation(this.IMAGES_DEAD);
-      sound = this.soundManager.stop("snoringSound", 0.15);
-    } else if (this.isHurt()) {
-      this.playAnimation(this.IMAGES_HURT);
-      sound = this.soundManager.stop("snoringSound");
-    } else if (this.isAboveGround()) {
-      this.playAnimation(this.IMAGES_JUMPING);
-      sound = this.soundManager.stop("snoringSound");
+      this.handleDead();
+      return;
+    }
+    if (this.isHurt()) {
+      this.handleHurt();
+      return;
+    }
+    if (this.isAboveGround()) {
+      this.handleAboveGround();
+      return;
+    }
+    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      this.handleWalking();
+      return;
+    }
+    this.handleIdle();
+  }
+
+  handleDead() {
+    this.playAnimation(this.IMAGES_DEAD);
+    this.soundManager.stop("snoringSound", 0.15);
+  }
+
+  handleHurt() {
+    this.playAnimation(this.IMAGES_HURT);
+    this.soundManager.stop("snoringSound");
+  }
+
+  handleAboveGround() {
+    this.playAnimation(this.IMAGES_JUMPING);
+    this.soundManager.stop("snoringSound");
+  }
+
+  handleWalking() {
+    this.playAnimation(this.IMAGES_WALKING);
+    this.soundManager.stop("snoringSound");
+  }
+
+  handleIdle() {
+    const timeSinceLastMove = Date.now();
+    if (timeSinceLastMove - this.lastMove > 5000) {
+      this.playAnimation(this.IMAGES_LONG_IDLE);
+      this.soundManager.play("snoringSound", "0.15");
     } else {
-      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        this.playAnimation(this.IMAGES_WALKING);
-        sound = this.soundManager.stop("snoringSound");
-      } else {
-        const timeSinceLastMove = Date.now();
-        if (timeSinceLastMove - this.lastMove > 5000) {
-          this.playAnimation(this.IMAGES_LONG_IDLE);
-          sound = this.soundManager.play("snoringSound", "0.15");
-        } else {
-          this.playAnimation(this.IMAGES_IDLE);
-        }
-      }
+      this.playAnimation(this.IMAGES_IDLE);
     }
   }
 

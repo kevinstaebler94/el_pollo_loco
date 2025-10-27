@@ -41,6 +41,8 @@ canvas {
   background-color: black;
   border: 3px solid black;
   border-radius: 5px;
+  height: 480px;
+  width: 720px;
 }
 
 .startscreen,
@@ -156,4 +158,14 @@ canvas {
 
 .buttonLayoutWrapperEndscreen img:hover {
   transform: scale(1.125);
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  h1 {
+    display: none;
+  }
+  .startscreen,
+  .endscreen,
+  canvas {
+  }
 }
