@@ -6,7 +6,7 @@ class Character extends MoveableObject {
   speed = 10;
   coins = 0;
   lastMove = Date.now();
-  lastHit = Date.now();
+  lastHit = 0;
 
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",

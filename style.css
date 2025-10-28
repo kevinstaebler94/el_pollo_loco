@@ -41,8 +41,6 @@ canvas {
   background-color: black;
   border: 3px solid black;
   border-radius: 5px;
-  height: 480px;
-  width: 720px;
 }
 
 .startscreen,
@@ -160,12 +158,27 @@ canvas {
   transform: scale(1.125);
 }
 
-@media screen and (min-width: 768px) and (max-width: 1024px) {
+@media screen and (max-width: 1024px) {
   h1 {
     display: none;
   }
-  .startscreen,
-  .endscreen,
+
   canvas {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .tiltScreen {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    font-size: 2rem;
+    font-family: "Rye", serif;
+    color: white;
   }
 }

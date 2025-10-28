@@ -88,6 +88,16 @@ window.addEventListener("keyup", (e) => {
   }
 });
 
+window.addEventListener("resize", () => {
+  resizeCanvas();
+});
+
+function resizeCanvas() {
+  const aspectRatio = 720 / 480;
+  let canvasWidth = window.innerWidth;
+  let canvasHeight = window.innerHeight;
+}
+
 function startGame() {
   let controlsEndscreen = document.getElementById("controlsEndscreen");
   if (controlsEndscreen) {
