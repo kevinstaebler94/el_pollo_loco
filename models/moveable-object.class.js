@@ -5,6 +5,7 @@ class MoveableObject extends DrawableObject {
   acceleration = 2.5;
   energy = 100;
   lastHit = 0;
+  onGroundY = 140;
   screamingSound = new Audio("audio/chicken_sound.wav");
 
   applyGravitiy() {
@@ -13,19 +14,21 @@ class MoveableObject extends DrawableObject {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       }
+      if (this instanceof Character && this.y > this.onGroundY) {
+        this.y = this.onGroundY;
+        this.speedY = 0;
+      }
     }, 1000 / 35);
   }
 
   isAboveGround() {
     if (this instanceof ThrowableObject) {
-      //Throwable objects should always fall
       return true;
     } else {
       return this.y < 140;
     }
   }
 
-  // character.isColliding(chicken);
   isColliding(mo) {
     return (
       this.x < mo.x + mo.width && this.x + this.width > mo.x && this.y < mo.y + mo.height && this.y + this.height > mo.y
@@ -49,8 +52,8 @@ class MoveableObject extends DrawableObject {
   }
 
   isHurt() {
-    let timepassed = new Date().getTime() - this.lastHit; // Difference in ms
-    timepassed / 500; // Difference in s
+    let timepassed = new Date().getTime() - this.lastHit;
+    timepassed / 500;
     return timepassed < 500;
   }
 
@@ -60,8 +63,7 @@ class MoveableObject extends DrawableObject {
 
   playAnimation(images) {
     this.currentImage = this.currentImage || 0;
-    let i = this.currentImage % images.length; // let i = 7 % 6 => 1, Rest 1
-    // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0 ...
+    let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imageCache[path];
     this.currentImage++;
