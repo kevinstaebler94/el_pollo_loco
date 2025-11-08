@@ -1,0 +1,208 @@
+@media screen and (max-width: 1024px) {
+   html,
+   body {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+   }
+
+   .buttonLayoutWrapper {
+      display: none !important;
+   }
+
+   .mobileControls {
+      display: flex !important;
+   }
+
+   h1 {
+      font-size: 3.5rem;
+   }
+
+   canvas {
+      width: 100vw;
+      height: auto;
+      aspect-ratio: 720 / 480;
+      border: none;
+      border-radius: 0;
+      object-fit: contain;
+   }
+
+   .startscreen,
+   .endscreen {
+      width: 100vw;
+      max-width: 100vw;
+      height: auto;
+      aspect-ratio: 720 / 480;
+      border: none;
+      border-radius: 0;
+   }
+
+   .buttonLayoutWrapperEndscreen {
+      border: none;
+      border-radius: 0;
+      max-width: 100%;
+   }
+}
+
+@media screen and (max-width: 896px) and (orientation: portrait) {
+   html,
+   body {
+      overflow: hidden;
+      height: 100vh;
+      height: 100dvh;
+   }
+
+   .mobileControls,
+   .buttonLayoutWrapper,
+   canvas,
+   .startscreen,
+   .endscreen,
+   h1 {
+      display: none !important;
+   }
+
+   .tiltScreen {
+      display: flex !important;
+      height: 100vh;
+      height: 100dvh;
+      width: 100vw;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      background-color: rgba(0, 0, 0, 0.95);
+      font-size: 1.5rem;
+      font-family: "Rye", serif;
+      color: #ffd700;
+      text-align: center;
+      padding: 2em;
+   }
+}
+
+@media screen and (max-width: 896px) and (orientation: landscape) {
+   html,
+   body {
+      overflow: hidden;
+      position: fixed;
+      height: 100vh;
+      height: 100dvh;
+      width: 100vw;
+   }
+
+   h1 {
+      display: none;
+   }
+
+   .buttonLayoutWrapper {
+      display: none !important;
+   }
+
+   .mobileControls {
+      display: flex !important;
+      bottom: env(safe-area-inset-bottom, 10px);
+      padding: 0 max(20px, env(safe-area-inset-left)) 0 max(20px, env(safe-area-inset-right));
+   }
+
+   canvas {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      max-width: 100vw;
+      max-height: 100vh;
+      max-height: 100dvh;
+      aspect-ratio: auto;
+      border: none;
+      object-fit: contain;
+   }
+
+   .startscreen,
+   .endscreen {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      max-width: 100vw;
+      border: none;
+   }
+
+   .startscreen img {
+      object-fit: cover;
+   }
+
+   .controlBtn {
+      width: 55px;
+      height: 55px;
+   }
+
+   .controlBtn.spaceButton {
+      width: 65px;
+      height: 65px;
+   }
+
+   .controlBtn.dButton {
+      width: 50px;
+      height: 50px;
+   }
+
+   .controlsLeft,
+   .controlsRight {
+      gap: 12px;
+   }
+}
+
+@media screen and (max-height: 450px) and (orientation: landscape) {
+   .mobileControls {
+      bottom: 3px;
+      padding: 0 15px;
+   }
+
+   .controlBtn {
+      width: 45px;
+      height: 45px;
+   }
+
+   .controlBtn.spaceButton {
+      width: 55px;
+      height: 55px;
+   }
+
+   .controlBtn.dButton {
+      width: 40px;
+      height: 40px;
+   }
+
+   .controlsLeft,
+   .controlsRight {
+      gap: 8px;
+   }
+}
+
+@media screen and (max-width: 932px) and (orientation: landscape) {
+   canvas {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      object-fit: contain;
+      transform: scale(1);
+   }
+
+   .mobileControls {
+      bottom: 5px;
+   }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+   .buttonLayoutWrapper {
+      display: none !important;
+   }
+
+   .mobileControls {
+      display: flex !important;
+   }
+
+   canvas {
+      object-fit: contain;
+   }
+}

@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google" content="notranslate" />
-    <link rel="stylesheet" href="style.css" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
     <link rel="shortcut icon" href="img/favicon/favicon.png" type="image/x-icon" />
     <script src="models/drawable-object.js"></script>
     <script src="models/moveable-object.class.js"></script>
@@ -69,6 +72,26 @@
       <div class="buttonContainer">
         <img class="dButton" src="img/buttons/d_button_icon.svg" alt="" />
         <span>THROW</span>
+      </div>
+    </div>
+
+    <div class="mobileControls dNone" id="mobileControls">
+      <div class="controlsLeft">
+        <button class="controlBtn arrowLeft">
+          <img src="img/buttons/mobile_left.svg" alt="Left">
+        </button>
+        <button class="controlBtn arrowRight">
+          <img src="img/buttons/mobile_right.svg" alt="Right">
+        </button>
+      </div>
+      
+      <div class="controlsRight">
+        <button class="controlBtn spaceButton">
+          <img src="img/buttons/mobile_jump.svg" alt="Jump">
+        </button>
+        <button class="controlBtn dButton">
+          <img src="img/buttons/mobile_throw.svg" alt="Throw">
+        </button>
       </div>
     </div>
 

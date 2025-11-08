@@ -1,0 +1,21 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient Definition -->
+  <defs>
+    <radialGradient id="brownGradient">
+      <stop offset="0%" style="stop-color:#A0522D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Outer Circle -->
+  <circle cx="50" cy="50" r="45" fill="#8B4513" stroke="#FFD700" stroke-width="4"/>
+  
+  <!-- Shadow/Depth -->
+  <circle cx="50" cy="50" r="45" fill="url(#brownGradient)" opacity="0.8"/>
+  
+  <!-- Inner Highlight -->
+  <circle cx="50" cy="48" r="40" fill="none" stroke="#D2691E" stroke-width="2" opacity="0.3"/>
+  
+  <!-- Arrow -->
+  <path d="M 60 30 L 40 50 L 60 70" fill="none" stroke="#FFD700" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

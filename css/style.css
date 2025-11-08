@@ -1,0 +1,240 @@
+@font-face {
+   font-family: Rye;
+   src: url(fonts/Rye-Regular.ttf);
+}
+
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+html {
+   font-size: 16px;
+   overflow: hidden;
+   width: 100%;
+   height: 100%;
+   position: fixed;
+}
+
+body {
+   height: 100vh;
+   height: 100dvh;
+   width: 100vw;
+   margin: 0;
+   padding: 0;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   background-image: url("img/5_background/fullscreen_background/background_image.jpg");
+   background-size: cover;
+   background-position: top;
+   overflow: hidden;
+   position: fixed;
+   -webkit-text-size-adjust: 100%;
+}
+
+h1 {
+   font-family: "Rye", serif;
+   font-size: 6rem;
+   letter-spacing: 2px;
+   color: #ffd700;
+   margin-bottom: 0em;
+   text-shadow:
+      3px 3px 0px #d4a017,
+      5px 5px 0px #8b6914,
+      6px 6px 10px rgba(0, 0, 0, 0.4);
+}
+
+canvas {
+   background-color: black;
+   border: 3px solid black;
+   max-width: 100%;
+   height: auto;
+   display: block;
+   touch-action: none;
+}
+
+.startscreen,
+.endscreen {
+   max-width: 720px;
+   height: 480px;
+   position: relative;
+   border: 3px solid black;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.startscreen img {
+   width: 100%;
+   height: 100%;
+   object-fit: contain;
+}
+
+.won {
+   width: 50%;
+   height: 25%;
+   position: absolute;
+}
+
+.lost {
+   width: 65%;
+   height: 35%;
+   position: absolute;
+}
+
+.layer2 {
+   width: 100%;
+   height: 100%;
+}
+
+.buttonLayoutWrapper {
+   margin: 0.5em 0;
+   padding: 0.5em 1em;
+   display: flex;
+   justify-content: space-between;
+   gap: 2.75em;
+   max-width: 720px;
+   width: 100%;
+   border: 3px solid black;
+   background-color: rgba(32, 29, 29, 0.301);
+}
+
+.buttonLayoutWrapperEndscreen {
+   margin: 0.5em 0;
+   padding: 0.5em;
+   display: flex;
+   justify-content: space-around;
+   gap: 2.75em;
+   max-width: 720px;
+   width: 100%;
+   border: 3px solid black;
+   background-color: rgba(32, 29, 29, 0.301);
+}
+
+.buttonContainer {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+
+.buttonLayoutWrapper span,
+.buttonLayoutWrapperEndscreen span {
+   font-weight: bold;
+   font-size: 1rem;
+   font-family: "Rye", serif;
+   letter-spacing: 2px;
+   color: #ffd90b;
+   text-shadow: 4px 1.25px 2px #826950;
+}
+
+.navbar {
+   position: absolute;
+   top: 0.75em;
+   right: 0.75em;
+   display: flex;
+   justify-content: center;
+}
+
+.navbar img {
+   height: 72px;
+   padding: 0.5em;
+   cursor: pointer;
+   transition: transform 0.35s ease-in-out;
+}
+
+.navbar img:hover {
+   transform: scale(1.125);
+}
+
+.dNone {
+   display: none !important;
+}
+
+.buttonContainer img {
+   height: 50px;
+}
+
+.buttonLayoutWrapperEndscreen img {
+   padding-bottom: 0.125em;
+   cursor: pointer;
+   transition: transform 0.35s ease-in-out;
+}
+
+.buttonLayoutWrapperEndscreen img:hover {
+   transform: scale(1.125);
+}
+
+.mobileControls {
+   position: fixed;
+   bottom: 20px;
+   left: 0;
+   right: 0;
+   width: 100%;
+   display: none !important;
+   justify-content: space-between;
+   align-items: flex-end;
+   padding: 0 30px;
+   z-index: 1000;
+   pointer-events: none;
+   touch-action: none;
+}
+
+.controlsLeft,
+.controlsRight {
+   display: flex;
+   gap: 15px;
+   pointer-events: all;
+}
+
+.controlsLeft {
+   align-items: flex-end;
+}
+
+.controlsRight {
+   flex-direction: column;
+   align-items: center;
+   gap: 10px;
+}
+
+.controlBtn {
+   width: 70px;
+   height: 70px;
+   border: none;
+   background: transparent;
+   padding: 0;
+   cursor: pointer;
+   user-select: none;
+   -webkit-user-select: none;
+   -webkit-tap-highlight-color: transparent;
+   transition: all 0.1s ease;
+   touch-action: manipulation;
+}
+
+.controlBtn img {
+   width: 100%;
+   height: 100%;
+   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+   pointer-events: none;
+}
+
+.controlBtn:active {
+   transform: scale(0.9);
+}
+
+.controlBtn:active img {
+   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8)) brightness(0.85);
+}
+
+.controlBtn.spaceButton {
+   width: 80px;
+   height: 80px;
+}
+
+.controlBtn.dButton {
+   width: 65px;
+   height: 65px;
+}
