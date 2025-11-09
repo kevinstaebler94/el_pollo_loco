@@ -1,6 +1,6 @@
 @font-face {
    font-family: Rye;
-   src: url(fonts/Rye-Regular.ttf);
+   src: url(../fonts/Rye-Regular.ttf);
 }
 
 * {
@@ -27,7 +27,7 @@ body {
    flex-direction: column;
    align-items: center;
    justify-content: center;
-   background-image: url("img/5_background/fullscreen_background/background_image.jpg");
+   background-image: url("../img/5_background/fullscreen_background/background_image.jpg");
    background-size: cover;
    background-position: top;
    overflow: hidden;

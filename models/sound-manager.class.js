@@ -7,7 +7,12 @@ class SoundManager {
       this.ouchSound = new Audio("audio/ouch_sound.mp3");
       this.snoringSound = new Audio("audio/snoring_sound.mp3");
       this.screamingSoundChicken = new Audio("audio/chicken_sound.wav");
+      this.endbossMusic = new Audio("audio/bossfight.mp3");
+      this.screamingSound = new Audio("audio/endboss_screaming_sound.mp3");
+
       this.soundsMuted = localStorage.getItem("soundsMuted") === "true";
+      this.currentMusic = null;
+
       if (localStorage.getItem("soundsMuted") === null) {
          localStorage.setItem("soundsMuted", "false");
       }
@@ -21,24 +26,34 @@ class SoundManager {
       }
    }
 
-   play(soundName, volume) {
-      if (!this.soundsMuted) {
+   play(soundName, volume, loop = false) {
+      if (!this.soundsMuted && this[soundName]) {
          this[soundName].volume = volume;
-         this[soundName].loop = false;
+         this[soundName].loop = loop;
          this[soundName].play();
+
+         if (soundName === "backgroundMusic" || soundName === "endbossMusic") {
+            this.currentMusic = soundName;
+         }
       }
       return this[soundName];
    }
 
    stop(soundName) {
-      this[soundName].pause();
+      if (this[soundName]) {
+         this[soundName].pause();
+         this[soundName].currentTime = 0;
+
+         if (soundName === this.currentMusic) {
+            this.currentMusic = null;
+         }
+      }
       return this[soundName];
    }
 
    toggleAllSounds() {
       this.soundsMuted = !this.soundsMuted;
       localStorage.setItem("soundsMuted", this.soundsMuted.toString());
-      console.log(localStorage.getItem("soundsMuted"));
 
       for (let key in this) {
          if (this[key] instanceof Audio) {
@@ -46,10 +61,17 @@ class SoundManager {
 
             if (this.soundsMuted) {
                this[key].pause();
-               this[key].currentTime = 0;
-            } else {
-               this.play("backgroundMusic", 0.15);
             }
+         }
+      }
+
+      if (!this.soundsMuted) {
+         if (this.currentMusic === "endbossMusic") {
+            this.play("endbossMusic", 0.2, true);
+         } else if (this.currentMusic === "backgroundMusic") {
+            this.play("backgroundMusic", 0.15, true);
+         } else {
+            this.play("backgroundMusic", 0.15, true);
          }
       }
    }

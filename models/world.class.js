@@ -18,13 +18,19 @@ class World {
    mainInterval;
    secondaryInterval;
 
-   constructor(canvas, keyboard, soundManager) {
+   constructor(canvas, keyboard, soundManager, endboss) {
+      this.endboss = endboss;
       this.soundManager = soundManager;
       this.character = new Character(this.soundManager);
       this.soundButton = new SoundButton(this.soundManager);
       this.ctx = canvas.getContext("2d");
       this.canvas = canvas;
       this.keyboard = keyboard;
+
+      if (this.level.endboss[0]) {
+         this.level.endboss[0].soundManager = this.soundManager;
+      }
+
       this.setSpawnPositions();
       this.draw();
       this.setWorld();
@@ -249,7 +255,7 @@ class World {
                   e.endbossIsDead();
                   setTimeout(() => {
                      this.level.endboss.splice(eIndex, 1);
-                     e.endbossMusic.pause();
+                     this.soundManager.stop("endbossMusic");
                   }, 1500);
                   this.playGameWinningSound();
                }
@@ -393,15 +399,15 @@ class World {
       let sound;
       if (!this.gameWinPlayed) {
          this.gameWinPlayed = true;
+         this.soundManager.stop("endbossMusic");
+         this.soundManager.stop("backgroundMusic");
+
          if (this.statusBarHealth.percentage === 100) {
-            this.level.endboss[0].endbossMusic.pause();
-            this.soundManager.stop("backgroundMusic");
             sound = this.soundManager.play("flawlessVictorySound", 0.6);
          } else {
-            this.level.endboss[0].endbossMusic.pause();
-            this.soundManager.stop("backgroundMusic");
             sound = this.soundManager.play("wellDoneSound", 0.6);
          }
+
          if (sound) {
             sound.onended = () => {
                this.stopAllIntervals();
@@ -415,7 +421,7 @@ class World {
       this.keyboard = {};
       let sound;
       if (this.statusBarHealth.percentage === 0 && !this.gameOverPlayed) {
-         this.level.endboss[0].endbossMusic.pause();
+         this.soundManager.stop("endbossMusic");
          this.soundManager.stop("backgroundMusic");
          sound = this.soundManager.play("gameOverSound", 0.6);
          this.gameOverPlayed = true;
