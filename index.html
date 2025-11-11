@@ -38,10 +38,34 @@
     <h1>El Pollo Loco</h1>
 
     <div id="startscreen" class="startscreen">
+      <div id="impressum" class="impressum dNone">
+        <h2>Impressum</h2> 
+        <p>Angaben gemäß § 5 DDG</p> 
+        <p>Kevin Stäbler<br> 
+        <br> 
+        August-Prym-Straße 4<br> 
+        52223 Stolberg (Rheinland) <br> 
+        </p> 
+        <p> <strong>Vertreten durch: </strong><br>
+        Kevin Stäbler<br>
+        </p> 
+        <p><strong>Kontakt:</strong> <br>
+        Telefon: 016090815160<br>
+        E-Mail: <a>kevinstaebler1994@outlook.de</a></br></p> 
+      </div>
+
+      <div id="storyline" class="storyline ">
+        <span>🌵 Pepe stürzt sich ins Chaos!
+          Zwischen gackernden 🐔 Hühnern jagt er nach den seltenen 🌶️ Tabasco-Flaschen – nur 5 im ganzen Level!
+          Er braucht sie alle, um das gefürchtete Monster-Chicken 🐉🐔 zu besiegen.
+          🔥 Jeder Tropfen zählt, jeder Schritt brennt – doch Pepe gibt nicht auf!
+          Mit scharfem Verstand und noch schärferem Tabasco zieht er in den Endkampf! 💪🌶️💥
+        </span>
+      </div>
       <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="" />
       <nav class="navbar">
-        <img src="img/buttons/impressum_button.svg" alt="" />
-        <img src="img/buttons/information_button.svg" alt="" />
+        <img onclick="toggleImpressum()" src="img/buttons/impressum_button.svg" alt="" />
+        <img onclick="toggleGameInfo()" src="img/buttons/information_button.svg" alt="" />
         <img onclick="startGame()" src="img/buttons/play_button.svg" alt="" />
       </nav>
     </div>

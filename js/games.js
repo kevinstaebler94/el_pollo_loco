@@ -104,6 +104,18 @@ function startGame() {
    }
 }
 
+function toggleImpressum() {
+   const impressum = document.getElementById("impressum");
+   if (!impressum) return;
+   impressum.classList.toggle("dNone");
+}
+
+function toggleGameInfo() {
+   const storyline = document.getElementById("storyline");
+   if (!storyline) return;
+   storyline.classList.toggle("dNone");
+}
+
 function showMobileControlsIfNeeded() {
    const mobileControls = document.getElementById("mobileControls");
    if (mobileControls && window.innerWidth <= 1024) {
