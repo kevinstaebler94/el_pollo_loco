@@ -244,3 +244,9 @@ window.addEventListener("orientationchange", () => {
       }
    }, 100);
 });
+
+window.addEventListener("load", () => {
+   setTimeout(() => {
+      window.scrollTo(0, 1);
+   }, 100);
+});
