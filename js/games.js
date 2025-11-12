@@ -106,14 +106,36 @@ function startGame() {
 
 function toggleImpressum() {
    const impressum = document.getElementById("impressum");
+   const storylineElement = document.getElementById("storyline");
+   const startscreen = document.getElementById("startscreen");
    if (!impressum) return;
-   impressum.classList.toggle("dNone");
+   const storylineIsVisible = storylineElement && !storylineElement.classList.contains("dNone");
+   if (storylineIsVisible) {
+      storylineElement.classList.add("dNone");
+      impressum.classList.remove("dNone");
+   } else {
+      impressum.classList.toggle("dNone");
+   }
+   if (startscreen) {
+      startscreen.classList.toggle("blurred", !impressum.classList.contains("dNone"));
+   }
 }
 
 function toggleGameInfo() {
    const storyline = document.getElementById("storyline");
-   if (!storyline) return;
-   storyline.classList.toggle("dNone");
+   const impressumElement = document.getElementById("impressum");
+   const startscreen = document.getElementById("startscreen");
+   if (!impressum) return;
+   const impressumIsVisible = impressumElement && !impressumElement.classList.contains("dNone");
+   if (impressumIsVisible) {
+      impressumElement.classList.add("dNone");
+      storyline.classList.remove("dNone");
+   } else {
+      storyline.classList.toggle("dNone");
+   }
+   if (startscreen) {
+      startscreen.classList.toggle("blurred", !storyline.classList.contains("dNone"));
+   }
 }
 
 function showMobileControlsIfNeeded() {
