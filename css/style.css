@@ -30,7 +30,7 @@ body {
    justify-content: center;
    background-image: url("../img/5_background/fullscreen_background/background_image.jpg");
    background-size: cover;
-   background-position: top;
+   background-position: right;
    overflow: hidden;
    position: fixed;
    -webkit-text-size-adjust: 100%;

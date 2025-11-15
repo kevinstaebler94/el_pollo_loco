@@ -9,6 +9,7 @@ class SoundManager {
       this.screamingSoundChicken = new Audio("audio/chicken_sound.wav");
       this.endbossMusic = new Audio("audio/bossfight.mp3");
       this.screamingSound = new Audio("audio/endboss_screaming_sound.mp3");
+      this.breakingBottleSound = new Audio("audio/breaking_glass.mp3");
 
       this.soundsMuted = localStorage.getItem("soundsMuted") === "true";
       this.currentMusic = null;

@@ -61,7 +61,7 @@ class World {
    checkThrowObjects() {
       if (this.keyboard.D && this.hasBottles()) {
          this.statusBarBottle.setPercentage(this.statusBarBottle.percentage - 20);
-         let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+         let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.soundManager);
          this.throwableObjects.push(bottle);
       }
    }
