@@ -1,41 +1,42 @@
+/**
+ * Represents a drawable object in the game that can be rendered on canvas.
+ * Base class for all visual game objects.
+ */
 class DrawableObject {
-  img;
-  imageCache = {};
-  currentImage = 0;
-  x = 120;
-  y = 285;
-  height = 150;
-  width = 100;
+   img;
+   imageCache = {};
+   currentImage = 0;
+   x = 120;
+   y = 285;
+   height = 150;
+   width = 100;
 
-  //loadImage("img/test.png");
-  loadImage(path) {
-    this.img = new Image();
-    this.img.src = path;
-  }
+   /**
+    * Loads a single image from the specified path.
+    * @param {string} path - Path to the image file.
+    */
+   loadImage(path) {
+      this.img = new Image();
+      this.img.src = path;
+   }
 
-  draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  }
+   /**
+    * Draws the object's image on the canvas context.
+    * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+    */
+   draw(ctx) {
+      ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+   }
 
-  // drawFrame(ctx) {
-  //   if (this instanceof Character || this instanceof Chicken) {
-  //     ctx.lineWidth = "2";
-  //     ctx.beginPath();
-  //     ctx.strokeStyle = "blue";
-  //     ctx.rect(this.x, this.y, this.width, this.height);
-  //     ctx.stroke();
-  //   }
-  // }
-
-  /**
-   *
-   * @param {Array} arr - ["img/image1.png", "img/image2.png", ...]
-   */
-  loadImages(arr) {
-    arr.forEach((path) => {
-      let img = new Image();
-      img.src = path;
-      this.imageCache[path] = img;
-    });
-  }
+   /**
+    * Loads multiple images into the image cache for animations.
+    * @param {string[]} arr - Array of image file paths to preload.
+    */
+   loadImages(arr) {
+      arr.forEach((path) => {
+         let img = new Image();
+         img.src = path;
+         this.imageCache[path] = img;
+      });
+   }
 }

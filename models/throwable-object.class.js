@@ -1,3 +1,7 @@
+/**
+ * Represents a throwable bottle object that can be thrown by the character.
+ * @extends MoveableObject
+ */
 class ThrowableObject extends MoveableObject {
    speedY = 30;
    speedX = 20;
@@ -6,7 +10,6 @@ class ThrowableObject extends MoveableObject {
    moveIntervall = null;
    splashIntervall = null;
    currentStatus = "throwing";
-   // breakingBottleSound = new Audio("audio/breaking_glass.mp3");
 
    IMAGES_THROWING = [
       "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
@@ -24,6 +27,12 @@ class ThrowableObject extends MoveableObject {
       "img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
    ];
 
+   /**
+    * Creates a throwable bottle at the specified position.
+    * @param {number} x - Horizontal starting position of the bottle.
+    * @param {number} y - Vertical starting position of the bottle.
+    * @param {SoundManager} soundManager - The sound manager instance for playing audio.
+    */
    constructor(x, y, soundManager) {
       super();
       this.soundManager = soundManager;
@@ -37,6 +46,10 @@ class ThrowableObject extends MoveableObject {
       this.throw();
    }
 
+   /**
+    * Initiates the throwing animation and physics.
+    * Sets up animation loop and starts the bottle's movement.
+    */
    throw() {
       if (this.throwIntervall) clearInterval(this.throwIntervall);
       setInterval(() => {
@@ -53,6 +66,10 @@ class ThrowableObject extends MoveableObject {
       this.startMoveLoop();
    }
 
+   /**
+    * Sets the physics properties for the bottle throw.
+    * Applies initial velocity and gravity to simulate realistic throwing motion.
+    */
    setThrowPhysics() {
       this.percentage -= 20;
       this.speedY = 10;
@@ -60,6 +77,10 @@ class ThrowableObject extends MoveableObject {
       this.applyGravitiy();
    }
 
+   /**
+    * Starts the horizontal movement loop for the bottle.
+    * Moves the bottle continuously to the right.
+    */
    startMoveLoop() {
       if (this.moveIntervall) clearInterval(this.moveIntervall);
       setInterval(() => {
@@ -67,6 +88,10 @@ class ThrowableObject extends MoveableObject {
       }, 10);
    }
 
+   /**
+    * Starts the splash animation when the bottle hits a target or ground.
+    * Plays breaking sound and stops all throwing animations.
+    */
    startSplashAnimation() {
       this.playBreakingBottleSound();
       if (this.throwIntervall) clearInterval(this.throwIntervall);
@@ -84,6 +109,9 @@ class ThrowableObject extends MoveableObject {
       }, 100);
    }
 
+   /**
+    * Plays the breaking bottle sound effect when the bottle shatters.
+    */
    playBreakingBottleSound() {
       this.soundManager.play("breakingBottleSound", 0.2, false);
    }

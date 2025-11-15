@@ -1,3 +1,7 @@
+/**
+ * Represents the final boss enemy in the game.
+ * @extends MoveableObject
+ */
 class Endboss extends MoveableObject {
    height = 500;
    width = 300;
@@ -36,17 +40,13 @@ class Endboss extends MoveableObject {
       "img/4_enemie_boss_chicken/3_attack/G19.png",
       "img/4_enemie_boss_chicken/3_attack/G20.png",
    ];
-   IMAGES_HURT = [
-      "img/4_enemie_boss_chicken/4_hurt/G21.png",
-      "img/4_enemie_boss_chicken/4_hurt/G22.png",
-      "img/4_enemie_boss_chicken/4_hurt/G23.png",
-   ];
-   IMAGES_DEAD = [
-      "img/4_enemie_boss_chicken/5_dead/G24.png",
-      "img/4_enemie_boss_chicken/5_dead/G25.png",
-      "img/4_enemie_boss_chicken/5_dead/G26.png",
-   ];
+   IMAGES_HURT = ["img/4_enemie_boss_chicken/4_hurt/G21.png", "img/4_enemie_boss_chicken/4_hurt/G22.png", "img/4_enemie_boss_chicken/4_hurt/G23.png"];
+   IMAGES_DEAD = ["img/4_enemie_boss_chicken/5_dead/G24.png", "img/4_enemie_boss_chicken/5_dead/G25.png", "img/4_enemie_boss_chicken/5_dead/G26.png"];
 
+   /**
+    * Creates the endboss at the end of the level.
+    * Preloads all animation images and starts the animation cycle.
+    */
    constructor() {
       super().loadImage(this.IMAGES_WALKING[0]);
       this.loadImages(this.IMAGES_WALKING);
@@ -58,7 +58,10 @@ class Endboss extends MoveableObject {
       this.animate();
    }
 
-   // kürzen
+   /**
+    * Starts the endboss's animation loops for movement and visual updates.
+    * Handles left movement during walking/attack states and updates animations based on current status.
+    */
    animate() {
       setInterval(() => {
          if (this.isActive && (this.currentStatus === "walking" || this.currentStatus === "attack")) {
@@ -66,27 +69,27 @@ class Endboss extends MoveableObject {
          }
       }, 1000 / 60);
 
-      setInterval(() => {
-         switch (this.currentStatus) {
-            case "alert":
-               this.playAnimation(this.IMAGES_ALERT);
-               break;
-            case "attack":
-               this.playAnimation(this.IMAGES_ATTACK);
-               break;
-            case "hurt":
-               this.playAnimation(this.IMAGES_HURT);
-               break;
-            case "dead":
-               this.playAnimation(this.IMAGES_DEAD);
-               break;
-            default:
-               this.playAnimation(this.IMAGES_WALKING);
-               break;
-         }
-      }, 200);
+      setInterval(() => this.updateAnimation(), 200);
    }
 
+   /**
+    * Updates the endboss's animation based on current status.
+    * Uses an animation map to select appropriate image sequence for each state.
+    */
+   updateAnimation() {
+      const animations = {
+         alert: this.IMAGES_ALERT,
+         attack: this.IMAGES_ATTACK,
+         hurt: this.IMAGES_HURT,
+         dead: this.IMAGES_DEAD,
+      };
+      this.playAnimation(animations[this.currentStatus] || this.IMAGES_WALKING);
+   }
+
+   /**
+    * Activates the endboss when the character first encounters it.
+    * Plays endboss music and changes status to walking.
+    */
    endbossAppears() {
       if (!this.hadFirstContact && this.soundManager) {
          this.currentStatus = "walking";
@@ -96,18 +99,31 @@ class Endboss extends MoveableObject {
       }
    }
 
+   /**
+    * Triggers when the endboss spots the character.
+    * Changes status to alert mode if not already dead.
+    */
    spottedCharacter() {
       if (this.currentStatus === "dead") return;
       this.currentStatus = "alert";
       this.isActive = true;
    }
 
+   /**
+    * Initiates the endboss's attack mode.
+    * Increases movement speed and changes status to attack if not dead.
+    */
    startRunning() {
       if (this.currentStatus === "dead") return;
       this.currentStatus = "attack";
       this.speed += 0.05;
    }
 
+   /**
+    * Handles damage taken by the endboss.
+    * Shows hurt animation on first hit, returns to attack on subsequent hits.
+    * Does nothing if already dead.
+    */
    takesDamage() {
       if (this.currentStatus === "dead") return;
       if (!this.gotHit) {
@@ -121,11 +137,18 @@ class Endboss extends MoveableObject {
       }
    }
 
+   /**
+    * Handles the endboss's death.
+    * Changes status to dead and deactivates the endboss.
+    */
    endbossIsDead() {
       this.currentStatus = "dead";
       this.isActive = false;
    }
 
+   /**
+    * Plays the endboss's screaming sound effect.
+    */
    startsScreaming() {
       if (this.soundManager) {
          this.soundManager.play("endbossScreamingSound", 0.6, false);

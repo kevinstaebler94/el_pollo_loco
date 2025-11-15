@@ -1,4 +1,12 @@
+/**
+ * Manages all game audio including background music, sound effects, and mute state.
+ * Handles audio playback, volume control, and persists mute settings in localStorage.
+ */
 class SoundManager {
+   /**
+    * Creates a sound manager and initializes all audio assets.
+    * Loads mute state from localStorage and applies it to all audio elements.
+    */
    constructor() {
       this.backgroundMusic = new Audio("audio/mexica_background_music.mp3");
       this.wellDoneSound = new Audio("audio/well_done.wav");
@@ -8,8 +16,9 @@ class SoundManager {
       this.snoringSound = new Audio("audio/snoring_sound.mp3");
       this.screamingSoundChicken = new Audio("audio/chicken_sound.wav");
       this.endbossMusic = new Audio("audio/bossfight.mp3");
-      this.screamingSound = new Audio("audio/endboss_screaming_sound.mp3");
+      this.endbossScreamingSound = new Audio("audio/endboss_screaming_sound.mp3");
       this.breakingBottleSound = new Audio("audio/breaking_glass.mp3");
+      this.collectSound = new Audio("audio/collect_coin.mp3");
 
       this.soundsMuted = localStorage.getItem("soundsMuted") === "true";
       this.currentMusic = null;
@@ -27,6 +36,13 @@ class SoundManager {
       }
    }
 
+   /**
+    * Plays a specific sound or music track.
+    * @param {string} soundName - Name of the sound property to play.
+    * @param {number} volume - Volume level (0.0 to 1.0).
+    * @param {boolean} [loop=false] - Whether the sound should loop continuously.
+    * @returns {Audio|undefined} The audio element being played, or undefined if sound doesn't exist.
+    */
    play(soundName, volume, loop = false) {
       if (!this.soundsMuted && this[soundName]) {
          this[soundName].volume = volume;
@@ -40,6 +56,11 @@ class SoundManager {
       return this[soundName];
    }
 
+   /**
+    * Stops a specific sound and resets its playback position.
+    * @param {string} soundName - Name of the sound property to stop.
+    * @returns {Audio|undefined} The audio element being stopped, or undefined if sound doesn't exist.
+    */
    stop(soundName) {
       if (this[soundName]) {
          this[soundName].pause();
@@ -52,6 +73,10 @@ class SoundManager {
       return this[soundName];
    }
 
+   /**
+    * Toggles all game sounds on/off and persists the state in localStorage.
+    * When unmuting, automatically resumes the last playing background music.
+    */
    toggleAllSounds() {
       this.soundsMuted = !this.soundsMuted;
       localStorage.setItem("soundsMuted", this.soundsMuted.toString());
