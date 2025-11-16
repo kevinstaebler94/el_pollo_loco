@@ -37,12 +37,12 @@ class World {
       this.ctx = canvas.getContext("2d");
       this.canvas = canvas;
       this.keyboard = keyboard;
+      this.collisionDetection = new CollisionDetection(this);
+      this.spawnPositions = new SpawnPositions(this);
 
       if (this.level.endboss[0]) {
          this.level.endboss[0].soundManager = this.soundManager;
       }
-
-      this.setSpawnPositions();
       this.draw();
       this.setWorld();
       this.run();
@@ -61,10 +61,10 @@ class World {
    run() {
       this.mainInterval = setInterval(() => {
          this.characterIsStomping();
-         this.checkCollision();
-         this.checkCoinCollision();
-         this.checkBottleCollision();
-         this.checkBottleCollisionWithEnemy();
+         this.collisionDetection.checkCollision();
+         this.collisionDetection.checkCoinCollision();
+         this.collisionDetection.checkBottleCollision();
+         this.collisionDetection.checkBottleCollisionWithEnemy();
          this.checkHealth();
       }, 1000 / 60);
       this.secondaryInterval = setInterval(() => {
@@ -85,54 +85,6 @@ class World {
          let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.soundManager);
          this.throwableObjects.push(bottle);
       }
-   }
-
-   /**
-    * Checks for collisions between the character and all enemies.
-    * Applies damage to the character and updates health bar on collision.
-    */
-   checkCollision() {
-      let enemies = [...this.level.smallEnemies, ...this.level.enemies, ...this.level.endboss];
-
-      enemies.forEach((enemy) => {
-         if (this.character.isColliding(enemy)) {
-            if (!(this.character.y + this.character.height > enemy.y + 5 && this.character.speedY > 0))
-               if (enemy === this.level.endboss[0]) {
-                  this.character.hit(3);
-               } else {
-                  this.character.hit(0.5);
-               }
-            this.statusBarHealth.setPercentage(this.character.energy);
-            this.character.startsScreaming();
-         }
-      });
-   }
-
-   /**
-    * Checks for collisions between the character and bottles.
-    * Collects bottles and updates the bottle status bar.
-    */
-   checkBottleCollision() {
-      this.level.bottles.forEach((bottle, index) => {
-         if (this.character.isColliding(bottle)) {
-            this.level.bottles.splice(index, 1);
-            this.statusBarBottle.setPercentage(this.statusBarBottle.percentage + 20);
-         }
-      });
-   }
-
-   /**
-    * Checks for collisions between the character and coins.
-    * Collects coins and updates the coin status bar.
-    */
-   checkCoinCollision() {
-      this.level.coins.forEach((coin, index) => {
-         if (this.character.isColliding(coin)) {
-            this.level.coins.splice(index, 1);
-            this.statusBarCoin.setPercentage(this.statusBarCoin.percentage + 20);
-            this.soundManager.play("collectSound", 0.2, false);
-         }
-      });
    }
 
    /**
@@ -217,60 +169,13 @@ class World {
    spawnEndboss() {
       let backgroundMusic = this.soundManager.backgroundMusic;
       if (this.character.x >= 6000 && this.level.endboss.length > 0 && !this.statusBarEndboss) {
-         this.fadeOutMusic(backgroundMusic, () => {
+         this.soundManager.fadeOutMusic(backgroundMusic, () => {
             if (this.level.endboss[0]) {
                this.level.endboss[0].endbossAppears();
                this.statusBarEndboss = new StatusBar_Endboss();
             }
          });
       }
-   }
-
-   /**
-    * Gradually fades out audio volume and executes callback when complete.
-    * @param {Audio} audio - The audio element to fade out.
-    * @param {Function} callback - Function to execute after fade out completes.
-    */
-   fadeOutMusic(audio, callback) {
-      let fadeOutInterval = setInterval(() => {
-         if (audio.volume > 0.05) {
-            audio.volume -= 0.05;
-         } else {
-            audio.volume = 0;
-            audio.pause();
-            clearInterval(fadeOutInterval);
-            if (callback) callback();
-         }
-      }, 100);
-   }
-
-   /**
-    * Checks for bottle collisions with small chicken enemies.
-    */
-   checkBottleCollisionWithSmallChicken() {
-      this.checkBottleCollisionWithEnemyType(this.level.smallEnemies);
-   }
-
-   /**
-    * Checks for bottle collisions with normal chicken enemies.
-    */
-   checkBottleCollisionWithChicken() {
-      this.checkBottleCollisionWithEnemyType(this.level.enemies);
-   }
-
-   /**
-    * Generic method to check bottle collisions with a specific enemy type.
-    * @param {MoveableObject[]} enemyArray - Array of enemies to check collisions with.
-    */
-   checkBottleCollisionWithEnemyType(enemyArray) {
-      this.throwableObjects.forEach((bottle, bIndex) => {
-         enemyArray.forEach((enemy, enemyIndex) => {
-            if (enemy.isDead() || !bottle.isColliding(enemy)) return;
-            this.handleEnemyHit(enemy, bottle);
-            this.removeBottleAfterSplash(bottle, bIndex);
-            this.removeDeadEnemy(enemy, enemyArray, enemyIndex);
-         });
-      });
    }
 
    /**
@@ -307,20 +212,6 @@ class World {
             enemyArray.splice(index, 1);
          }, 500);
       }
-   }
-
-   /**
-    * Checks for bottle collisions with the endboss.
-    */
-   checkBottleCollisionWithEndboss() {
-      this.throwableObjects.forEach((bottle, bIndex) => {
-         this.level.endboss.forEach((endboss, eIndex) => {
-            if (endboss.isDead() || !bottle.isColliding(endboss) || bottle.hasHit) return;
-            this.handleEndbossHit(endboss, bottle);
-            this.removeBottleAfterSplash(bottle, bIndex);
-            if (endboss.isDead()) this.handleEndbossDeath(endboss, eIndex);
-         });
-      });
    }
 
    /**
@@ -362,30 +253,6 @@ class World {
    }
 
    /**
-    * Checks for bottle collisions with the ground and triggers splash animation.
-    */
-   checkBottleCollisionWithGround() {
-      this.throwableObjects.forEach((bottle, bIndex) => {
-         if (bottle.y + bottle.height >= this.groundY) {
-            bottle.startSplashAnimation();
-            setTimeout(() => {
-               this.throwableObjects.splice(bIndex, 1);
-            }, bottle.IMAGES_SPLASH.length * 100);
-         }
-      });
-   }
-
-   /**
-    * Master method that checks all types of bottle collisions.
-    */
-   checkBottleCollisionWithEnemy() {
-      this.checkBottleCollisionWithSmallChicken();
-      this.checkBottleCollisionWithChicken();
-      this.checkBottleCollisionWithEndboss();
-      this.checkBottleCollisionWithGround();
-   }
-
-   /**
     * Triggers endboss alert mode when character gets close enough.
     */
    endbossSpottedCharacter() {
@@ -414,79 +281,6 @@ class World {
             endboss.moveRight();
          }
       }, 200);
-   }
-
-   /**
-    * Sets random spawn positions for normal chicken enemies with minimum distance between them.
-    */
-   setSpawnPositionEnemies() {
-      let enemies = this.level.enemies;
-      let levelWidth = this.level.level_end_x - 2000;
-      let distance = 250;
-
-      enemies.forEach((enemy) => {
-         let enemyPos;
-         let spawns = 0;
-         do {
-            enemyPos = 500 + Math.random() * levelWidth;
-            enemyPos = Math.min(enemyPos, levelWidth - distance);
-            spawns++;
-         } while (this.enemyPositions.some((pos) => Math.abs(pos - enemyPos) < distance) && spawns < 100);
-         this.enemyPositions.push(enemyPos);
-         enemy.x = enemyPos;
-      });
-   }
-
-   /**
-    * Sets random spawn positions for small chicken enemies with minimum distance between them.
-    */
-   setSpawnPositionSmallEnemies() {
-      let smallEnemies = this.level.smallEnemies;
-      let levelWidth = this.level.level_end_x - 2000;
-      let distance = 500;
-
-      smallEnemies.forEach((enemy) => {
-         let enemyPos;
-         let spawns = 0;
-         do {
-            enemyPos = 500 + Math.random() * levelWidth;
-            enemyPos = Math.min(enemyPos, levelWidth - distance);
-            spawns++;
-         } while (this.enemyPositions.some((pos) => Math.abs(pos - enemyPos) < distance) && spawns < 100);
-         this.enemyPositions.push(enemyPos);
-         enemy.x = enemyPos;
-      });
-   }
-
-   /**
-    * Sets random spawn positions for bottles with minimum distance between them.
-    */
-   setSpawnPositionBottles() {
-      let bottles = this.level.bottles;
-      let levelWidth = this.level.level_end_x - 2000;
-      let distance = 350;
-      let bottlePositions = [];
-
-      bottles.forEach((bottle) => {
-         let bottlePos;
-         let spawns = 0;
-         do {
-            bottlePos = 500 + Math.random() * levelWidth;
-            bottlePos = Math.min(bottlePos, levelWidth - distance);
-            spawns++;
-         } while (bottlePositions.some((pos) => Math.abs(pos - bottlePos) < distance) && spawns < 100);
-         bottlePositions.push(bottlePos);
-         bottle.x = bottlePos;
-      });
-   }
-
-   /**
-    * Initializes spawn positions for all enemies and collectible items.
-    */
-   setSpawnPositions() {
-      this.setSpawnPositionEnemies();
-      this.setSpawnPositionSmallEnemies();
-      this.setSpawnPositionBottles();
    }
 
    /**
@@ -532,20 +326,12 @@ class World {
       if (this.gameWinPlayed) return;
       this.keyboard = {};
       this.gameWinPlayed = true;
-      this.stopBackgroundMusic();
+      this.soundManager.stopBackgroundMusic();
       const soundName = this.statusBarHealth.percentage === 100 ? "flawlessVictorySound" : "wellDoneSound";
       const sound = this.soundManager.play(soundName, 0.6);
       if (sound) {
          sound.onended = () => this.handleGameEnd();
       }
-   }
-
-   /**
-    * Stops all background music and boss music.
-    */
-   stopBackgroundMusic() {
-      this.soundManager.stop("endbossMusic");
-      this.soundManager.stop("backgroundMusic");
    }
 
    /**

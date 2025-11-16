@@ -81,24 +81,63 @@ class SoundManager {
       this.soundsMuted = !this.soundsMuted;
       localStorage.setItem("soundsMuted", this.soundsMuted.toString());
 
+      this.muteAllAudio();
+
+      if (!this.soundsMuted) {
+         this.resumeMusic();
+      }
+   }
+
+   /**
+    * Mutes or pauses all audio elements based on current mute state.
+    */
+   muteAllAudio() {
       for (let key in this) {
          if (this[key] instanceof Audio) {
             this[key].muted = this.soundsMuted;
-
             if (this.soundsMuted) {
                this[key].pause();
             }
          }
       }
+   }
 
-      if (!this.soundsMuted) {
-         if (this.currentMusic === "endbossMusic") {
-            this.play("endbossMusic", 0.2, true);
-         } else if (this.currentMusic === "backgroundMusic") {
-            this.play("backgroundMusic", 0.15, true);
-         } else {
-            this.play("backgroundMusic", 0.15, true);
-         }
+   /**
+    * Resumes the last playing music track after unmuting.
+    */
+   resumeMusic() {
+      if (this.currentMusic === "endbossMusic") {
+         this.play("endbossMusic", 0.2, true);
+      } else if (this.currentMusic === "backgroundMusic") {
+         this.play("backgroundMusic", 0.15, true);
+      } else {
+         this.play("backgroundMusic", 0.15, true);
       }
+   }
+
+   /**
+    * Stops all background music and boss music.
+    */
+   stopBackgroundMusic() {
+      this.stop("endbossMusic");
+      this.stop("backgroundMusic");
+   }
+
+   /**
+    * Gradually fades out audio volume and executes callback when complete.
+    * @param {Audio} audio - The audio element to fade out.
+    * @param {Function} callback - Function to execute after fade out completes.
+    */
+   fadeOutMusic(audio, callback) {
+      let fadeOutInterval = setInterval(() => {
+         if (audio.volume > 0.05) {
+            audio.volume -= 0.05;
+         } else {
+            audio.volume = 0;
+            audio.pause();
+            clearInterval(fadeOutInterval);
+            if (callback) callback();
+         }
+      }, 100);
    }
 }
