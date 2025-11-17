@@ -164,8 +164,10 @@ function backToHomescreen() {
    world = null;
 
    document.getElementById("canvas").classList.add("dNone");
+   document.getElementById("controlsEndscreen").classList.add("dNone");
    document.getElementById("endscreen").classList.add("dNone");
    document.getElementById("startscreen").classList.remove("dNone");
+   document.getElementById("controlsStartscreen").classList.remove("dNone");
 
    const mobileControls = document.getElementById("mobileControls");
    if (mobileControls) {

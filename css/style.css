@@ -74,10 +74,6 @@ canvas {
    transition: filter 0.3s ease;
 }
 
-.startscreen.blurred img {
-   filter: blur(8px);
-}
-
 .storyline,
 .impressum {
    position: absolute;

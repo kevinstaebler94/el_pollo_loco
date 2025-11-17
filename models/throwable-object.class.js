@@ -61,7 +61,7 @@ class ThrowableObject extends MoveableObject {
                this.playAnimation(this.IMAGES_THROWING);
                break;
          }
-      }, 100);
+      }, 1000 / 35);
       this.setThrowPhysics();
       this.startMoveLoop();
    }
@@ -72,7 +72,7 @@ class ThrowableObject extends MoveableObject {
     */
    setThrowPhysics() {
       this.percentage -= 20;
-      this.speedY = 10;
+      this.speedY = 15;
       this.speedX = 5;
       this.applyGravitiy();
    }
