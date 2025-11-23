@@ -327,6 +327,11 @@ class World {
       this.keyboard = {};
       this.gameWinPlayed = true;
       this.soundManager.stopBackgroundMusic();
+
+      if (this.soundManager.soundsMuted) {
+         this.handleGameEnd();
+         return;
+      }
       const soundName = this.statusBarHealth.percentage === 100 ? "flawlessVictorySound" : "wellDoneSound";
       const sound = this.soundManager.play(soundName, 0.6);
       if (sound) {
@@ -351,6 +356,13 @@ class World {
       if (this.statusBarHealth.percentage === 0 && !this.gameOverPlayed) {
          this.soundManager.stop("endbossMusic");
          this.soundManager.stop("backgroundMusic");
+
+         if (this.soundManager.soundsMuted) {
+            this.stopAllIntervals();
+            this.showEndScreen();
+            this.gameOverPlayed = true;
+            return;
+         }
          sound = this.soundManager.play("gameOverSound", 0.6);
          this.gameOverPlayed = true;
       }

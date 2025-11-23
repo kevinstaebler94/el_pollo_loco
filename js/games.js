@@ -69,17 +69,21 @@ function isCursorOverSoundButton(mouseX, mouseY) {
 function startGame() {
    let controlsEndscreen = document.getElementById("controlsEndscreen");
    if (controlsEndscreen) {
-      document.getElementById("endscreen").classList.add("dNone");
-      document.getElementById("startscreen").classList.add("dNone");
-      document.getElementById("canvas").classList.remove("dNone");
-
+      showCanvasElements();
       initLevel1();
       init();
       playSound();
-
-      showMobileControlsIfNeeded();
       initTouchControls();
+      document.getElementById("mobileControls").classList.remove("dNone");
+      document.getElementById("mobileControls").classList.add("dFlex");
    }
+}
+
+function showCanvasElements() {
+   document.getElementById("controlsEndscreen").classList.add("dNone");
+   document.getElementById("endscreen").classList.add("dNone");
+   document.getElementById("startscreen").classList.add("dNone");
+   document.getElementById("canvas").classList.remove("dNone");
 }
 
 /**
@@ -125,16 +129,6 @@ function toggleGameInfo() {
 }
 
 /**
- * Shows mobile controls if the viewport width is 1024px or less.
- */
-function showMobileControlsIfNeeded() {
-   const mobileControls = document.getElementById("mobileControls");
-   if (mobileControls && window.innerWidth <= 1024) {
-      mobileControls.classList.remove("dNone");
-   }
-}
-
-/**
  * Opens the keyboard binding overlay and hides the startscreen.
  */
 function openKeyboard() {
@@ -159,20 +153,20 @@ function backToHomescreen() {
    if (world && world.soundManager) {
       world.soundManager.stop("backgroundMusic");
    }
-
    keyboard = new Keyboard();
    world = null;
+   document.getElementById("mobileControls").classList.add("dNone");
+   document.getElementById("mobileControls").classList.remove("dFlex");
+   showHomescreenElements();
+   clearAllIntervals();
+}
 
+function showHomescreenElements() {
    document.getElementById("canvas").classList.add("dNone");
    document.getElementById("controlsEndscreen").classList.add("dNone");
    document.getElementById("endscreen").classList.add("dNone");
    document.getElementById("startscreen").classList.remove("dNone");
    document.getElementById("controlsStartscreen").classList.remove("dNone");
-
-   const mobileControls = document.getElementById("mobileControls");
-   if (mobileControls) {
-      mobileControls.classList.add("dNone");
-   }
 }
 
 /**
@@ -227,6 +221,12 @@ function initTouchControls() {
          e.preventDefault();
          keyboard.D = false;
       });
+   }
+}
+
+function clearAllIntervals() {
+   for (let i = 0; i < 9999; i++) {
+      clearInterval(i);
    }
 }
 

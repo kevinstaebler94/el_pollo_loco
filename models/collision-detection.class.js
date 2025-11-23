@@ -20,14 +20,16 @@ class CollisionDetection {
 
       enemies.forEach((enemy) => {
          if (this.world.character.isColliding(enemy)) {
-            if (!(this.world.character.y + this.world.character.height > enemy.y + 5 && this.world.character.speedY > 0))
+            const jumpedOnEnemy = this.world.character.y + this.world.character.height > enemy.y + 5 && this.world.character.speedY > 0;
+            if (!jumpedOnEnemy) {
                if (enemy === this.world.level.endboss[0]) {
                   this.world.character.hit(3);
                } else {
                   this.world.character.hit(0.5);
                }
-            this.world.statusBarHealth.setPercentage(this.world.character.energy);
-            this.world.character.startsScreaming();
+               this.world.statusBarHealth.setPercentage(this.world.character.energy);
+               this.world.character.startsScreaming();
+            }
          }
       });
    }
