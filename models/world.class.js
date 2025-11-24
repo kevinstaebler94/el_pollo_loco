@@ -327,7 +327,7 @@ class World {
       this.keyboard = {};
       this.gameWinPlayed = true;
       this.soundManager.stopBackgroundMusic();
-
+      this.soundManager.stop("snoringSound");
       if (this.soundManager.soundsMuted) {
          this.handleGameEnd();
          return;
@@ -356,7 +356,7 @@ class World {
       if (this.statusBarHealth.percentage === 0 && !this.gameOverPlayed) {
          this.soundManager.stop("endbossMusic");
          this.soundManager.stop("backgroundMusic");
-
+         this.soundManager.stop("snoringSound");
          if (this.soundManager.soundsMuted) {
             this.stopAllIntervals();
             this.showEndScreen();

@@ -21,7 +21,7 @@ class SoundButton extends DrawableObject {
          this.img = this.imageCache[this.unmute];
       }
 
-      this.x = 650;
+      this.x = canvas.width - this.width - 15;
       this.y = 11;
       this.width = 45;
       this.height = 45;

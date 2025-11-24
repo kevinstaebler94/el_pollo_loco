@@ -27,6 +27,25 @@ function addMouseClick() {
       if (isCursorOverSoundButton(mouseX, mouseY)) {
          world.soundButton.toggleSound();
       }
+
+      addTouch();
+   });
+}
+
+function addTouch() {
+   canvas.addEventListener("touchstart", (event) => {
+      const rect = canvas.getBoundingClientRect();
+      const touch = event.touches[0];
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const touchX = (touch.clientX - rect.left) * scaleX;
+      const touchY = (touch.clientY - rect.top) * scaleY;
+
+      if (isCursorOverSoundButton(touchX, touchY)) {
+         if (world && world.soundButton) {
+            world.soundButton.toggleSound();
+         }
+      }
    });
 }
 
@@ -54,12 +73,10 @@ function addMouseMove() {
  * @returns {boolean} True if cursor is over sound button, false otherwise.
  */
 function isCursorOverSoundButton(mouseX, mouseY) {
-   return (
-      mouseX >= world.soundButton.x &&
-      mouseX <= world.soundButton.x + world.soundButton.width &&
-      mouseY >= world.soundButton.y &&
-      mouseY <= world.soundButton.y + world.soundButton.height
-   );
+   const btn = world.soundButton;
+   const hit = btn && mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height;
+   console.log("Hitbox:", mouseX, mouseY, hit);
+   return hit;
 }
 
 /**
@@ -152,6 +169,7 @@ function playSound() {
 function backToHomescreen() {
    if (world && world.soundManager) {
       world.soundManager.stop("backgroundMusic");
+      world.soundManager.stop("snoringSound");
    }
    keyboard = new Keyboard();
    world = null;
