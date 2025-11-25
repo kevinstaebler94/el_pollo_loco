@@ -44,7 +44,7 @@ function smallEnemyLoop() {
  */
 function bottleLoop() {
    const bottles = [];
-   for (let i = 0; i < 5; i++) {
+   for (let i = 0; i < 15; i++) {
       bottles.push(new Bottle());
    }
    return bottles;

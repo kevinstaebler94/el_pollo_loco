@@ -13,13 +13,11 @@ class SoundManager {
       this.flawlessVictorySound = new Audio("audio/flawless_victory.wav");
       this.gameOverSound = new Audio("audio/game_over.wav");
       this.ouchSound = new Audio("audio/ouch_sound.mp3");
-      this.snoringSound = new Audio("audio/snoring_sound.mp3");
       this.screamingSoundChicken = new Audio("audio/chicken_sound.wav");
       this.endbossMusic = new Audio("audio/bossfight.mp3");
       this.endbossScreamingSound = new Audio("audio/endboss_screaming_sound.mp3");
       this.breakingBottleSound = new Audio("audio/breaking_glass.mp3");
       this.collectSound = new Audio("audio/collect_coin.mp3");
-
       this.soundsMuted = localStorage.getItem("soundsMuted") === "true";
       this.currentMusic = null;
 

@@ -10,21 +10,21 @@ class SoundButton extends DrawableObject {
     * Creates a sound button with mute/unmute icons.
     * Initializes with the current sound state (muted or unmuted).
     */
-   constructor() {
+   constructor(soundManager) {
       super();
       this.soundManager = soundManager;
       this.loadImages([this.mute, this.unmute]);
+
+      this.width = 45;
+      this.height = 45;
+      this.x = canvas.width - this.width - 15;
+      this.y = 11;
 
       if (this.soundManager.soundsMuted) {
          this.img = this.imageCache[this.mute];
       } else {
          this.img = this.imageCache[this.unmute];
       }
-
-      this.x = canvas.width - this.width - 15;
-      this.y = 11;
-      this.width = 45;
-      this.height = 45;
    }
 
    /**

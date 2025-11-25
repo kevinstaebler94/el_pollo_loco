@@ -150,45 +150,40 @@ class Character extends MoveableObject {
    }
 
    /**
-    * Handles the dead animation state and stops snoring sound.
+    * Handles the dead animation state.
     */
    handleDead() {
       this.playAnimation(this.IMAGES_DEAD);
-      this.soundManager.stop("snoringSound", 0.15);
    }
 
    /**
-    * Handles the hurt animation state and stops snoring sound.
+    * Handles the hurt animation state.
     */
    handleHurt() {
       this.playAnimation(this.IMAGES_HURT);
-      this.soundManager.stop("snoringSound");
    }
 
    /**
-    * Handles the jumping animation state and stops snoring sound.
+    * Handles the jumping animation state.
     */
    handleAboveGround() {
       this.playAnimation(this.IMAGES_JUMPING);
-      this.soundManager.stop("snoringSound");
    }
 
    /**
-    * Handles the walking animation state and stops snoring sound.
+    * Handles the walking animation state.
     */
    handleWalking() {
       this.playAnimation(this.IMAGES_WALKING);
-      this.soundManager.stop("snoringSound");
    }
 
    /**
-    * Handles idle animations. Plays long idle animation with snoring sound after 5 seconds of inactivity.
+    * Handles idle animations. Plays long idle animation after 5 seconds of inactivity.
     */
    handleIdle() {
       const timeSinceLastMove = Date.now();
       if (timeSinceLastMove - this.lastMove > 5000) {
          this.playAnimation(this.IMAGES_LONG_IDLE);
-         this.soundManager.play("snoringSound", "0.15");
       } else {
          this.playAnimation(this.IMAGES_IDLE);
       }
@@ -209,15 +204,5 @@ class Character extends MoveableObject {
       let sound;
       if (this.world && (this.world.gameOverPlayed || this.world.gameWinPlayed)) return;
       sound = this.soundManager.play("ouchSound", 0.5);
-   }
-
-   /**
-    * Plays the character's snoring sound during long idle animation.
-    * Does not play if game is over or won.
-    */
-   startsSnoring() {
-      let sound;
-      if (this.world && (this.world.gameOverPlayed || this.world.gameWinPlayed)) return;
-      sound = this.soundManager.play("snoringSound", 0.15);
    }
 }

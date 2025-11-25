@@ -68,7 +68,7 @@ class World {
          this.checkHealth();
       }, 1000 / 60);
       this.secondaryInterval = setInterval(() => {
-         this.checkThrowObjects();
+         // this.checkThrowObjects();
          this.spawnEndboss();
          this.endbossSpottedCharacter();
          this.endbossChasingCharacter();
@@ -79,13 +79,13 @@ class World {
     * Checks if the player presses the throw key and has bottles available.
     * Creates and throws a new bottle object if conditions are met.
     */
-   checkThrowObjects() {
-      if (this.keyboard.D && this.hasBottles()) {
-         this.statusBarBottle.setPercentage(this.statusBarBottle.percentage - 20);
-         let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.soundManager);
-         this.throwableObjects.push(bottle);
-      }
-   }
+   // checkThrowObjects() {
+   //    if (this.keyboard.D && this.hasBottles()) {
+   //       this.statusBarBottle.setPercentage(this.statusBarBottle.percentage - 20);
+   //       let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.soundManager);
+   //       this.throwableObjects.push(bottle);
+   //    }
+   // }
 
    /**
     * Main rendering method that draws all game objects on the canvas.
@@ -327,7 +327,6 @@ class World {
       this.keyboard = {};
       this.gameWinPlayed = true;
       this.soundManager.stopBackgroundMusic();
-      this.soundManager.stop("snoringSound");
       if (this.soundManager.soundsMuted) {
          this.handleGameEnd();
          return;
@@ -356,7 +355,6 @@ class World {
       if (this.statusBarHealth.percentage === 0 && !this.gameOverPlayed) {
          this.soundManager.stop("endbossMusic");
          this.soundManager.stop("backgroundMusic");
-         this.soundManager.stop("snoringSound");
          if (this.soundManager.soundsMuted) {
             this.stopAllIntervals();
             this.showEndScreen();

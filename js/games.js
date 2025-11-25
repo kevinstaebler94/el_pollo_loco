@@ -21,14 +21,17 @@ function init() {
 function addMouseClick() {
    canvas.addEventListener("click", (event) => {
       const rect = canvas.getBoundingClientRect();
-      const mouseX = event.clientX - rect.left;
-      const mouseY = event.clientY - rect.top;
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const mouseX = (event.clientX - rect.left) * scaleX;
+      const mouseY = (event.clientY - rect.top) * scaleY;
 
       if (isCursorOverSoundButton(mouseX, mouseY)) {
          world.soundButton.toggleSound();
       }
-
+      addMouseClick();
       addTouch();
+      addMouseMove();
    });
 }
 
@@ -75,7 +78,6 @@ function addMouseMove() {
 function isCursorOverSoundButton(mouseX, mouseY) {
    const btn = world.soundButton;
    const hit = btn && mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height;
-   console.log("Hitbox:", mouseX, mouseY, hit);
    return hit;
 }
 
@@ -169,7 +171,6 @@ function playSound() {
 function backToHomescreen() {
    if (world && world.soundManager) {
       world.soundManager.stop("backgroundMusic");
-      world.soundManager.stop("snoringSound");
    }
    keyboard = new Keyboard();
    world = null;
@@ -266,9 +267,6 @@ window.addEventListener("keydown", (e) => {
    if (e.keyCode == 32) {
       keyboard.SPACE = true;
    }
-   if (e.keyCode == 68) {
-      keyboard.D = true;
-   }
 });
 
 window.addEventListener("keyup", (e) => {
@@ -316,4 +314,12 @@ window.addEventListener("load", () => {
    setTimeout(() => {
       window.scrollTo(0, 1);
    }, 100);
+});
+
+window.addEventListener("keydown", (e) => {
+   if (e.keyCode == 68 && world && world.hasBottles()) {
+      world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
+      let bottle = new ThrowableObject(world.character.x + 100, world.character.y + 100, world.soundManager);
+      world.throwableObjects.push(bottle);
+   }
 });
