@@ -3,8 +3,8 @@
  * @extends MoveableObject
  */
 class ThrowableObject extends MoveableObject {
-   speedY = 30;
-   speedX = 20;
+   speedY = 15;
+   speedX = 10;
    isThrowable = true;
    throwIntervall = null;
    moveIntervall = null;
@@ -40,7 +40,7 @@ class ThrowableObject extends MoveableObject {
       this.loadImages(this.IMAGES_THROWING);
       this.loadImages(this.IMAGES_SPLASH);
       this.x = x;
-      this.y = y;
+      this.y = y - 50;
       this.height = 60;
       this.width = 50;
       this.throw();
@@ -61,7 +61,7 @@ class ThrowableObject extends MoveableObject {
                this.playAnimation(this.IMAGES_THROWING);
                break;
          }
-      }, 1000 / 35);
+      }, 1000 / 60);
       this.setThrowPhysics();
       this.startMoveLoop();
    }
@@ -72,8 +72,8 @@ class ThrowableObject extends MoveableObject {
     */
    setThrowPhysics() {
       this.percentage -= 20;
-      this.speedY = 15;
-      this.speedX = 5;
+      this.speedY = 12;
+      this.speedX = 6;
       this.applyGravitiy();
    }
 
@@ -83,9 +83,9 @@ class ThrowableObject extends MoveableObject {
     */
    startMoveLoop() {
       if (this.moveIntervall) clearInterval(this.moveIntervall);
-      setInterval(() => {
-         this.x += 10;
-      }, 10);
+      this.moveIntervall = setInterval(() => {
+         this.x += this.speedX;
+      }, 1000 / 60);
    }
 
    /**
@@ -106,7 +106,7 @@ class ThrowableObject extends MoveableObject {
          if (i >= this.IMAGES_SPLASH.length) {
             clearInterval(this.splashIntervall);
          }
-      }, 100);
+      }, 1000 / 60);
    }
 
    /**

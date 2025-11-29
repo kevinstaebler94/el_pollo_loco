@@ -11,6 +11,7 @@ class Character extends MoveableObject {
    coins = 0;
    lastMove = Date.now();
    lastHit = 0;
+   groundY = 140;
 
    IMAGES_WALKING = [
       "img/2_character_pepe/2_walk/W-21.png",
@@ -193,7 +194,13 @@ class Character extends MoveableObject {
     * Makes the character jump by setting upward velocity.
     */
    jump() {
+      console.log("Y Offset 1", this.y);
       this.speedY = 25;
+      if (this.y > this.groundY) {
+         this.y = this.groundY;
+         this.speedY = 0;
+      }
+      console.log("Y Offset", this.y);
    }
 
    /**

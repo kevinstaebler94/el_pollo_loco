@@ -19,6 +19,8 @@ class World {
    youLose = new Image("img/You won, you lost/You lost.png");
    gameOverPlayed = false;
    gameWinPlayed = false;
+   win = document.getElementById("won");
+   loss = document.getElementById("lost");
    mainInterval;
    secondaryInterval;
 
@@ -30,6 +32,8 @@ class World {
     * @param {Endboss} endboss - The endboss enemy instance.
     */
    constructor(canvas, keyboard, soundManager, endboss) {
+      this.win.classList.add("dNone");
+      this.loss.classList.add("dNone");
       this.endboss = endboss;
       this.soundManager = soundManager;
       this.character = new Character(this.soundManager);
@@ -76,18 +80,6 @@ class World {
    }
 
    /**
-    * Checks if the player presses the throw key and has bottles available.
-    * Creates and throws a new bottle object if conditions are met.
-    */
-   // checkThrowObjects() {
-   //    if (this.keyboard.D && this.hasBottles()) {
-   //       this.statusBarBottle.setPercentage(this.statusBarBottle.percentage - 20);
-   //       let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.soundManager);
-   //       this.throwableObjects.push(bottle);
-   //    }
-   // }
-
-   /**
     * Main rendering method that draws all game objects on the canvas.
     * Handles camera movement and layer rendering order.
     */
@@ -96,13 +88,13 @@ class World {
       this.ctx.translate(this.camera_x, 0);
       this.addObjectsToMap(this.level.backgroundObjects);
       this.ctx.translate(-this.camera_x, 0);
-      [this.soundButton, this.statusBarHealth, this.statusBarCoin, this.statusBarBottle, this.statusBarEndboss].forEach((obj) => obj && this.addToMap(obj));
       this.ctx.translate(this.camera_x, 0);
       this.addToMap(this.character);
       [this.level.bottles, this.level.coins, this.level.clouds, this.level.enemies, this.level.smallEnemies, this.level.endboss, this.throwableObjects].forEach(
          (arr) => this.addObjectsToMap(arr)
       );
       this.ctx.translate(-this.camera_x, 0);
+      [this.statusBarHealth, this.statusBarCoin, this.statusBarBottle, this.statusBarEndboss, this.soundButton].forEach((obj) => obj && this.addToMap(obj));
       let self = this;
       requestAnimationFrame(() => {
          self.draw();
@@ -336,6 +328,7 @@ class World {
       if (sound) {
          sound.onended = () => this.handleGameEnd();
       }
+      this.win.classList.add("dNone");
    }
 
    /**
@@ -370,6 +363,7 @@ class World {
             this.showEndScreen();
          };
       }
+      this.loss.classList.add("dNone");
    }
 
    /**

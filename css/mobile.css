@@ -182,7 +182,6 @@
    .mobileControls {
       bottom: 3px;
       padding: 0 15px;
-      /* display: flex; */
    }
 
    .controlBtn {
@@ -217,7 +216,6 @@
 
    .mobileControls {
       bottom: 5px;
-      /* display: flex; */
    }
 }
 
@@ -225,10 +223,6 @@
    .buttonLayoutWrapper {
       display: none !important;
    }
-
-   /* .mobileControls {
-      display: flex;
-   } */
 
    canvas {
       object-fit: contain;

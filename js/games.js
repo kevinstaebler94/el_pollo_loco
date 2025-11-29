@@ -44,11 +44,7 @@ function addTouch() {
       const touchX = (touch.clientX - rect.left) * scaleX;
       const touchY = (touch.clientY - rect.top) * scaleY;
 
-      if (isCursorOverSoundButton(touchX, touchY)) {
-         if (world && world.soundButton) {
-            world.soundButton.toggleSound();
-         }
-      }
+      world.soundButton.toggleSound();
    });
 }
 
@@ -234,11 +230,14 @@ function initTouchControls() {
    if (throwBtn) {
       throwBtn.addEventListener("touchstart", (e) => {
          e.preventDefault();
-         keyboard.D = true;
-      });
-      throwBtn.addEventListener("touchend", (e) => {
-         e.preventDefault();
-         keyboard.D = false;
+         if (world && world.hasBottles()) {
+            world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
+            world.character.otherDirection = false;
+            world.character.lastMove = Date.now();
+            let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 3, world.soundManager);
+            world.throwableObjects.push(bottle);
+            bottle.throw();
+         }
       });
    }
 }
@@ -285,9 +284,6 @@ window.addEventListener("keyup", (e) => {
    if (e.keyCode == 32) {
       keyboard.SPACE = false;
    }
-   if (e.keyCode == 68) {
-      keyboard.D = false;
-   }
 });
 
 window.addEventListener("resize", () => {
@@ -317,9 +313,12 @@ window.addEventListener("load", () => {
 });
 
 window.addEventListener("keydown", (e) => {
-   if (e.keyCode == 68 && world && world.hasBottles()) {
+   if (e.code === "KeyD" && world && world.hasBottles()) {
       world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
-      let bottle = new ThrowableObject(world.character.x + 100, world.character.y + 100, world.soundManager);
+      world.character.otherDirection = false;
+      world.character.lastMove = Date.now();
+      let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 3, world.soundManager);
       world.throwableObjects.push(bottle);
+      bottle.throw();
    }
 });
