@@ -1,6 +1,8 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let lastBottleThrowc = 0;
+const bottleCooldown = 500;
 
 /**
  * Initializes the game by setting up the canvas, sound manager, and world instance.
@@ -231,12 +233,15 @@ function initTouchControls() {
       throwBtn.addEventListener("touchstart", (e) => {
          e.preventDefault();
          if (world && world.hasBottles()) {
-            world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
-            world.character.otherDirection = false;
-            world.character.lastMove = Date.now();
-            let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 3, world.soundManager);
-            world.throwableObjects.push(bottle);
-            bottle.throw();
+            const now = Date.now();
+            if (now - lastBottleThrowc > bottleCooldown) {
+               world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
+               world.character.otherDirection = false;
+               world.character.lastMove = now;
+               let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 2, world.soundManager);
+               world.throwableObjects.push(bottle);
+               lastBottleThrowc = now;
+            }
          }
       });
    }
@@ -314,11 +319,14 @@ window.addEventListener("load", () => {
 
 window.addEventListener("keydown", (e) => {
    if (e.code === "KeyD" && world && world.hasBottles()) {
-      world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
-      world.character.otherDirection = false;
-      world.character.lastMove = Date.now();
-      let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 3, world.soundManager);
-      world.throwableObjects.push(bottle);
-      bottle.throw();
+      const now = Date.now();
+      if (now - lastBottleThrowc > bottleCooldown) {
+         world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
+         world.character.otherDirection = false;
+         world.character.lastMove = now;
+         let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 2, world.soundManager);
+         world.throwableObjects.push(bottle);
+         lastBottleThrowc = now;
+      }
    }
 });

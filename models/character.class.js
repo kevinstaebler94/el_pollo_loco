@@ -194,13 +194,11 @@ class Character extends MoveableObject {
     * Makes the character jump by setting upward velocity.
     */
    jump() {
-      console.log("Y Offset 1", this.y);
       this.speedY = 25;
       if (this.y > this.groundY) {
          this.y = this.groundY;
          this.speedY = 0;
       }
-      console.log("Y Offset", this.y);
    }
 
    /**

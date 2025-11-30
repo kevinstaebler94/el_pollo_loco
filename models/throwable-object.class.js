@@ -52,7 +52,7 @@ class ThrowableObject extends MoveableObject {
     */
    throw() {
       if (this.throwIntervall) clearInterval(this.throwIntervall);
-      setInterval(() => {
+      this.throwIntervall = setInterval(() => {
          switch (this.currentStatus) {
             case "splash":
                this.playAnimation(this.IMAGES_SPLASH);
@@ -73,7 +73,7 @@ class ThrowableObject extends MoveableObject {
    setThrowPhysics() {
       this.percentage -= 20;
       this.speedY = 12;
-      this.speedX = 6;
+      this.speedX = 12;
       this.applyGravitiy();
    }
 
