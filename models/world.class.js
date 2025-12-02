@@ -37,7 +37,6 @@ class World {
       this.endboss = endboss;
       this.soundManager = soundManager;
       this.character = new Character(this.soundManager);
-      this.soundButton = new SoundButton(this.soundManager);
       this.ctx = canvas.getContext("2d");
       this.canvas = canvas;
       this.keyboard = keyboard;
@@ -94,7 +93,7 @@ class World {
          (arr) => this.addObjectsToMap(arr)
       );
       this.ctx.translate(-this.camera_x, 0);
-      [this.statusBarHealth, this.statusBarCoin, this.statusBarBottle, this.statusBarEndboss, this.soundButton].forEach((obj) => obj && this.addToMap(obj));
+      [this.statusBarHealth, this.statusBarCoin, this.statusBarBottle, this.statusBarEndboss].forEach((obj) => obj && this.addToMap(obj));
       let self = this;
       requestAnimationFrame(() => {
          self.draw();

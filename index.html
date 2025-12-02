@@ -23,7 +23,6 @@
     <script src="models/status-bar-endboss.class.js"></script>
     <script src="models/bottle.class.js"></script>
     <script src="models/coin.class.js"></script>
-    <script src="models/sound-button.class.js"></script>
     <script src="models/world.class.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="models/level.class.js"></script>
@@ -73,7 +72,7 @@
     </div>
 
     <div id="endscreen" class="endscreen dNone">
-      <img id="lost" class="lost dNone" src="img/You won, you lost/You lost.png" alt="" />
+      <img id="lost" class="lost dNone" src="img/You won, you lost/Game over A.png" alt="" />
       <img id="won" class="won dNone" src="img/You won, you lost/You win B.png" alt="" />
       <img class="layer2" src="img/5_background/first_half_background.png" alt="" />
     </div>
@@ -83,6 +82,9 @@
     </div>
     
     <canvas class="dNone" id="canvas" width="720" height="480"></canvas>
+    <button id="soundButton" class="soundButton">
+      <img id="soundIcon" src="img/buttons/unmute_button.svg" alt="Sound">
+    </button>
 
     <div id="controlsStartscreen" class="buttonLayoutWrapper">
       <div class="buttonContainer">

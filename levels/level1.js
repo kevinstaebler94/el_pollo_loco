@@ -20,7 +20,7 @@ function initLevel1() {
  */
 function enemyLoop() {
    const enemies = [];
-   for (let i = 0; i < 5; i++) {
+   for (let i = 0; i < 1; i++) {
       enemies.push(new Chicken());
    }
    return enemies;
@@ -32,7 +32,7 @@ function enemyLoop() {
  */
 function smallEnemyLoop() {
    const smallEnemies = [];
-   for (let i = 0; i < 7; i++) {
+   for (let i = 0; i < 1; i++) {
       smallEnemies.push(new SmallChicken());
    }
    return smallEnemies;

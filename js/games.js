@@ -1,8 +1,8 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let lastBottleThrowc = 0;
-const bottleCooldown = 500;
+let lastBottleThrow = 0;
+const bottleCooldown = 1000;
 
 /**
  * Initializes the game by setting up the canvas, sound manager, and world instance.
@@ -13,6 +13,7 @@ function init() {
    soundManager = new SoundManager();
    world = new World(canvas, keyboard, soundManager);
 
+   setupSoundButton(soundManager);
    addMouseClick();
    addMouseMove();
 }
@@ -31,9 +32,6 @@ function addMouseClick() {
       if (isCursorOverSoundButton(mouseX, mouseY)) {
          world.soundButton.toggleSound();
       }
-      addMouseClick();
-      addTouch();
-      addMouseMove();
    });
 }
 
@@ -234,13 +232,13 @@ function initTouchControls() {
          e.preventDefault();
          if (world && world.hasBottles()) {
             const now = Date.now();
-            if (now - lastBottleThrowc > bottleCooldown) {
+            if (now - lastBottleThrow > bottleCooldown) {
                world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
                world.character.otherDirection = false;
                world.character.lastMove = now;
                let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 2, world.soundManager);
                world.throwableObjects.push(bottle);
-               lastBottleThrowc = now;
+               lastBottleThrow = now;
             }
          }
       });
@@ -251,6 +249,18 @@ function clearAllIntervals() {
    for (let i = 0; i < 9999; i++) {
       clearInterval(i);
    }
+}
+
+function setupSoundButton(soundManager) {
+   const soundButton = document.getElementById("soundButton");
+   const soundIcon = document.getElementById("soundIcon");
+
+   soundIcon.src = soundManager.soundsMuted ? "img/buttons/mute_button.svg" : "img/buttons/unmute_button.svg";
+
+   soundButton.addEventListener("click", () => {
+      soundManager.toggleAllSounds();
+      soundIcon.src = soundManager.soundsMuted ? "img/buttons/mute_button.svg" : "img/buttons/unmute_button.svg";
+   });
 }
 
 // Event Listeners
@@ -320,13 +330,13 @@ window.addEventListener("load", () => {
 window.addEventListener("keydown", (e) => {
    if (e.code === "KeyD" && world && world.hasBottles()) {
       const now = Date.now();
-      if (now - lastBottleThrowc > bottleCooldown) {
+      if (now - lastBottleThrow > bottleCooldown) {
          world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
          world.character.otherDirection = false;
          world.character.lastMove = now;
          let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 2, world.soundManager);
          world.throwableObjects.push(bottle);
-         lastBottleThrowc = now;
+         lastBottleThrow = now;
       }
    }
 });
