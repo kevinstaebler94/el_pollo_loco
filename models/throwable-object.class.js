@@ -9,7 +9,6 @@ class ThrowableObject extends MoveableObject {
    throwIntervall = null;
    moveIntervall = null;
    splashIntervall = null;
-   currentStatus = "throwing";
 
    IMAGES_THROWING = [
       "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
@@ -52,17 +51,12 @@ class ThrowableObject extends MoveableObject {
     */
    throw() {
       if (this.throwIntervall) clearInterval(this.throwIntervall);
-      this.throwIntervall = setInterval(() => {
-         switch (this.currentStatus) {
-            case "splash":
-               this.playAnimation(this.IMAGES_SPLASH);
-               break;
-            case "throwing":
-               this.playAnimation(this.IMAGES_THROWING);
-               break;
-         }
-      }, 1000 / 60);
       this.setThrowPhysics();
+      this.throwIntervall = setInterval(() => {
+         this.playAnimation(this.IMAGES_THROWING);
+         this.checkBottleCollisionWithGround();
+      }, 1000 / 60);
+
       this.startMoveLoop();
    }
 
@@ -89,30 +83,15 @@ class ThrowableObject extends MoveableObject {
    }
 
    /**
-    * Starts the splash animation when the bottle hits a target or ground.
-    * Plays breaking sound and stops all throwing animations.
-    */
-   startSplashAnimation() {
-      this.playBreakingBottleSound();
-      if (this.throwIntervall) clearInterval(this.throwIntervall);
-      if (this.moveInterval) clearInterval(this.moveInterval);
-      if (this.splashIntervall) clearInterval(this.splashIntervall);
-
-      this.currentStatus = "splash";
-      let i = 0;
-      this.splashIntervall = setInterval(() => {
-         this.img = this.imageCache[this.IMAGES_SPLASH[i]];
-         i++;
-         if (i >= this.IMAGES_SPLASH.length) {
-            clearInterval(this.splashIntervall);
-         }
-      }, 1000 / 60);
-   }
-
-   /**
     * Plays the breaking bottle sound effect when the bottle shatters.
     */
    playBreakingBottleSound() {
       this.soundManager.play("breakingBottleSound", 0.2, false);
+   }
+
+   checkBottleCollisionWithGround() {
+      if (this.y >= 350) {
+         this.playAnimation(this.IMAGES_SPLASH);
+      }
    }
 }

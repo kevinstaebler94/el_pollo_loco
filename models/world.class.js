@@ -40,6 +40,7 @@ class World {
       this.ctx = canvas.getContext("2d");
       this.canvas = canvas;
       this.keyboard = keyboard;
+      this.throwableObjects;
       this.collisionDetection = new CollisionDetection(this);
       this.spawnPositions = new SpawnPositions(this);
 
@@ -56,6 +57,7 @@ class World {
     */
    setWorld() {
       this.character.world = this;
+      this.collisionDetection.world = this;
    }
 
    /**
@@ -174,10 +176,11 @@ class World {
     * @param {MoveableObject} enemy - The enemy that was hit.
     * @param {ThrowableObject} bottle - The bottle that hit the enemy.
     */
-   handleEnemyHit(enemy, bottle) {
+   handleEnemyHit(enemy) {
       enemy.hit(1);
       this.enemyIsScreaming();
-      bottle.startSplashAnimation();
+
+      this.playAnimation(this.throwableObjects[0].IMAGES_SPLASH);
    }
 
    /**
@@ -188,7 +191,7 @@ class World {
    removeBottleAfterSplash(bottle, index) {
       setTimeout(() => {
          this.throwableObjects.splice(index, 1);
-      }, bottle.IMAGES_SPLASH.length * 100);
+      }, bottle.IMAGES_SPLASH.length * 150);
    }
 
    /**
@@ -216,7 +219,7 @@ class World {
       endboss.hit(2);
       endboss.startsScreaming();
       this.updateEndbossHealthBar();
-      bottle.startSplashAnimation();
+      // bottle.startSplashAnimation();
    }
 
    /**

@@ -7,8 +7,9 @@ class CollisionDetection {
     * Creates a collision detection instance linked to the game world.
     * @param {World} world - Reference to the main game world instance.
     */
-   constructor(world) {
-      this.world = world;
+   constructor() {
+      // this.world = world;
+      super();
    }
 
    /**
@@ -107,21 +108,6 @@ class CollisionDetection {
    }
 
    /**
-    * Checks for bottle collisions with the ground and triggers splash animation.
-    * Removes bottles after splash animation completes.
-    */
-   checkBottleCollisionWithGround() {
-      this.world.throwableObjects.forEach((bottle, bIndex) => {
-         if (bottle.y + bottle.height >= this.world.groundY) {
-            bottle.startSplashAnimation();
-            setTimeout(() => {
-               this.world.throwableObjects.splice(bIndex, 1);
-            }, bottle.IMAGES_SPLASH.length * 100);
-         }
-      });
-   }
-
-   /**
     * Master method that checks all types of bottle collisions.
     * Consolidates checks for small chickens, normal chickens, endboss, and ground.
     */
@@ -129,6 +115,5 @@ class CollisionDetection {
       this.checkBottleCollisionWithSmallChicken();
       this.checkBottleCollisionWithChicken();
       this.checkBottleCollisionWithEndboss();
-      this.checkBottleCollisionWithGround();
    }
 }

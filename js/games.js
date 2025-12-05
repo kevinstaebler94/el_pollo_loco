@@ -1,7 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let lastBottleThrow = 0;
+let bottleThrowBlocked = false;
 const bottleCooldown = 1000;
 
 /**
@@ -328,15 +328,16 @@ window.addEventListener("load", () => {
 });
 
 window.addEventListener("keydown", (e) => {
-   if (e.code === "KeyD" && world && world.hasBottles()) {
+   if (e.code === "KeyD" && world && world.hasBottles() && !bottleThrowBlocked) {
+      bottleThrowBlocked = true;
       const now = Date.now();
-      if (now - lastBottleThrow > bottleCooldown) {
-         world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
-         world.character.otherDirection = false;
-         world.character.lastMove = now;
-         let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 2, world.soundManager);
-         world.throwableObjects.push(bottle);
-         lastBottleThrow = now;
-      }
+      world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
+      world.character.otherDirection = false;
+      world.character.lastMove = now;
+      let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 2, world.soundManager);
+      world.throwableObjects.push(bottle);
+      setTimeout(() => {
+         bottleThrowBlocked = false;
+      }, bottleCooldown);
    }
 });
