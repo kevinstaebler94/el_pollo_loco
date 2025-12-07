@@ -89,6 +89,14 @@ class ThrowableObject extends MoveableObject {
       this.soundManager.play("breakingBottleSound", 0.2, false);
    }
 
+   /**
+    * Startet die Splash-Animation und spielt den Sound ab.
+    */
+   startSplashAnimation() {
+      this.playAnimation(this.IMAGES_SPLASH);
+      this.playBreakingBottleSound();
+   }
+
    checkBottleCollisionWithGround() {
       if (this.y >= 350) {
          this.playAnimation(this.IMAGES_SPLASH);

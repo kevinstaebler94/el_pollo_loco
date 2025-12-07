@@ -10,6 +10,12 @@ class MoveableObject extends DrawableObject {
    energy = 100;
    lastHit = 0;
    onGroundY = 140;
+   offset = {
+      top: 10,
+      right: 20,
+      bottom: 0,
+      left: 15,
+   };
 
    /**
     * Applies gravity to the object, making it fall and handling ground collision.
@@ -48,7 +54,12 @@ class MoveableObject extends DrawableObject {
     * @returns {boolean} True if objects are colliding, false otherwise.
     */
    isColliding(mo) {
-      return this.x < mo.x + mo.width && this.x + this.width > mo.x && this.y < mo.y + mo.height && this.y + this.height > mo.y;
+      return (
+         this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+         this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+         this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom &&
+         this.y + this.height - this.offset.bottom > mo.y + mo.offset.top
+      );
    }
 
    /**
@@ -57,7 +68,10 @@ class MoveableObject extends DrawableObject {
     * @returns {boolean} True if this object is stomping the target, false otherwise.
     */
    isStomping(mo) {
-      let fromAbove = this.y + this.height >= mo.y + 5 && this.y + this.height <= mo.y + mo.height * 0.8;
+      let myBottom = this.y + this.height - this.offset.bottom;
+      let enemyTop = mo.y + mo.offset.top;
+      let enemyBottom = mo.y + mo.height - mo.offset.bottom;
+      let fromAbove = myBottom >= enemyTop + 5 && myBottom <= enemyTop + (enemyBottom - enemyTop) * 0.8;
       let isColliding = this.isColliding(mo);
       let fallingDown = this.speedY <= 0;
       return fromAbove && isColliding && fallingDown;

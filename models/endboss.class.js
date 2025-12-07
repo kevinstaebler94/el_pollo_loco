@@ -13,6 +13,12 @@ class Endboss extends MoveableObject {
    hadFirstContact = false;
    gotHit = false;
    soundManager;
+   offset = {
+      top: 70,
+      right: 15,
+      bottom: 20,
+      left: 20,
+   };
 
    IMAGES_WALKING = [
       "img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -95,7 +101,7 @@ class Endboss extends MoveableObject {
          this.currentStatus = "walking";
          this.isActive = true;
          this.hadFirstContact = true;
-         this.soundManager.play("endbossMusic", 0.2, true);
+         this.soundManager.play("endbossMusic", 0.5, true);
       }
    }
 

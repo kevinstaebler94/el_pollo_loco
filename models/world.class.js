@@ -57,7 +57,6 @@ class World {
     */
    setWorld() {
       this.character.world = this;
-      this.collisionDetection.world = this;
    }
 
    /**
@@ -176,11 +175,10 @@ class World {
     * @param {MoveableObject} enemy - The enemy that was hit.
     * @param {ThrowableObject} bottle - The bottle that hit the enemy.
     */
-   handleEnemyHit(enemy) {
+   handleEnemyHit(enemy, bottle) {
       enemy.hit(1);
       this.enemyIsScreaming();
-
-      this.playAnimation(this.throwableObjects[0].IMAGES_SPLASH);
+      bottle.startSplashAnimation();
    }
 
    /**
@@ -219,7 +217,7 @@ class World {
       endboss.hit(2);
       endboss.startsScreaming();
       this.updateEndbossHealthBar();
-      // bottle.startSplashAnimation();
+      bottle.startSplashAnimation();
    }
 
    /**

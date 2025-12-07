@@ -7,9 +7,8 @@ class CollisionDetection {
     * Creates a collision detection instance linked to the game world.
     * @param {World} world - Reference to the main game world instance.
     */
-   constructor() {
-      // this.world = world;
-      super();
+   constructor(world) {
+      this.world = world;
    }
 
    /**

@@ -15,6 +15,13 @@ class SmallChicken extends MoveableObject {
 
    IMAGES_DEAD = ["img/3_enemies_chicken/chicken_small/2_dead/dead.png"];
 
+   offset = {
+      top: 5,
+      right: 3,
+      bottom: 5,
+      left: 0,
+   };
+
    /**
     * Creates a small chicken enemy at a random horizontal position with random speed.
     * The small chicken starts walking and animating automatically.

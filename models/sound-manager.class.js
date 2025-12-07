@@ -105,7 +105,7 @@ class SoundManager {
     */
    resumeMusic() {
       if (this.currentMusic === "endbossMusic") {
-         this.play("endbossMusic", 0.2, true);
+         this.play("endbossMusic", 0.5, true);
       } else if (this.currentMusic === "backgroundMusic") {
          this.play("backgroundMusic", 0.15, true);
       } else {

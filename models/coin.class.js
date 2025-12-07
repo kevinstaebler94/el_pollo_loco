@@ -10,6 +10,12 @@ class Coin extends MoveableObject {
    minY = 320;
    maxY = 100;
    COIN_ANIMATION = ["img/8_coin/coin_1.png", "img/8_coin/coin_2.png"];
+   offset = {
+      top: 35,
+      right: 35,
+      bottom: 34,
+      left: 33,
+   };
 
    /**
     * Creates a coin at a random horizontal and vertical position.
