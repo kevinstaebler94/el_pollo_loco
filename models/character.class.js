@@ -99,12 +99,11 @@ class Character extends MoveableObject {
    animate() {
       setInterval(() => {
          this.handleCharacterMovement();
-         this.fixCameraOnCharacterAndEndboss();
          if (this.world.keyboard.SPACE && !this.isAboveGround()) {
             this.jump();
             this.lastMove = Date.now();
          }
-         // this.world.camera_x = -this.x + 50;
+         this.world.camera_x = -this.x + 50;
       }, 1000 / 60);
 
       setInterval(() => {
@@ -215,33 +214,5 @@ class Character extends MoveableObject {
       let sound;
       if (this.world && (this.world.gameOverPlayed || this.world.gameWinPlayed)) return;
       sound = this.soundManager.play("ouchSound", 0.5);
-   }
-
-   fixCameraOnCharacterAndEndboss() {
-      const endboss = this.world.level.endboss[0];
-      const canvasWidth = this.world.canvas.width;
-
-      // Prüfe, ob Endboss sichtbar/aktiv ist
-      if (endboss && endboss.isActive) {
-         // Bestimme die linke und rechte Grenze, sodass beide im Bild sind
-         const minX = Math.min(this.x, endboss.x);
-         const maxX = Math.max(this.x + this.width, endboss.x + endboss.width);
-
-         // Kamera zentriert auf beide, aber nicht über die Levelgrenzen hinaus
-         let cameraCenter = (minX + maxX) / 2;
-         let camera_x = -(cameraCenter - canvasWidth / 2);
-
-         // Begrenzung: Kamera darf nicht weiter als Levelanfang und Levelende scrollen
-         const minCameraX = 0;
-         const maxCameraX = -(this.world.level.level_end_x - canvasWidth);
-
-         // Clamp camera_x zwischen minCameraX und maxCameraX
-         camera_x = Math.max(maxCameraX, Math.min(minCameraX, camera_x));
-
-         this.world.camera_x = camera_x;
-      } else {
-         // Normale Kamera-Logik, z. B. folgt nur dem Character
-         this.world.camera_x = -this.x + 50;
-      }
    }
 }

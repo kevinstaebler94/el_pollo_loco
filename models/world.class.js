@@ -249,7 +249,8 @@ class World {
     */
    endbossSpottedCharacter() {
       let endboss = this.level.endboss[0];
-      if (!endboss) return;
+      if (!endboss || endboss.hadFirstContact) return;
+
       let distance = Math.abs(this.character.x - endboss.x);
       if (distance < 500) {
          endboss.spottedCharacter();

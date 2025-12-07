@@ -112,6 +112,9 @@ class Endboss extends MoveableObject {
    spottedCharacter() {
       if (this.currentStatus === "dead") return;
       this.currentStatus = "alert";
+      setTimeout(() => {
+         this.currentStatus = "walking";
+      }, 1000);
       this.isActive = true;
    }
 
@@ -122,25 +125,28 @@ class Endboss extends MoveableObject {
    startRunning() {
       if (this.currentStatus === "dead") return;
       this.currentStatus = "attack";
-      this.speed += 0.05;
    }
 
    /**
     * Handles damage taken by the endboss.
-    * Shows hurt animation on first hit, returns to attack on subsequent hits.
+    * Cycle: walking → hurt → attack → walking
     * Does nothing if already dead.
     */
    takesDamage() {
       if (this.currentStatus === "dead") return;
-      if (!this.gotHit) {
-         this.currentStatus = "hurt";
-         this.gotHit = true;
-      } else {
+      this.currentStatus = "hurt";
+
+      setTimeout(() => {
+         if (this.currentStatus === "dead") return;
          this.currentStatus = "attack";
+         this.speed += 0.5;
+
          setTimeout(() => {
-            this.gotHit = false;
-         }, 200);
-      }
+            if (this.currentStatus !== "dead") {
+               this.currentStatus = "walking";
+            }
+         }, 1500);
+      }, 500);
    }
 
    /**
