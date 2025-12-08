@@ -13,10 +13,10 @@ class Character extends MoveableObject {
    lastHit = 0;
    groundY = 140;
    offset = {
-      top: 125,
-      right: 45,
-      bottom: 12,
-      left: 28,
+      top: 130,
+      right: 50,
+      bottom: 15,
+      left: 35,
    };
 
    IMAGES_WALKING = [
