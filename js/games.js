@@ -265,8 +265,6 @@ function setupSoundButton(soundManager) {
    });
 }
 
-// Event Listeners
-
 window.addEventListener("keydown", (e) => {
    if (e.keyCode == 38) {
       keyboard.UP = true;

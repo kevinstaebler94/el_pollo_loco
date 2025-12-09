@@ -70,13 +70,20 @@ class World {
          this.collisionDetection.checkBottleCollision();
          this.collisionDetection.checkBottleCollisionWithEnemy();
          this.checkHealth();
+         this.removeFinishedBottles();
       }, 1000 / 60);
       this.secondaryInterval = setInterval(() => {
-         // this.checkThrowObjects();
          this.spawnEndboss();
          this.endbossSpottedCharacter();
          this.endbossChasingCharacter();
       }, 200);
+   }
+
+   /**
+    * Removes bottles that have finished their splash animation.
+    */
+   removeFinishedBottles() {
+      this.throwableObjects = this.throwableObjects.filter((bottle) => !bottle.markedForRemoval);
    }
 
    /**

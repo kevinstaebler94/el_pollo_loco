@@ -9,6 +9,9 @@ class ThrowableObject extends MoveableObject {
    throwIntervall = null;
    moveIntervall = null;
    splashIntervall = null;
+   animationIntervall = null;
+   hasSplashed = false;
+   throwingImageIndex = 0;
 
    IMAGES_THROWING = [
       "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
@@ -51,13 +54,29 @@ class ThrowableObject extends MoveableObject {
     */
    throw() {
       if (this.throwIntervall) clearInterval(this.throwIntervall);
+      if (this.animationIntervall) clearInterval(this.animationIntervall);
       this.setThrowPhysics();
+
       this.throwIntervall = setInterval(() => {
-         this.playAnimation(this.IMAGES_THROWING);
          this.checkBottleCollisionWithGround();
       }, 1000 / 60);
 
+      this.animationIntervall = setInterval(() => {
+         if (!this.hasSplashed) {
+            this.playThrowingAnimation();
+         }
+      }, 80);
+
       this.startMoveLoop();
+   }
+
+   /**
+    * Spielt die Wurf-Animation mit eigenem Index ab.
+    */
+   playThrowingAnimation() {
+      let i = this.throwingImageIndex % this.IMAGES_THROWING.length;
+      this.img = this.imageCache[this.IMAGES_THROWING[i]];
+      this.throwingImageIndex++;
    }
 
    /**
@@ -93,13 +112,48 @@ class ThrowableObject extends MoveableObject {
     * Startet die Splash-Animation und spielt den Sound ab.
     */
    startSplashAnimation() {
+      if (this.hasSplashed) return;
+      this.hasSplashed = true;
+      this.stopBottleMovement();
       this.playBreakingBottleSound();
-      this.playAnimation(this.IMAGES_SPLASH);
+      this.playSplashAnimationLoop();
    }
 
+   /**
+    * Stoppt alle Bewegungen der Flasche.
+    */
+   stopBottleMovement() {
+      this.speedX = 0;
+      this.speedY = 0;
+      clearInterval(this.moveIntervall);
+      clearInterval(this.throwIntervall);
+      clearInterval(this.animationIntervall);
+      clearInterval(this.gravityInterval);
+   }
+
+   /**
+    * Spielt die Splash-Animation in einer Schleife ab.
+    */
+   playSplashAnimationLoop() {
+      let splashIndex = 0;
+      this.splashIntervall = setInterval(() => {
+         if (splashIndex < this.IMAGES_SPLASH.length) {
+            this.img = this.imageCache[this.IMAGES_SPLASH[splashIndex]];
+            splashIndex++;
+         } else {
+            clearInterval(this.splashIntervall);
+            this.markedForRemoval = true;
+         }
+      }, 100);
+   }
+
+   /**
+    * Prüft, ob die Flasche den Boden berührt hat.
+    */
    checkBottleCollisionWithGround() {
-      if (this.y == 355) {
-         this.playAnimation(this.IMAGES_SPLASH);
+      if (this.y >= 370 && !this.hasSplashed) {
+         this.y = 370;
+         this.startSplashAnimation();
       }
    }
 }
