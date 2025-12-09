@@ -344,27 +344,23 @@ class World {
     * Plays the game over sound when the player dies and triggers game end.
     */
    playGameOverSound() {
+      if (this.statusBarHealth.percentage !== 0 || this.gameOverPlayed) return;
       this.keyboard = {};
-      let sound;
-      if (this.statusBarHealth.percentage === 0 && !this.gameOverPlayed) {
-         this.soundManager.stop("endbossMusic");
-         this.soundManager.stop("backgroundMusic");
-         if (this.soundManager.soundsMuted) {
-            this.stopAllIntervals();
-            this.showEndScreen();
-            this.gameOverPlayed = true;
-            return;
-         }
-         sound = this.soundManager.play("gameOverSound", 0.6);
-         this.gameOverPlayed = true;
+      this.gameOverPlayed = true;
+      this.stopMusic();
+
+      if (this.soundManager.soundsMuted) {
+         this.handleGameEnd();
+         return;
       }
-      if (sound) {
-         sound.onended = () => {
-            this.stopAllIntervals();
-            this.showEndScreen();
-         };
-      }
+      const sound = this.soundManager.play("gameOverSound", 0.6);
+      if (sound) sound.onended = () => this.handleGameEnd();
       this.loss.classList.add("dNone");
+   }
+
+   stopMusic() {
+      this.soundManager.stop("endbossMusic");
+      this.soundManager.stop("backgroundMusic");
    }
 
    /**

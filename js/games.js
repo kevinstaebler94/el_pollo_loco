@@ -99,6 +99,7 @@ function showCanvasElements() {
    document.getElementById("endscreen").classList.add("dNone");
    document.getElementById("startscreen").classList.add("dNone");
    document.getElementById("canvas").classList.remove("dNone");
+   document.getElementById("soundButton").classList.remove("dNone");
 }
 
 /**
@@ -178,6 +179,7 @@ function backToHomescreen() {
 
 function showHomescreenElements() {
    document.getElementById("canvas").classList.add("dNone");
+   document.getElementById("soundButton").classList.add("dNone");
    document.getElementById("controlsEndscreen").classList.add("dNone");
    document.getElementById("endscreen").classList.add("dNone");
    document.getElementById("startscreen").classList.remove("dNone");
