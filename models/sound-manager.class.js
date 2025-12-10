@@ -18,6 +18,7 @@ class SoundManager {
       this.endbossScreamingSound = new Audio("audio/endboss_screaming_sound.mp3");
       this.breakingBottleSound = new Audio("audio/breaking_glass.mp3");
       this.collectSound = new Audio("audio/collect_coin.mp3");
+      this.jumpingSound = new Audio("audio/jumping_sound.mp3");
       this.soundsMuted = localStorage.getItem("soundsMuted") === "true";
       this.currentMusic = null;
 

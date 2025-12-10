@@ -19,6 +19,8 @@ class World {
    youLose = new Image("img/You won, you lost/You lost.png");
    gameOverPlayed = false;
    gameWinPlayed = false;
+   endScreenShown = false;
+   isActive = true;
    win = document.getElementById("won");
    loss = document.getElementById("lost");
    mainInterval;
@@ -323,9 +325,7 @@ class World {
     * Plays the appropriate victory sound based on player's health and triggers game end.
     */
    playGameWinningSound() {
-      if (this.gameWinPlayed) return;
       this.keyboard = {};
-      this.gameWinPlayed = true;
       this.soundManager.stopBackgroundMusic();
       if (this.soundManager.soundsMuted) {
          this.handleGameEnd();
@@ -343,6 +343,8 @@ class World {
     * Handles the game end sequence by stopping intervals and showing end screen.
     */
    handleGameEnd() {
+      if (this.endScreenShown || !this.isActive) return;
+      this.endScreenShown = true;
       this.stopAllIntervals();
       this.showEndScreen();
    }
@@ -351,9 +353,7 @@ class World {
     * Plays the game over sound when the player dies and triggers game end.
     */
    playGameOverSound() {
-      if (this.statusBarHealth.percentage !== 0 || this.gameOverPlayed) return;
       this.keyboard = {};
-      this.gameOverPlayed = true;
       this.stopMusic();
 
       if (this.soundManager.soundsMuted) {
@@ -374,13 +374,19 @@ class World {
     * Checks player and endboss health to determine game over or victory conditions.
     */
    checkHealth() {
-      if (this.statusBarHealth.percentage === 0) {
-         this.playGameOverSound();
-         document.getElementById("lost").classList.remove("dNone");
+      if (this.statusBarHealth.percentage === 0 && !this.gameOverPlayed) {
+         this.gameOverPlayed = true;
+         setTimeout(() => {
+            document.getElementById("lost").classList.remove("dNone");
+            this.playGameOverSound();
+         }, 1000);
       }
-      if (this.statusBarEndboss && this.statusBarEndboss.percentage === 0) {
-         this.playGameWinningSound();
-         document.getElementById("won").classList.remove("dNone");
+      if (this.statusBarEndboss && this.statusBarEndboss.percentage === 0 && !this.gameWinPlayed) {
+         this.gameWinPlayed = true;
+         setTimeout(() => {
+            document.getElementById("won").classList.remove("dNone");
+            this.playGameWinningSound();
+         }, 1000);
       }
    }
 

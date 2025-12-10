@@ -21,7 +21,7 @@ html {
 body {
    height: 100vh;
    height: 100dvh;
-   width: 100vw;
+   width: 100%;
    margin: 0;
    padding: 0;
    display: flex;
@@ -57,10 +57,19 @@ canvas {
    touch-action: none;
 }
 
+.header {
+   display: flex;
+   align-items: center;
+   gap: 1em;
+   position: relative;
+   max-width: 720px;
+   width: 100%;
+}
+
 .soundButton {
    position: absolute;
    top: 11px;
-   right: 15px;
+   right: 0;
    width: 45px;
    height: 45px;
    background: none;

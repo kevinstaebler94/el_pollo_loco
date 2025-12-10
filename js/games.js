@@ -9,6 +9,10 @@ const bottleCooldown = 1000;
  * Also adds mouse event listeners for click and move interactions.
  */
 function init() {
+   if (world) {
+      world.isActive = false;
+      world.stopAllIntervals();
+   }
    canvas = document.getElementById("canvas");
    soundManager = new SoundManager();
    world = new World(canvas, keyboard, soundManager);
@@ -84,6 +88,10 @@ function isCursorOverSoundButton(mouseX, mouseY) {
 function startGame() {
    let controlsEndscreen = document.getElementById("controlsEndscreen");
    if (controlsEndscreen) {
+      if (world) {
+         world.isActive = false;
+         world.stopAllIntervals();
+      }
       showCanvasElements();
       initLevel1();
       init();
@@ -95,11 +103,20 @@ function startGame() {
 }
 
 function showCanvasElements() {
+   if (world && world.soundManager) {
+      world.soundManager.stop("gameOverSound");
+      world.soundManager.stop("wellDoneSound");
+      world.soundManager.stop("flawlessVictorySound");
+   }
    document.getElementById("controlsEndscreen").classList.add("dNone");
    document.getElementById("endscreen").classList.add("dNone");
    document.getElementById("startscreen").classList.add("dNone");
    document.getElementById("canvas").classList.remove("dNone");
    document.getElementById("soundButton").classList.remove("dNone");
+   document.getElementById("controlsStartscreen").classList.remove("dNone");
+   document.getElementById("controlsStartscreen").classList.add("dFlex");
+   document.getElementById("won").classList.add("dNone");
+   document.getElementById("lost").classList.add("dNone");
 }
 
 /**

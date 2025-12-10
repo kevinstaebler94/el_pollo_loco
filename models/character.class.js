@@ -185,13 +185,16 @@ class Character extends MoveableObject {
 
    /**
     * Handles idle animations. Plays long idle animation after 5 seconds of inactivity.
+    * Shows first idle frame briefly after an action to prevent animation loop restart.
     */
    handleIdle() {
-      const timeSinceLastMove = Date.now();
-      if (timeSinceLastMove - this.lastMove > 5000) {
+      const timeSinceLastMove = Date.now() - this.lastMove;
+      if (timeSinceLastMove > 5000) {
          this.playAnimation(this.IMAGES_LONG_IDLE);
-      } else {
+      } else if (timeSinceLastMove > 300) {
          this.playAnimation(this.IMAGES_IDLE);
+      } else {
+         this.img = this.imageCache[this.IMAGES_IDLE[0]];
       }
    }
 
@@ -200,6 +203,10 @@ class Character extends MoveableObject {
     */
    jump() {
       this.speedY = 25;
+      if (this.soundManager.jumpingSound) {
+         this.soundManager.jumpingSound.currentTime = 0;
+         this.soundManager.play("jumpingSound", 0.5);
+      }
       if (this.y > this.groundY) {
          this.y = this.groundY;
          this.speedY = 0;
