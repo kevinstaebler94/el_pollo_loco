@@ -106,11 +106,21 @@ class SoundManager {
     */
    resumeMusic() {
       if (this.currentMusic === "endbossMusic") {
-         this.play("endbossMusic", 0.5, true);
+         if (this.endbossMusic.paused) {
+            this.play("endbossMusic", 0.5, true);
+         } else {
+            this.endbossMusic.play();
+         }
       } else if (this.currentMusic === "backgroundMusic") {
-         this.play("backgroundMusic", 0.15, true);
+         if (this.backgroundMusic.paused) {
+            this.play("backgroundMusic", 0.15, true);
+         } else {
+            this.backgroundMusic.play();
+         }
       } else {
-         this.play("backgroundMusic", 0.15, true);
+         if (this.backgroundMusic.paused) {
+            this.play("backgroundMusic", 0.15, true);
+         }
       }
    }
 

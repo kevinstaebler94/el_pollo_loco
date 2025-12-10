@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let bottleThrowBlocked = false;
+let bottleThrowCount = 0;
 const bottleCooldown = 1000;
 
 /**
@@ -252,7 +253,10 @@ function initTouchControls() {
          if (world && world.hasBottles()) {
             const now = Date.now();
             if (now - lastBottleThrow > bottleCooldown) {
-               world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
+               bottleThrowCount++;
+               if (bottleThrowCount % 2 === 0) {
+                  world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
+               }
                world.character.otherDirection = false;
                world.character.lastMove = now;
                let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 2, world.soundManager);
@@ -348,7 +352,10 @@ window.addEventListener("keydown", (e) => {
    if (e.code === "KeyD" && world && world.hasBottles() && !bottleThrowBlocked) {
       bottleThrowBlocked = true;
       const now = Date.now();
-      world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
+      bottleThrowCount++;
+      if (bottleThrowCount % 2 === 0) {
+         world.statusBarBottle.setPercentage(world.statusBarBottle.percentage - 20);
+      }
       world.character.otherDirection = false;
       world.character.lastMove = now;
       let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 2, world.soundManager);

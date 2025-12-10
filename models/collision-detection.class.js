@@ -9,6 +9,7 @@ class CollisionDetection {
     */
    constructor(world) {
       this.world = world;
+      this.bottleCollectCount = 0;
    }
 
    /**
@@ -42,7 +43,10 @@ class CollisionDetection {
       this.world.level.bottles.forEach((bottle, index) => {
          if (this.world.character.isColliding(bottle)) {
             this.world.level.bottles.splice(index, 1);
-            this.world.statusBarBottle.setPercentage(this.world.statusBarBottle.percentage + 20);
+            this.bottleCollectCount++;
+            if (this.bottleCollectCount % 2 === 0) {
+               this.world.statusBarBottle.setPercentage(this.world.statusBarBottle.percentage + 20);
+            }
          }
       });
    }
