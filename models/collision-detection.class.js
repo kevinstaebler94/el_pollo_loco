@@ -26,7 +26,7 @@ class CollisionDetection {
                if (enemy === this.world.level.endboss[0]) {
                   this.world.character.hit(3);
                } else {
-                  this.world.character.hit(0.5);
+                  this.world.character.hit(1.5);
                }
                this.world.statusBarHealth.setPercentage(this.world.character.energy);
                this.world.character.startsScreaming();

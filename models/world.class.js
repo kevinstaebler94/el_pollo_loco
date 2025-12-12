@@ -93,6 +93,7 @@ class World {
     * Handles camera movement and layer rendering order.
     */
    draw() {
+      if (!this.isActive) return;
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.translate(this.camera_x, 0);
       this.addObjectsToMap(this.level.backgroundObjects);
@@ -379,14 +380,14 @@ class World {
          setTimeout(() => {
             document.getElementById("lost").classList.remove("dNone");
             this.playGameOverSound();
-         }, 1000);
+         }, 80);
       }
       if (this.statusBarEndboss && this.statusBarEndboss.percentage === 0 && !this.gameWinPlayed) {
          this.gameWinPlayed = true;
          setTimeout(() => {
             document.getElementById("won").classList.remove("dNone");
             this.playGameWinningSound();
-         }, 1000);
+         }, 80);
       }
    }
 
@@ -406,6 +407,11 @@ class World {
    stopAllIntervals() {
       clearInterval(this.mainInterval);
       clearInterval(this.secondaryInterval);
+
+      this.mainInterval = null;
+      this.secondaryInterval = null;
+
+      this.isActive = false;
    }
 
    /**
