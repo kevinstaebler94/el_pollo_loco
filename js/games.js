@@ -6,6 +6,7 @@ let keyboard = new Keyboard();
 let bottleThrowBlocked = false;
 let bottleThrowCount = 0;
 const bottleCooldown = 1000;
+let soundsMuted = false;
 
 /**
  * Initializes the game by setting up the canvas, sound manager, and world instance.
@@ -18,7 +19,7 @@ function init() {
    }
    canvas = document.getElementById("canvas");
    world = new World(canvas, keyboard, intervalManager, soundManager);
-   setupSoundButton(soundManager);
+   updateSoundIcon();
    addMouseClick();
    addMouseMove();
 }
@@ -96,16 +97,20 @@ function startGame() {
          intervalManager = new IntervalManager();
       }
       if (!soundManager) {
-         soundManager = new SoundManager(intervalManager);
+         soundManager = new SoundManager(intervalManager, soundsMuted);
       }
-      showCanvasElements();
-      initLevel1(intervalManager, soundManager);
-      init();
-      playSound();
-      initTouchControls();
-      document.getElementById("mobileControls").classList.remove("dNone");
-      document.getElementById("mobileControls").classList.add("dFlex");
+      setupGame(intervalManager, soundManager);
    }
+}
+
+function setupGame(intervalManager, soundManager) {
+   showCanvasElements();
+   initLevel1(intervalManager, soundManager);
+   init();
+   playSound();
+   initTouchControls();
+   document.getElementById("mobileControls").classList.remove("dNone");
+   document.getElementById("mobileControls").classList.add("dFlex");
 }
 
 function showCanvasElements() {
@@ -284,16 +289,18 @@ function clearAllIntervals() {
    }
 }
 
-function setupSoundButton(soundManager) {
-   const soundButton = document.getElementById("soundButton");
-   const soundIcon = document.getElementById("soundIcon");
-
-   soundIcon.src = soundManager.soundsMuted ? "img/buttons/mute_button.svg" : "img/buttons/unmute_button.svg";
-
-   soundButton.addEventListener("click", () => {
+function toggleSound() {
+   if (soundManager) {
       soundManager.toggleAllSounds();
+      updateSoundIcon();
+   }
+}
+
+function updateSoundIcon() {
+   if (soundManager) {
+      const soundIcon = document.getElementById("soundIcon");
       soundIcon.src = soundManager.soundsMuted ? "img/buttons/mute_button.svg" : "img/buttons/unmute_button.svg";
-   });
+   }
 }
 
 window.addEventListener("keydown", (e) => {

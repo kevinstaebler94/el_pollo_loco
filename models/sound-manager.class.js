@@ -7,7 +7,7 @@ class SoundManager {
     * Creates a sound manager and initializes all audio assets.
     * Loads mute state from localStorage and applies it to all audio elements.
     */
-   constructor(intervalManager) {
+   constructor(intervalManager, soundsMuted) {
       this.intervalManager = intervalManager;
       this.backgroundMusic = new Audio("audio/mexica_background_music.mp3");
       this.wellDoneSound = new Audio("audio/well_done.wav");
@@ -22,6 +22,7 @@ class SoundManager {
       this.jumpingSound = new Audio("audio/jumping_sound.mp3");
       // this.soundsMuted = localStorage.getItem("soundsMuted") === "true";
       this.currentMusic = null;
+      this.soundsMuted = soundsMuted;
 
       // if (localStorage.getItem("soundsMuted") === null) {
       //    localStorage.setItem("soundsMuted", "false");
@@ -79,8 +80,11 @@ class SoundManager {
     * When unmuting, automatically resumes the last playing background music.
     */
    toggleAllSounds() {
-      console.log("SM", this.soundsMuted);
+      const storedValue = localStorage.getItem("soundsMuted");
 
+      if (storedValue !== null) {
+         this.soundsMuted = storedValue === "true";
+      }
       this.soundsMuted = !this.soundsMuted;
       localStorage.setItem("soundsMuted", this.soundsMuted.toString());
 

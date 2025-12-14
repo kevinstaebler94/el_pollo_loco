@@ -25,7 +25,6 @@ class World {
    loss = document.getElementById("lost");
    mainInterval;
    secondaryInterval;
-   soundsMuted;
 
    /**
     * Creates the game world and initializes all game systems.
