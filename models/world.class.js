@@ -44,6 +44,7 @@ class World {
       this.canvas = canvas;
       this.keyboard = keyboard;
       this.throwableObjects;
+
       this.collisionDetection = new CollisionDetection(this);
       this.spawnPositions = new SpawnPositions(this);
 
@@ -199,9 +200,9 @@ class World {
     * @param {number} index - The index of the bottle in the throwableObjects array.
     */
    removeBottleAfterSplash(bottle, index) {
-      setTimeout(() => {
+      if (this.throwableObjects.hasSplashed) {
          this.throwableObjects.splice(index, 1);
-      }, bottle.IMAGES_SPLASH.length * 150);
+      }
    }
 
    /**
@@ -348,7 +349,9 @@ class World {
       if (this.endScreenShown || !this.isActive) return;
       this.endScreenShown = true;
       this.intervalManager.stopAllIntervals();
-      this.showEndScreen();
+      setTimeout(() => {
+         this.showEndScreen();
+      }, 750);
    }
 
    /**

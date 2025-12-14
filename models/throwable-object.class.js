@@ -12,6 +12,7 @@ class ThrowableObject extends MoveableObject {
    animationIntervall = null;
    hasSplashed = false;
    throwingImageIndex = 0;
+   animationFrameCounter = 0;
 
    IMAGES_THROWING = [
       "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
@@ -39,9 +40,10 @@ class ThrowableObject extends MoveableObject {
       super();
       this.soundManager = soundManager;
       this.intervalManager = intervalManager;
-      this.loadImage("img/6_salsa_bottle/salsa_bottle.png");
       this.loadImages(this.IMAGES_THROWING);
       this.loadImages(this.IMAGES_SPLASH);
+      this.img = new Image();
+      this.img.src = this.IMAGES_THROWING[0];
       this.x = x;
       this.y = y - 50;
       this.height = 60;
@@ -57,16 +59,19 @@ class ThrowableObject extends MoveableObject {
       if (this.throwIntervall) clearInterval(this.throwIntervall);
       if (this.animationIntervall) clearInterval(this.animationIntervall);
       this.setThrowPhysics();
+      this.throwingImageIndex = 0;
 
       this.throwIntervall = setInterval(() => {
          this.checkBottleCollisionWithGround();
-      }, 1000 / 60);
 
-      this.animationIntervall = setInterval(() => {
          if (!this.hasSplashed) {
-            this.playThrowingAnimation();
+            this.animationFrameCounter++;
+
+            if (this.animationFrameCounter % 5 === 0) {
+               this.playThrowingAnimation();
+            }
          }
-      }, 80);
+      }, 20);
 
       this.startMoveLoop();
    }
@@ -99,7 +104,7 @@ class ThrowableObject extends MoveableObject {
       if (this.moveIntervall) clearInterval(this.moveIntervall);
       this.moveIntervall = setInterval(() => {
          this.x += this.speedX;
-      }, 1000 / 60);
+      }, 20);
    }
 
    /**
@@ -128,7 +133,6 @@ class ThrowableObject extends MoveableObject {
       this.speedY = 0;
       clearInterval(this.moveIntervall);
       clearInterval(this.throwIntervall);
-      clearInterval(this.animationIntervall);
       clearInterval(this.gravityInterval);
    }
 
@@ -143,6 +147,7 @@ class ThrowableObject extends MoveableObject {
             splashIndex++;
          } else {
             clearInterval(this.splashIntervall);
+            this.hasSplashed = true;
             this.markedForRemoval = true;
          }
       }, 100);

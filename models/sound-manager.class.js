@@ -20,22 +20,9 @@ class SoundManager {
       this.breakingBottleSound = new Audio("audio/breaking_glass.mp3");
       this.collectSound = new Audio("audio/collect_coin.mp3");
       this.jumpingSound = new Audio("audio/jumping_sound.mp3");
-      // this.soundsMuted = localStorage.getItem("soundsMuted") === "true";
+      this.snoringSound = new Audio("audio/snoring-sound.mp3");
       this.currentMusic = null;
       this.soundsMuted = soundsMuted;
-
-      // if (localStorage.getItem("soundsMuted") === null) {
-      //    localStorage.setItem("soundsMuted", "false");
-      //    this.soundsMuted = false;
-      // }
-
-      // if (this.soundsMuted) {
-      //    for (let key in this) {
-      //       if (this[key] instanceof Audio) {
-      //          this[key].muted = true;
-      //       }
-      //    }
-      // }
    }
 
    /**
@@ -115,7 +102,7 @@ class SoundManager {
    resumeMusic() {
       if (this.currentMusic === "endbossMusic") {
          if (this.endbossMusic.paused) {
-            this.play("endbossMusic", 0.5, true);
+            this.play("endbossMusic", 0.4, true);
          } else {
             this.endbossMusic.play();
          }

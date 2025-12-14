@@ -192,6 +192,7 @@ class Character extends MoveableObject {
       const timeSinceLastMove = Date.now() - this.lastMove;
       if (timeSinceLastMove > 5000) {
          this.playAnimation(this.IMAGES_LONG_IDLE);
+         this.soundManager.play("snoringSound", 0.3);
       } else if (timeSinceLastMove > 300) {
          this.playAnimation(this.IMAGES_IDLE);
       } else {

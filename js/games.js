@@ -5,6 +5,7 @@ let soundManager;
 let keyboard = new Keyboard();
 let bottleThrowBlocked = false;
 let bottleThrowCount = 0;
+let lastBottleThrow = 0;
 const bottleCooldown = 1000;
 let soundsMuted = false;
 
@@ -41,6 +42,9 @@ function addMouseClick() {
    });
 }
 
+/**
+ * Adds a touchstart event listener to the canvas to handle sound button interactions on mobile devices.
+ */
 function addTouch() {
    canvas.addEventListener("touchstart", (event) => {
       const rect = canvas.getBoundingClientRect();
@@ -103,6 +107,11 @@ function startGame() {
    }
 }
 
+/**
+ * Sets up the game environment by showing canvas elements, initializing level and controls.
+ * @param {IntervalManager} intervalManager - The interval manager instance.
+ * @param {SoundManager} soundManager - The sound manager instance.
+ */
 function setupGame(intervalManager, soundManager) {
    showCanvasElements();
    initLevel1(intervalManager, soundManager);
@@ -113,6 +122,10 @@ function setupGame(intervalManager, soundManager) {
    document.getElementById("mobileControls").classList.add("dFlex");
 }
 
+/**
+ * Shows all game canvas elements and hides end/start screens.
+ * Also stops any victory or game over sounds that may still be playing.
+ */
 function showCanvasElements() {
    if (world && world.soundManager) {
       world.soundManager.stop("gameOverSound");
@@ -205,6 +218,9 @@ function backToHomescreen() {
    clearAllIntervals();
 }
 
+/**
+ * Shows homescreen elements and hides game-related UI elements.
+ */
 function showHomescreenElements() {
    document.getElementById("canvas").classList.add("dNone");
    document.getElementById("soundButton").classList.add("dNone");
@@ -283,12 +299,19 @@ function initTouchControls() {
    }
 }
 
+/**
+ * Clears all intervals by iterating through possible interval IDs.
+ * Used for cleanup when returning to homescreen.
+ */
 function clearAllIntervals() {
    for (let i = 1; i < 9999; i++) {
       clearInterval(i);
    }
 }
 
+/**
+ * Toggles the sound on/off and updates the sound icon accordingly.
+ */
 function toggleSound() {
    if (soundManager) {
       soundManager.toggleAllSounds();
@@ -296,6 +319,9 @@ function toggleSound() {
    }
 }
 
+/**
+ * Updates the sound button icon based on the current mute state.
+ */
 function updateSoundIcon() {
    if (soundManager) {
       const soundIcon = document.getElementById("soundIcon");
@@ -376,8 +402,8 @@ window.addEventListener("keydown", (e) => {
       world.character.otherDirection = false;
       world.character.lastMove = now;
       let bottle = new ThrowableObject(
-         world.character.x + world.character.width,
-         world.character.y + world.character.height / 2,
+         world.character.x + world.character.width - 50,
+         world.character.y + world.character.height / 1.5,
          world.soundManager,
          world.intervalManager
       );

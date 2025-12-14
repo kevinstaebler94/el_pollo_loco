@@ -44,7 +44,7 @@ function smallEnemyLoop(intervalManager, soundManager) {
  */
 function bottleLoop(intervalManager, soundManager) {
    const bottles = [];
-   for (let i = 0; i < 10; i++) {
+   for (let i = 0; i < 50; i++) {
       bottles.push(new Bottle(intervalManager, soundManager));
    }
    return bottles;
