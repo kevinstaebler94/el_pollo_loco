@@ -11,8 +11,9 @@ class Cloud extends MoveableObject {
     * Creates a cloud at a random horizontal position.
     * The cloud automatically starts moving left across the screen.
     */
-   constructor() {
+   constructor(intervalManager) {
       super().loadImage("img/5_background/layers/4_clouds/full.png");
+      this.intervalManager = intervalManager;
       this.x = Math.random() * 500;
       this.animate();
    }

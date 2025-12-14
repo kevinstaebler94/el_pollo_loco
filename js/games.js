@@ -1,5 +1,7 @@
 let canvas;
 let world;
+let intervalManager;
+let soundManager;
 let keyboard = new Keyboard();
 let bottleThrowBlocked = false;
 let bottleThrowCount = 0;
@@ -15,9 +17,7 @@ function init() {
       world.stopAllIntervals();
    }
    canvas = document.getElementById("canvas");
-   soundManager = new SoundManager();
-   world = new World(canvas, keyboard, soundManager);
-
+   world = new World(canvas, keyboard, intervalManager, soundManager);
    setupSoundButton(soundManager);
    addMouseClick();
    addMouseMove();
@@ -91,10 +91,15 @@ function startGame() {
    if (controlsEndscreen) {
       if (world) {
          world.isActive = false;
-         world.stopAllIntervals();
+      }
+      if (!intervalManager) {
+         intervalManager = new IntervalManager();
+      }
+      if (!soundManager) {
+         soundManager = new SoundManager(intervalManager);
       }
       showCanvasElements();
-      initLevel1();
+      initLevel1(intervalManager, soundManager);
       init();
       playSound();
       initTouchControls();
@@ -259,7 +264,12 @@ function initTouchControls() {
                }
                world.character.otherDirection = false;
                world.character.lastMove = now;
-               let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 2, world.soundManager);
+               let bottle = new ThrowableObject(
+                  world.character.x + world.character.width,
+                  world.character.y + world.character.height / 2,
+                  world.soundManager,
+                  world.intervalManager
+               );
                world.throwableObjects.push(bottle);
                lastBottleThrow = now;
             }
@@ -358,7 +368,12 @@ window.addEventListener("keydown", (e) => {
       }
       world.character.otherDirection = false;
       world.character.lastMove = now;
-      let bottle = new ThrowableObject(world.character.x + world.character.width, world.character.y + world.character.height / 2, world.soundManager);
+      let bottle = new ThrowableObject(
+         world.character.x + world.character.width,
+         world.character.y + world.character.height / 2,
+         world.soundManager,
+         world.intervalManager
+      );
       world.throwableObjects.push(bottle);
       setTimeout(() => {
          bottleThrowBlocked = false;

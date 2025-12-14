@@ -4,24 +4,24 @@ let level1;
  * Initializes level 1 by creating all game entities (enemies, items, backgrounds)
  * and instantiating the Level object with these entities.
  */
-function initLevel1() {
-   const enemies = enemyLoop();
-   const smallEnemies = smallEnemyLoop();
-   const bottles = bottleLoop();
-   const coins = coinLoop();
+function initLevel1(intervalManager, soundManager) {
+   const enemies = enemyLoop(intervalManager, soundManager);
+   const smallEnemies = smallEnemyLoop(intervalManager, soundManager);
+   const bottles = bottleLoop(intervalManager, soundManager);
+   const coins = coinLoop(intervalManager, soundManager);
    const backgrounds = backgroundLoop();
 
-   level1 = new Level(enemies, smallEnemies, [new Endboss()], [new Cloud()], bottles, coins, backgrounds);
+   level1 = new Level(enemies, smallEnemies, [new Endboss(intervalManager, soundManager)], [new Cloud(intervalManager)], bottles, coins, backgrounds);
 }
 
 /**
  * Creates an array of Chicken enemies for the level.
  * @returns {Chicken[]} Array containing 5 Chicken instances.
  */
-function enemyLoop() {
+function enemyLoop(intervalManager, soundManager) {
    const enemies = [];
    for (let i = 0; i < 10; i++) {
-      enemies.push(new Chicken());
+      enemies.push(new Chicken(intervalManager, soundManager));
    }
    return enemies;
 }
@@ -30,10 +30,10 @@ function enemyLoop() {
  * Creates an array of SmallChicken enemies for the level.
  * @returns {SmallChicken[]} Array containing 7 SmallChicken instances.
  */
-function smallEnemyLoop() {
+function smallEnemyLoop(intervalManager, soundManager) {
    const smallEnemies = [];
    for (let i = 0; i < 6; i++) {
-      smallEnemies.push(new SmallChicken());
+      smallEnemies.push(new SmallChicken(intervalManager, soundManager));
    }
    return smallEnemies;
 }
@@ -42,10 +42,10 @@ function smallEnemyLoop() {
  * Creates an array of Bottle collectibles for the level.
  * @returns {Bottle[]} Array containing 5 Bottle instances.
  */
-function bottleLoop() {
+function bottleLoop(intervalManager, soundManager) {
    const bottles = [];
    for (let i = 0; i < 10; i++) {
-      bottles.push(new Bottle());
+      bottles.push(new Bottle(intervalManager, soundManager));
    }
    return bottles;
 }
@@ -54,10 +54,10 @@ function bottleLoop() {
  * Creates an array of Coin collectibles for the level.
  * @returns {Coin[]} Array containing 7 Coin instances.
  */
-function coinLoop() {
+function coinLoop(intervalManager, soundManager) {
    const coins = [];
    for (let i = 0; i < 7; i++) {
-      coins.push(new Coin());
+      coins.push(new Coin(intervalManager, soundManager));
    }
    return coins;
 }

@@ -22,8 +22,7 @@ class MoveableObject extends DrawableObject {
     * Updates vertical position and velocity continuously.
     */
    applyGravitiy() {
-      if (this.gravityInterval) clearInterval(this.gravityInterval);
-      this.gravityInterval = setInterval(() => {
+      this.intervalManager.createInterval(() => {
          if (this.isAboveGround() || this.speedY > 0) {
             this.y -= this.speedY;
             this.speedY -= this.acceleration;

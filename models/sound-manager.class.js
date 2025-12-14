@@ -7,7 +7,8 @@ class SoundManager {
     * Creates a sound manager and initializes all audio assets.
     * Loads mute state from localStorage and applies it to all audio elements.
     */
-   constructor() {
+   constructor(intervalManager) {
+      this.intervalManager = intervalManager;
       this.backgroundMusic = new Audio("audio/mexica_background_music.mp3");
       this.wellDoneSound = new Audio("audio/well_done.wav");
       this.flawlessVictorySound = new Audio("audio/flawless_victory.wav");
@@ -19,20 +20,21 @@ class SoundManager {
       this.breakingBottleSound = new Audio("audio/breaking_glass.mp3");
       this.collectSound = new Audio("audio/collect_coin.mp3");
       this.jumpingSound = new Audio("audio/jumping_sound.mp3");
-      this.soundsMuted = localStorage.getItem("soundsMuted") === "true";
+      // this.soundsMuted = localStorage.getItem("soundsMuted") === "true";
       this.currentMusic = null;
 
-      if (localStorage.getItem("soundsMuted") === null) {
-         localStorage.setItem("soundsMuted", "false");
-      }
+      // if (localStorage.getItem("soundsMuted") === null) {
+      //    localStorage.setItem("soundsMuted", "false");
+      //    this.soundsMuted = false;
+      // }
 
-      if (this.soundsMuted) {
-         for (let key in this) {
-            if (this[key] instanceof Audio) {
-               this[key].muted = true;
-            }
-         }
-      }
+      // if (this.soundsMuted) {
+      //    for (let key in this) {
+      //       if (this[key] instanceof Audio) {
+      //          this[key].muted = true;
+      //       }
+      //    }
+      // }
    }
 
    /**
@@ -77,6 +79,8 @@ class SoundManager {
     * When unmuting, automatically resumes the last playing background music.
     */
    toggleAllSounds() {
+      console.log("SM", this.soundsMuted);
+
       this.soundsMuted = !this.soundsMuted;
       localStorage.setItem("soundsMuted", this.soundsMuted.toString());
 
@@ -138,7 +142,7 @@ class SoundManager {
     * @param {Function} callback - Function to execute after fade out completes.
     */
    fadeOutMusic(audio, callback) {
-      let fadeOutInterval = setInterval(() => {
+      let fadeOutInterval = this.intervalManager.createInterval(() => {
          if (audio.volume > 0.05) {
             audio.volume -= 0.05;
          } else {

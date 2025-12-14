@@ -25,6 +25,7 @@ class World {
    loss = document.getElementById("lost");
    mainInterval;
    secondaryInterval;
+   soundsMuted;
 
    /**
     * Creates the game world and initializes all game systems.
@@ -33,12 +34,13 @@ class World {
     * @param {SoundManager} soundManager - The sound manager for audio playback.
     * @param {Endboss} endboss - The endboss enemy instance.
     */
-   constructor(canvas, keyboard, soundManager, endboss) {
+   constructor(canvas, keyboard, intervalManager, soundManager, endboss) {
       this.win.classList.add("dNone");
       this.loss.classList.add("dNone");
       this.endboss = endboss;
+      this.intervalManager = intervalManager;
       this.soundManager = soundManager;
-      this.character = new Character(this.soundManager);
+      this.character = new Character(this.soundManager, this.intervalManager);
       this.ctx = canvas.getContext("2d");
       this.canvas = canvas;
       this.keyboard = keyboard;
@@ -48,6 +50,7 @@ class World {
 
       if (this.level.endboss[0]) {
          this.level.endboss[0].soundManager = this.soundManager;
+         this.level.endboss[0].intervalManager = this.intervalManager;
       }
       this.draw();
       this.setWorld();
@@ -65,7 +68,7 @@ class World {
     * Starts the main game loops for collision detection and game logic updates.
     */
    run() {
-      this.mainInterval = setInterval(() => {
+      this.mainInterval = this.intervalManager.createInterval(() => {
          this.characterIsStomping();
          this.collisionDetection.checkCollision();
          this.collisionDetection.checkCoinCollision();
@@ -74,7 +77,7 @@ class World {
          this.checkHealth();
          this.removeFinishedBottles();
       }, 1000 / 60);
-      this.secondaryInterval = setInterval(() => {
+      this.secondaryInterval = this.intervalManager.createInterval(() => {
          this.spawnEndboss();
          this.endbossSpottedCharacter();
          this.endbossChasingCharacter();
@@ -276,7 +279,7 @@ class World {
    endbossChasingCharacter() {
       const endboss = this.level.endboss[0];
       if (!endboss) return;
-      setInterval(() => {
+      this.intervalManager.createInterval(() => {
          if (this.character.x < endboss.x) {
             endboss.otherDirection = false;
          } else {
@@ -346,7 +349,7 @@ class World {
    handleGameEnd() {
       if (this.endScreenShown || !this.isActive) return;
       this.endScreenShown = true;
-      this.stopAllIntervals();
+      this.intervalManager.stopAllIntervals();
       this.showEndScreen();
    }
 

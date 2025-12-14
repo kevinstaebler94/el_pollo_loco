@@ -78,10 +78,11 @@ class Character extends MoveableObject {
     * Creates the character and initializes animations, gravity, and sound manager.
     * @param {SoundManager} soundManager - The sound manager instance for playing audio.
     */
-   constructor(soundManager) {
+   constructor(soundManager, intervalManager) {
       super();
       this.loadImage("img/2_character_pepe/2_walk/W-21.png");
       this.soundManager = soundManager;
+      this.intervalManager = intervalManager;
       this.loadImages(this.IMAGES_WALKING);
       this.loadImages(this.IMAGES_JUMPING);
       this.loadImages(this.IMAGES_DEAD);
@@ -97,7 +98,7 @@ class Character extends MoveableObject {
     * Handles keyboard input, jumping, camera positioning, and animation states.
     */
    animate() {
-      setInterval(() => {
+      this.intervalManager.createInterval(() => {
          this.handleCharacterMovement();
          if (this.world.keyboard.SPACE && !this.isAboveGround()) {
             this.jump();
@@ -106,7 +107,7 @@ class Character extends MoveableObject {
          this.world.camera_x = -this.x + 50;
       }, 1000 / 60);
 
-      setInterval(() => {
+      this.intervalManager.createInterval(() => {
          this.updateCharacterAnimation();
       }, 100);
    }

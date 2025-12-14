@@ -26,8 +26,10 @@ class SmallChicken extends MoveableObject {
     * Creates a small chicken enemy at a random horizontal position with random speed.
     * The small chicken starts walking and animating automatically.
     */
-   constructor() {
+   constructor(intervalManager, soundManager) {
       super().loadImage("img/3_enemies_chicken/chicken_small/1_walk/1_w.png");
+      this.intervalManager = intervalManager;
+      this.soundManager = soundManager;
       this.loadImages(this.IMAGES_WALKING);
       this.loadImages(this.IMAGES_DEAD);
       this.x = 500 + Math.random() * 7000;
@@ -40,11 +42,11 @@ class SmallChicken extends MoveableObject {
     * Handles continuous left movement and switches between walking and dead animations based on energy.
     */
    animate() {
-      setInterval(() => {
+      this.intervalManager.createInterval(() => {
          this.moveLeft();
       }, 1000 / 60);
 
-      setInterval(() => {
+      this.intervalManager.createInterval(() => {
          if (this.isDead()) {
             this.playAnimation(this.IMAGES_DEAD);
             this.speed = 0;

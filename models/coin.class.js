@@ -21,10 +21,12 @@ class Coin extends MoveableObject {
     * Creates a coin at a random horizontal and vertical position.
     * The coin automatically starts its spinning animation.
     */
-   constructor() {
+   constructor(intervalManager, soundManager) {
       super().loadImage("img/8_coin/coin_1.png");
+      this.intervalManager = intervalManager;
+      this.soundManager = soundManager;
       this.loadImages(this.COIN_ANIMATION);
-      setInterval(() => {
+      this.intervalManager.createInterval(() => {
          this.playAnimation(this.COIN_ANIMATION);
       }, 3500 / 5);
       this.x = this.x + Math.random() * 8000;

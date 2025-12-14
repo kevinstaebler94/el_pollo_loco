@@ -53,8 +53,10 @@ class Endboss extends MoveableObject {
     * Creates the endboss at the end of the level.
     * Preloads all animation images and starts the animation cycle.
     */
-   constructor() {
+   constructor(intervalManager, soundManager) {
       super().loadImage(this.IMAGES_WALKING[0]);
+      this.intervalManager = intervalManager;
+      this.soundManager = soundManager;
       this.loadImages(this.IMAGES_WALKING);
       this.loadImages(this.IMAGES_HURT);
       this.loadImages(this.IMAGES_ALERT);
@@ -69,13 +71,13 @@ class Endboss extends MoveableObject {
     * Handles left movement during walking/attack states and updates animations based on current status.
     */
    animate() {
-      setInterval(() => {
+      this.intervalManager.createInterval(() => {
          if (this.isActive && (this.currentStatus === "walking" || this.currentStatus === "attack")) {
             this.moveLeft();
          }
       }, 1000 / 60);
 
-      setInterval(() => this.updateAnimation(), 200);
+      this.intervalManager.createInterval(() => this.updateAnimation(), 200);
    }
 
    /**

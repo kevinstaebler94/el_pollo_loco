@@ -35,9 +35,10 @@ class ThrowableObject extends MoveableObject {
     * @param {number} y - Vertical starting position of the bottle.
     * @param {SoundManager} soundManager - The sound manager instance for playing audio.
     */
-   constructor(x, y, soundManager) {
+   constructor(x, y, soundManager, intervalManager) {
       super();
       this.soundManager = soundManager;
+      this.intervalManager = intervalManager;
       this.loadImage("img/6_salsa_bottle/salsa_bottle.png");
       this.loadImages(this.IMAGES_THROWING);
       this.loadImages(this.IMAGES_SPLASH);
