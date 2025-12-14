@@ -339,7 +339,6 @@ class World {
       if (sound) {
          sound.onended = () => this.handleGameEnd();
       }
-      this.win.classList.add("dNone");
    }
 
    /**
@@ -365,7 +364,6 @@ class World {
       }
       const sound = this.soundManager.play("gameOverSound", 0.6);
       if (sound) sound.onended = () => this.handleGameEnd();
-      this.loss.classList.add("dNone");
    }
 
    stopMusic() {
